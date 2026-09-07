@@ -1,0 +1,100 @@
+---
+title: 'Salvadis: auditoría y optimización web'
+summary: 'Auditoría técnica de una web corporativa para ordenar su CSS, reforzar la navegación y el SEO técnico, corregir la CTA móvil y retirar archivos no autorizados.'
+seoTitle: 'Salvadis | Auditoría técnica y optimización web'
+metaDescription: 'Caso de éxito: auditoría técnica de la web de Salvadis, CSS modular, URLs limpias, CTA móvil funcional y retirada de archivos no autorizados.'
+available: true
+client: 'Salvadis'
+endedAt: '2026-09-07'
+timelineLabel: 'Auditoría y optimización web'
+color: '#e8a844'
+link: 'https://www.salvadis.com'
+services_provided:
+  - Auditoría web
+  - Frontend
+  - SEO técnico
+  - Seguridad
+cover: '../../assets/media/projects/salvadis/thumbnail.webp'
+logo: '../../assets/media/projects/salvadis/logo.webp'
+---
+
+import { Image } from 'astro:assets'
+
+import websiteHero from '../../assets/media/projects/salvadis/website-hero.webp'
+
+Salvadis necesitaba poner orden en una web corporativa que había crecido con el tiempo: estilos concentrados en un único archivo, enlaces internos con extensiones visibles y una CTA de llamada que no respondía correctamente en móvil.
+
+**El objetivo no era rediseñar la web: era auditar su base técnica, corregir los puntos críticos y dejar una estructura más clara para mantenerla.**
+
+<Image
+  src={websiteHero}
+  alt="Web corporativa de Salvadis dedicada al salvamento y recuperación de productos químicos"
+  class="rounded-2xl my-6"
+/>
+
+<div class="not-prose grid grid-cols-2 sm:grid-cols-4 gap-4 my-8 p-5 rounded-2xl border border-muted bg-accent/40">
+  <div class="flex flex-col gap-0.5">
+    <span class="text-2xl font-bold leading-none">7</span>
+    <span class="text-[11px] uppercase tracking-wide text-muted-foreground">
+      módulos CSS
+    </span>
+  </div>
+  <div class="flex flex-col gap-0.5">
+    <span class="text-2xl font-bold leading-none">11</span>
+    <span class="text-[11px] uppercase tracking-wide text-muted-foreground">
+      páginas revisadas
+    </span>
+  </div>
+  <div class="flex flex-col gap-0.5">
+    <span class="text-2xl font-bold leading-none">.html</span>
+    <span class="text-[11px] uppercase tracking-wide text-muted-foreground">
+      oculto en las URLs
+    </span>
+  </div>
+  <div class="flex flex-col gap-0.5">
+    <span class="text-2xl font-bold leading-none">CTA</span>
+    <span class="text-[11px] uppercase tracking-wide text-muted-foreground">
+      de llamada en móvil
+    </span>
+  </div>
+</div>
+
+---
+
+## El punto de partida
+
+La web estaba operativa, pero acumulaba fricción técnica: una hoja de estilos de gran tamaño con reglas duplicadas, dependencias difíciles de localizar y una navegación que exponía extensiones `.html` en los enlaces internos.
+
+Además, la llamada telefónica —una acción comercial esencial desde móvil— no aparecía al hacer scroll como debía. Durante la revisión también detectamos directorios y archivos no relacionados con el sitio que suponían un riesgo de seguridad.
+
+---
+
+## La intervención
+
+Empezamos por una auditoría de las once páginas y de los recursos compartidos. Revisamos el `<head>` de cada documento para comprobar metadatos, canonical, Open Graph, favicon y configuración de indexación.
+
+Después reorganizamos la capa de estilos: eliminamos reglas redundantes y separamos el CSS en siete módulos por responsabilidad —base, cabecera, hero, componentes, secciones, CTA y footer, y responsive—. La web conserva el mismo resultado visual, pero su mantenimiento ya no depende de un único archivo monolítico.
+
+En paralelo, actualizamos los enlaces internos y la configuración de Apache para servir las páginas mediante URLs limpias, sin exponer `.html`.
+
+### CTA de llamada visible en el momento adecuado
+
+Corregimos la lógica de scroll y los estilos del botón de llamada para que en dispositivos móviles aparezca junto al acceso de vuelta arriba, sin tapar el contenido ni desaparecer durante la navegación.
+
+### Limpieza de archivos no autorizados
+
+La auditoría identificó directorios con artefactos de phishing ajenos a Salvadis. Los retiramos de forma selectiva, conservando la configuración legítima del sitio, y eliminamos archivos del sistema que no debían formar parte del despliegue.
+
+---
+
+## Resultado
+
+- **CSS modular y mantenible**, organizado por responsabilidad en siete archivos.
+- **Once páginas revisadas** con enlaces internos y recursos compartidos coherentes.
+- **URLs limpias** sin extensiones `.html` para una navegación y una base SEO técnica más consistente.
+- **CTA de llamada funcional en móvil**, visible durante el scroll cuando es relevante.
+- **Superficie de riesgo reducida** tras retirar los archivos no autorizados detectados en la auditoría.
+
+---
+
+> Una auditoría útil no necesita rehacer una web desde cero: identifica los riesgos, ordena lo que ya funciona y deja una base lista para evolucionar.
