@@ -28,7 +28,9 @@
     "npm:downloads:sync": "node scripts/sync-npm-downloads.mjs",
     "quality": "pnpm format:check && pnpm lint && pnpm check && pnpm test",
     "test:build": "pnpm quality && pnpm seo:check && pnpm build",
-    "astro": "astro"
+    "astro": "astro",
+    "quality:quick": "pnpm format:check && pnpm lint",
+    "hooks:install": "node .githooks/install.mjs"
   },
   "dependencies": {
     "@astrojs/markdown-remark": "^6.3.10",
