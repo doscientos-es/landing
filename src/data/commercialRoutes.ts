@@ -80,6 +80,8 @@ export const footerLinkColumns = [
     title: "Zonas",
     links: [
       { label: "Barcelona", href: "/desarrollo-web-barcelona" },
+      { label: "Mataró", href: "/desarrollo-web-mataro" },
+      { label: "Premià de Mar", href: "/desarrollo-web-premia-de-mar" },
       { label: "Castellón", href: "/desarrollo-web-castellon" },
       { label: "Maresme", href: "/agencia-digital-maresme" },
     ],

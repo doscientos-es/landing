@@ -199,6 +199,18 @@ export const GET: APIRoute = async ({ site }) => {
       changefreq: 'monthly',
     },
     {
+      url: 'desarrollo-web-mataro',
+      source: 'src/pages/desarrollo-web-mataro.astro',
+      priority: '0.9',
+      changefreq: 'monthly',
+    },
+    {
+      url: 'desarrollo-web-premia-de-mar',
+      source: 'src/pages/desarrollo-web-premia-de-mar.astro',
+      priority: '0.9',
+      changefreq: 'monthly',
+    },
+    {
       url: 'desarrollo-web-canarias',
       source: 'src/pages/desarrollo-web-canarias.astro',
       priority: '0.85',
