@@ -118,30 +118,28 @@ const timelineText =
           class="object-cover w-full h-full rounded-4xl aspect-video bg-muted"
         />
       </div>
-      <ul class="grid gap-4 lg:grid-cols-3 lg:items-stretch">
+      <div class="grid gap-3 sm:grid-cols-2">
         <Highlight label="Cliente" value={project.data.client}>
           <User class="size-5 text-muted-foreground" />
         </Highlight>
-        <li class="flex min-h-[92px] items-start gap-3 rounded-3xl border border-muted/70 bg-muted/70 p-3">
-          <i class="grid size-11 shrink-0 place-items-center rounded-2xl bg-background">
-            <Layout class="size-5 text-muted-foreground" />
-          </i>
-          <div class="min-w-0 pr-1">
-            <span class="text-[10px] font-medium uppercase tracking-[0.08em] text-muted-foreground">Servicios</span>
-            <div class="mt-2 flex flex-wrap gap-1.5">
-              {project.data.services_provided?.map((service) => (
-                <span class="rounded-full border border-foreground/10 bg-background/70 px-2.5 py-1 text-xs leading-tight text-foreground">{service}</span>
-              ))}
-            </div>
-          </div>
-        </li>
         <Highlight
           label={project.data.timelineLabel ? "Estado" : "Timeline"}
           value={timelineText}
         >
           <Timer class="size-5 text-muted-foreground" />
         </Highlight>
-      </ul>
+      </div>
+      <div class="mt-4 flex flex-col gap-3 rounded-3xl bg-muted/45 px-4 py-4 sm:flex-row sm:items-center sm:px-5">
+        <div class="flex shrink-0 items-center gap-2 text-[10px] font-medium uppercase tracking-[0.08em] text-muted-foreground">
+          <Layout class="size-4" />
+          <span>Servicios</span>
+        </div>
+        <div class="flex flex-wrap gap-1.5">
+          {project.data.services_provided?.map((service) => (
+            <span class="rounded-full bg-background/80 px-2.5 py-1 text-xs leading-tight text-foreground">{service}</span>
+          ))}
+        </div>
+      </div>
     </header>
 
     <div
