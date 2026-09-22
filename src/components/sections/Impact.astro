@@ -51,7 +51,8 @@ const highlights = [
       </div>
       <div class="max-w-[22rem] pb-[0.2rem] max-[900px]:max-w-[30rem]">
         <p class="m-0 mb-5 text-[0.95rem] leading-[1.55] text-muted-foreground">
-          Una selección de proyectos para entender qué construimos, qué problema resolvimos y qué cambió después.
+          Una selección de proyectos para entender qué construimos, qué problema
+          resolvimos y qué cambió después.
         </p>
         <a
           href="/projects"
@@ -73,9 +74,9 @@ const highlights = [
           return (
             <a
               href={`/projects/${project.id}`}
-              class="group flex min-h-[25rem] flex-col items-start gap-4 border-t border-t-[color-mix(in_srgb,var(--foreground)_18%,transparent)] pt-5 max-[900px]:min-h-0 max-[900px]:pb-10"
+              class="group flex min-h-[25rem] flex-col items-start gap-4 max-[900px]:min-h-0 max-[900px]:pb-10"
             >
-              <div class="w-full overflow-hidden rounded-2xl border border-[color-mix(in_srgb,var(--foreground)_10%,transparent)] bg-muted">
+              <div class="w-full overflow-hidden rounded-xl border border-muted bg-muted">
                 <Image
                   src={project.data.cover}
                   alt={`Vista del proyecto ${project.data.title}`}

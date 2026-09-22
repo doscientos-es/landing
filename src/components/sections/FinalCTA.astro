@@ -2,7 +2,6 @@
 import { copy } from "~/shared/lib/copy";
 import AvailableTag from "../ui/AvailableTag.astro";
 import CtaButton from "../ui/CtaButton.astro";
-import SectionTag from "../ui/SectionTag.astro";
 import ClientsMarqueeRail from "../ui/clients/ClientsMarqueeRail.astro";
 
 const { finalCta } = copy;
@@ -13,10 +12,6 @@ const { finalCta } = copy;
     class="max-w-3xl w-full mx-auto text-center flex flex-col justify-center items-center gap-10"
     data-stagger="100"
   >
-    <div data-reveal="top" data-speed="fast" data-easing="smooth">
-      <SectionTag>Agenda una llamada</SectionTag>
-    </div>
-
     <h2
       class="text-2xl lg:text-4xl font-bold text-balance tracking-tight text-foreground max-w-sm md:max-w-xl"
       data-reveal="scale"

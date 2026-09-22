@@ -17,7 +17,9 @@ const featuredIds = [
 ];
 const featuredProjects = featuredIds
   .map((id) => projectsWithLogo.find((project) => project.id === id))
-  .filter((project): project is (typeof projectsWithLogo)[number] => Boolean(project));
+  .filter((project): project is (typeof projectsWithLogo)[number] =>
+    Boolean(project),
+  );
 const LOGO_FRAME = { width: 96, height: 34 };
 ---
 
@@ -59,7 +61,7 @@ const LOGO_FRAME = { width: 96, height: 34 };
         class="inline-flex items-center justify-center whitespace-nowrap px-[0.2rem] py-[0.35rem] text-[0.68rem] font-semibold text-muted-foreground"
         aria-label="Más de 20 proyectos entregados"
       >
-        +20 proyectos
+        +20 más
       </li>
     </ul>
   </div>

@@ -158,67 +158,6 @@ const setupMethod = () => {
 }
 
 /**
- * Scroll-scrubbed word reveal for headings marked with [data-scrub-text].
- * Words start dimmed and light up one by one as the heading crosses the
- * viewport, pulling the eye through the message instead of showing a static
- * block. The split happens at runtime, so the pre-rendered HTML crawlers
- * receive is untouched plain text.
- */
-const setupScrubText = () => {
-  const targets = document.querySelectorAll<HTMLElement>('[data-scrub-text]')
-  for (const el of targets) {
-    if (el.dataset.scrubReady) continue
-    el.dataset.scrubReady = 'true'
-
-    // CSS starts the heading at opacity 0.18 (see global.css) so it never
-    // flashes at full color before this script loads. Hand control over to
-    // the per-word tween below in the same tick, before anything paints.
-    gsap.set(el, { opacity: 1 })
-
-    const textNodes: Text[] = []
-    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT)
-    while (walker.nextNode()) textNodes.push(walker.currentNode as Text)
-
-    const words: HTMLElement[] = []
-    for (const node of textNodes) {
-      const parts = (node.textContent ?? '').split(/(\s+)/).filter(Boolean)
-      if (parts.length === 0) continue
-
-      const fragment = document.createDocumentFragment()
-      for (const part of parts) {
-        if (/^\s+$/.test(part)) {
-          fragment.append(document.createTextNode(part))
-          continue
-        }
-        const word = document.createElement('span')
-        word.textContent = part
-        fragment.append(word)
-        words.push(word)
-      }
-      node.replaceWith(fragment)
-    }
-    if (words.length === 0) continue
-
-    gsap.fromTo(
-      words,
-      { opacity: 0.18 },
-      {
-        opacity: 1,
-        ease: 'none',
-        stagger: 0.35,
-        scrollTrigger: {
-          trigger: el,
-          start: 'top 88%',
-          end: 'top 45%',
-          scrub: 0.5,
-          invalidateOnRefresh: true,
-        },
-      },
-    )
-  }
-}
-
-/**
  * Depth parallax for [data-parallax] media wrappers: the wrapper drifts
  * vertically inside its overflow-hidden frame while the page scrolls. It is
  * pre-scaled by twice the drift so the frame never shows an empty edge.
@@ -354,7 +293,6 @@ export const initDesktopAnimations = () => {
     setupHeroStage()
     setupCounters()
     setupMethod()
-    setupScrubText()
     setupParallax()
 
     const disposers = [setupMagnetic(), setupSpotlight()]

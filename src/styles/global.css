@@ -17,20 +17,6 @@
   transform: none !important;
 }
 
-/*
- * [data-scrub-text] headings light up word-by-word via GSAP as they're
- * scrolled through (see setupScrubText in gsap-animations.ts). That JS is
- * dynamically imported on desktop, so without this rule the heading would
- * flash in at full color the instant astro-reveal reveals it, then get
- * dimmed once GSAP finally loads and splits it into words. Starting dim in
- * plain CSS means it's already in the right state the moment it appears —
- * GSAP just takes over from there. Reset to 1 by JS on mobile/reduced-motion,
- * where the word-scrub never runs.
- */
-[data-scrub-text] {
-  opacity: 0.18;
-}
-
 @plugin "tailwindcss-intersect";
 @plugin "tailwindcss-motion";
 
@@ -138,17 +124,59 @@ h6 {
 
 button {
   @apply cursor-pointer;
+  touch-action: manipulation;
+}
+
+button,
+a,
+input,
+select,
+textarea {
+  -webkit-tap-highlight-color: color-mix(in srgb, var(--primary) 18%, transparent);
+}
+
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 3px;
+}
+
+@media (max-width: 767px) {
+  :where(a, button, input, select, textarea, summary) {
+    min-height: 44px;
+  }
+
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
 }
 
 html {
   scrollbar-gutter: stable;
   scroll-padding-top: 6rem;
+  scroll-behavior: smooth;
 }
 
 body {
   @apply bg-background text-foreground font-heading overflow-x-clip antialiased;
   timeline-scope: --scroll;
   font-size: 16px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 *::selection {

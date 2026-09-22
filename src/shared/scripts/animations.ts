@@ -28,23 +28,12 @@ const initAnimations = async () => {
   const isDesktop = window.matchMedia('(min-width: 768px)').matches
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-  // [data-scrub-text] headings start dimmed in CSS (see global.css) so
-  // GSAP's word-scrub never flashes in at full color first. GSAP is the
-  // only thing that lights them back up, so on paths where it never runs
-  // we have to undo that dimming here or the text stays unreadable.
-  const revealScrubText = () => {
-    for (const el of document.querySelectorAll<HTMLElement>('[data-scrub-text]')) {
-      el.style.opacity = '1'
-    }
-  }
-
   if (prefersReduced) {
     // Reveal everything at once — matches previous behaviour.
     for (const el of document.querySelectorAll<HTMLElement>('[data-reveal]')) {
       el.style.opacity = '1'
     }
     revealHeroStatic()
-    revealScrubText()
     return
   }
 
@@ -52,7 +41,6 @@ const initAnimations = async () => {
     // Mobile: only reveal hero elements; let astro-reveal handle the rest
     // via IntersectionObserver so section scroll-reveals still work.
     revealHeroStatic()
-    revealScrubText()
     return
   }
 

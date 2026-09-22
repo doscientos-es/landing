@@ -97,7 +97,7 @@ const pathname = Astro.url.pathname;
   </div>
 </header>
 
-<div
+<header
   id="mobile-menu"
   class="fixed inset-0 z-40 lg:hidden bg-background/95 backdrop-blur-md pointer-events-none opacity-0 transition-opacity duration-300"
   role="dialog"
@@ -134,7 +134,7 @@ const pathname = Astro.url.pathname;
       <Button size="lg" withArrow> Diagnóstico gratis </Button>
     </a>
   </nav>
-</div>
+</header>
 
 <script>
   let cleanupNavbar: (() => void) | undefined;

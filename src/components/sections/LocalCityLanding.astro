@@ -2,7 +2,6 @@
 import Breadcrumbs from "~/components/seo/Breadcrumbs.astro";
 import Button from "~/components/ui/Button.astro";
 import SectionHeader from "~/components/ui/SectionHeader.astro";
-import SectionTag from "~/components/ui/SectionTag.astro";
 import MainLayout from "~/layouts/MainLayout.astro";
 import { getProjects } from "~/shared/lib/collections";
 
@@ -14,7 +13,6 @@ const projects = await getProjects(3);
   <section class="px-6 max-w-7xl mx-auto pt-32 space-y-16">
     <Breadcrumbs items={[{ name: city, url: `/${slug}` }]} />
     <header class="max-w-3xl mx-auto text-center space-y-8">
-      <SectionTag>{city}</SectionTag>
       <h1 class="text-4xl md:text-6xl font-bold text-foreground">Agencia de desarrollo web en {city}<span class="block text-primary mt-2">Software que entiende tu negocio.</span></h1>
       <p class="text-xl text-muted-foreground max-w-2xl mx-auto">{intro} Trabajamos desde Premià de Mar y nos reunimos contigo en {city}, {nearby} y el resto del Maresme.</p>
       <div class="flex flex-col sm:flex-row gap-4 justify-center"><a href="/contact"><Button size="lg" withArrow>Hablar de tu proyecto</Button></a><a href="/projects"><Button size="lg">Ver proyectos</Button></a></div>
