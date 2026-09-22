@@ -3,15 +3,15 @@ import { Icon } from "astro-icon/components";
 import { branding } from "~/config/branding";
 
 const sources = [
-  { label: "Google Drive", icon: "simple-icons:googledrive" },
-  { label: "Gmail", icon: "simple-icons:gmail" },
-  { label: "Notion", icon: "simple-icons:notion" },
+  { label: "Google Drive", icon: "simple-icons:googledrive", accent: "#4285f4" },
+  { label: "Gmail", icon: "simple-icons:gmail", accent: "#ea4335" },
+  { label: "Notion", icon: "simple-icons:notion", accent: "#171717" },
 ];
 
 const destinations = [
-  { label: "WhatsApp Business", icon: "simple-icons:whatsapp" },
-  { label: "Google Calendar", icon: "simple-icons:googlecalendar" },
-  { label: "Slack", icon: "simple-icons:slack" },
+  { label: "WhatsApp Business", icon: "simple-icons:whatsapp", accent: "#25d366" },
+  { label: "Google Calendar", icon: "simple-icons:googlecalendar", accent: "#4285f4" },
+  { label: "Slack", icon: "simple-icons:slack", accent: "#611f69" },
 ];
 ---
 
@@ -39,6 +39,13 @@ const destinations = [
       data-easing="smooth"
     >
       <svg class="integration-map__lines" viewBox="0 0 720 310" fill="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="integration-line-gradient" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="currentColor" stop-opacity="0.22" />
+            <stop offset="0.5" stop-color="currentColor" stop-opacity="0.72" />
+            <stop offset="1" stop-color="currentColor" stop-opacity="0.22" />
+          </linearGradient>
+        </defs>
         <path d="M138 54H224L310 155H360" />
         <path d="M138 155H360" />
         <path d="M138 256H224L310 155H360" />
@@ -47,11 +54,23 @@ const destinations = [
         <path d="M360 155H410L496 256H582" />
       </svg>
 
+      <span class="integration-map__group-label integration-map__group-label--sources">
+        Entradas
+      </span>
+      <span class="integration-map__group-label integration-map__group-label--destinations">
+        Acciones
+      </span>
+
       <ul class="integration-tools integration-tools--sources">
         {
           sources.map((tool, index) => (
-            <li class="integration-tool" style={`--tool-delay: ${index * 90}ms`}>
-              <Icon name={tool.icon} class="integration-tool__icon" aria-hidden="true" />
+            <li
+              class="integration-tool"
+              style={`--tool-delay: ${index * 90}ms; --tool-accent: ${tool.accent}`}
+            >
+              <span class="integration-tool__icon-wrap">
+                <Icon name={tool.icon} class="integration-tool__icon" aria-hidden="true" />
+              </span>
               <span>{tool.label}</span>
             </li>
           ))
@@ -59,6 +78,7 @@ const destinations = [
       </ul>
 
       <div class="integration-center">
+        <span class="integration-center__status"><i></i> Conectado</span>
         <img src={branding.assets.isotype} alt="" aria-hidden="true" />
         <span>{branding.name}</span>
       </div>
@@ -66,8 +86,13 @@ const destinations = [
       <ul class="integration-tools integration-tools--destinations">
         {
           destinations.map((tool, index) => (
-            <li class="integration-tool" style={`--tool-delay: ${270 + index * 90}ms`}>
-              <Icon name={tool.icon} class="integration-tool__icon" aria-hidden="true" />
+            <li
+              class="integration-tool"
+              style={`--tool-delay: ${270 + index * 90}ms; --tool-accent: ${tool.accent}`}
+            >
+              <span class="integration-tool__icon-wrap">
+                <Icon name={tool.icon} class="integration-tool__icon" aria-hidden="true" />
+              </span>
               <span>{tool.label}</span>
             </li>
           ))
@@ -124,6 +149,7 @@ const destinations = [
 
   .integration-map {
     position: relative;
+    isolation: isolate;
     display: grid;
     grid-template-columns: minmax(8rem, 1fr) minmax(8rem, 1fr) minmax(8rem, 1fr);
     align-items: center;
@@ -131,10 +157,38 @@ const destinations = [
     min-height: 19.5rem;
     padding: clamp(1rem, 3vw, 2rem);
     overflow: hidden;
-    border: 1px solid color-mix(in srgb, var(--primary) 12%, var(--muted));
+    border: 1px solid color-mix(in srgb, var(--primary) 18%, var(--muted));
     border-radius: 2rem;
-    background: color-mix(in srgb, var(--foreground) 3%, var(--background));
-    box-shadow: var(--shadow-pastel);
+    background:
+      radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--primary) 8%, transparent), transparent 30%),
+      linear-gradient(135deg, color-mix(in srgb, var(--background) 94%, white), color-mix(in srgb, var(--primary) 4%, var(--background)));
+    box-shadow: var(--shadow-pastel), inset 0 1px 0 rgb(255 255 255 / 0.7);
+  }
+
+  .integration-map::before {
+    position: absolute;
+    inset: 0.5rem;
+    z-index: -1;
+    border: 1px solid color-mix(in srgb, var(--primary) 8%, transparent);
+    border-radius: 1.55rem;
+    content: "";
+    pointer-events: none;
+  }
+
+  .integration-map::after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 15rem;
+    height: 15rem;
+    z-index: -1;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--brand-lime) 12%, transparent);
+    filter: blur(2rem);
+    content: "";
+    opacity: 0.45;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
   }
 
   .integration-map__lines {
@@ -144,13 +198,53 @@ const destinations = [
     height: 100%;
     color: color-mix(in srgb, var(--primary) 32%, var(--muted));
     pointer-events: none;
+    z-index: 0;
   }
 
   .integration-map__lines path {
     stroke: currentColor;
-    stroke-width: 1.5;
+    stroke-width: 1.25;
     stroke-linecap: round;
-    stroke-dasharray: 2 6;
+    stroke-dasharray: 1 7;
+    animation: integration-line-flow 3.6s linear infinite;
+  }
+
+  .integration-map__lines path:nth-child(3n + 2) {
+    animation-delay: -1.2s;
+  }
+
+  .integration-map__lines path:nth-child(3n) {
+    animation-delay: -2.4s;
+  }
+
+  .integration-map__group-label {
+    position: absolute;
+    top: 1.1rem;
+    z-index: 1;
+    color: color-mix(in srgb, var(--foreground) 46%, var(--muted-foreground));
+    font-size: 0.59rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .integration-map__group-label::before {
+    display: inline-block;
+    width: 0.38rem;
+    height: 0.38rem;
+    margin: 0 0.4rem 0.05rem 0;
+    border-radius: 50%;
+    background: var(--brand-lime);
+    box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--brand-lime) 18%, transparent);
+    content: "";
+  }
+
+  .integration-map__group-label--sources {
+    left: 2rem;
+  }
+
+  .integration-map__group-label--destinations {
+    right: 2rem;
   }
 
   .integration-tools {
@@ -179,19 +273,36 @@ const destinations = [
     padding: 0.7rem 0.8rem;
     border: 1px solid color-mix(in srgb, var(--foreground) 10%, var(--muted));
     border-radius: 0.9rem;
-    background: var(--background);
-    box-shadow: var(--shadow-pastel-sm);
+    background: color-mix(in srgb, var(--background) 92%, white);
+    box-shadow: var(--shadow-pastel-sm), inset 0 1px 0 rgb(255 255 255 / 0.8);
     color: var(--foreground);
     font-size: 0.76rem;
     font-weight: 700;
     line-height: 1.1;
     animation: integration-tool-enter 480ms cubic-bezier(0.22, 1, 0.36, 1) var(--tool-delay) both;
+    transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+  }
+
+  .integration-tool:hover {
+    border-color: color-mix(in srgb, var(--tool-accent) 38%, var(--muted));
+    box-shadow: 0 0.75rem 1.5rem color-mix(in srgb, var(--tool-accent) 12%, transparent);
+    transform: translateY(-0.15rem);
+  }
+
+  .integration-tool__icon-wrap {
+    display: grid;
+    width: 1.8rem;
+    height: 1.8rem;
+    flex: none;
+    place-items: center;
+    border-radius: 0.55rem;
+    background: color-mix(in srgb, var(--tool-accent) 10%, var(--background));
+    color: var(--tool-accent);
   }
 
   .integration-tool__icon {
-    width: 1.25rem;
-    height: 1.25rem;
-    flex: none;
+    width: 1rem;
+    height: 1rem;
   }
 
   .integration-center {
@@ -206,9 +317,40 @@ const destinations = [
     width: clamp(6.75rem, 12vw, 8.25rem);
     aspect-ratio: 1;
     border-radius: 1.4rem;
-    background: var(--primary);
-    box-shadow: 0 1.25rem 2.5rem color-mix(in srgb, var(--primary) 28%, transparent);
+    background: linear-gradient(145deg, color-mix(in srgb, var(--primary) 92%, white), var(--primary));
+    box-shadow: 0 1.25rem 2.5rem color-mix(in srgb, var(--primary) 28%, transparent), 0 0 0 0.45rem color-mix(in srgb, var(--primary) 8%, transparent);
     color: var(--background);
+  }
+
+  .integration-center::before {
+    position: absolute;
+    inset: 0.45rem;
+    border: 1px solid rgb(255 255 255 / 0.18);
+    border-radius: 1.05rem;
+    content: "";
+    pointer-events: none;
+  }
+
+  .integration-center__status {
+    position: absolute;
+    top: -1.35rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.28rem;
+    color: color-mix(in srgb, var(--primary) 68%, var(--foreground));
+    font-size: 0.55rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .integration-center__status i {
+    width: 0.35rem;
+    height: 0.35rem;
+    border-radius: 50%;
+    background: #55c878;
+    box-shadow: 0 0 0 0.2rem color-mix(in srgb, #55c878 20%, transparent);
   }
 
   .integration-center img {
@@ -231,6 +373,12 @@ const destinations = [
     to {
       opacity: 1;
       transform: translateY(0) scale(1);
+    }
+  }
+
+  @keyframes integration-line-flow {
+    to {
+      stroke-dashoffset: -16;
     }
   }
 
@@ -281,7 +429,8 @@ const destinations = [
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .integration-tool {
+    .integration-tool,
+    .integration-map__lines path {
       animation: none;
     }
   }
