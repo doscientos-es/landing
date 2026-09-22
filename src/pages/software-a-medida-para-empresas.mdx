@@ -1,0 +1,15 @@
+---
+title: "Software a medida para empresas | Doscientos"
+description: "Herramientas internas y productos digitales para empresas que necesitan resolver una operación concreta sin imponer software genérico al equipo."
+---
+import MainLayout from "~/layouts/MainLayout.astro";
+import Breadcrumbs from "~/components/seo/Breadcrumbs.astro";
+import Button from "~/components/ui/Button.astro";
+
+<MainLayout title={frontmatter.title} description={frontmatter.description} type="service" service={{ name: "Software a medida para empresas", description: frontmatter.description, serviceType: "Custom software development", url: "/software-a-medida-para-empresas" }}>
+  <main class="mx-auto max-w-5xl space-y-16 px-6 pb-20 pt-32">
+    <Breadcrumbs items={[{ name: "Software a medida", url: "/software-a-medida-para-empresas" }]} />
+    <header class="max-w-3xl space-y-6"><p class="text-sm font-medium text-muted-foreground">Producto digital y operación interna</p><h1 class="text-5xl font-bold tracking-tight md:text-7xl">Software que encaja en tu forma de trabajar</h1><p class="text-xl leading-relaxed text-muted-foreground">Desde un backoffice hasta un portal de clientes: convertimos procesos complejos en herramientas claras, con una primera versión útil y margen para crecer.</p><a href="/contact?subject=Software%20a%20medida&ref=software-a-medida"><Button size="lg" withArrow>Revisar mi proceso</Button></a></header>
+    <section class="prose prose-neutral max-w-3xl"><h2>Qué resolvemos</h2><p>Diseñamos herramientas alrededor de las decisiones que el equipo toma cada día: clientes, solicitudes, rutas, documentos, pagos, tareas o estados. Primero entendemos el flujo; después decidimos qué merece convertirse en software.</p><h2>Cuándo compensa</h2><p>Compensa cuando el proceso no encaja en un SaaS genérico, cuando el equipo mantiene hojas paralelas o cuando el producto digital forma parte de la ventaja competitiva. Si una herramienta existente resuelve el problema con poca configuración, recomendamos usarla.</p><h2>Casos reales</h2><p><a href="/projects/kache-envios">Kache Envíos</a> reúne solicitudes, clientes, rutas, pagos y documentos. <a href="/projects/bitacora">Bitácora</a> conecta facturación y gestión con una operación logística.</p><h2>Cómo trabajamos</h2><ol><li>Definimos el cuello de botella.</li><li>Diseñamos el recorrido antes de programar.</li><li>Entregamos por etapas y probamos con usuarios reales.</li></ol><h2>Preguntas frecuentes</h2><h3>¿Hay que sustituir todas las herramientas?</h3><p>No. Mantenemos lo que funciona y conectamos o migramos solo lo que desbloquea el proceso.</p><h3>¿Qué es un MVP?</h3><p>Una primera versión pequeña pero completa que resuelve un flujo real y permite aprender antes de ampliar.</p></section>
+  </main>
+</MainLayout>

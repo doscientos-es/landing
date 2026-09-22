@@ -16,7 +16,12 @@ import {
 import MainLayout from "~/layouts/MainLayout.astro";
 
 export function getStaticPaths() {
-  return specificLandings.map((landing) => ({
+  const mdxServiceSlugs = new Set([
+    "crm-a-medida",
+    "software-a-medida-para-empresas",
+    "migracion-excel-access",
+  ]);
+  return specificLandings.filter((landing) => !mdxServiceSlugs.has(landing.slug)).map((landing) => ({
     params: { specificLanding: landing.slug },
     props: { landing },
   }));

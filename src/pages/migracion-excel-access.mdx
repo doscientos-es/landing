@@ -1,0 +1,15 @@
+---
+title: "Migrar Excel o Access a una herramienta web | Doscientos"
+description: "Modernizamos procesos críticos que dependen de Excel, Access o herramientas antiguas con una migración progresiva y orientada a la continuidad operativa."
+---
+import MainLayout from "~/layouts/MainLayout.astro";
+import Breadcrumbs from "~/components/seo/Breadcrumbs.astro";
+import Button from "~/components/ui/Button.astro";
+
+<MainLayout title={frontmatter.title} description={frontmatter.description} type="service" service={{ name: "Migración de Excel y Access", description: frontmatter.description, serviceType: "Legacy system modernization", url: "/migracion-excel-access" }}>
+  <main class="mx-auto max-w-5xl space-y-16 px-6 pb-20 pt-32">
+    <Breadcrumbs items={[{ name: "Migración de Excel y Access", url: "/migracion-excel-access" }]} />
+    <header class="max-w-3xl space-y-6"><p class="text-sm font-medium text-muted-foreground">Modernización sin apagar la operación</p><h1 class="text-5xl font-bold tracking-tight md:text-7xl">Deja atrás el Excel crítico sin detener tu empresa</h1><p class="text-xl leading-relaxed text-muted-foreground">No se trata de copiar una hoja en una aplicación. Se trata de entender qué decisiones dependen de ella, ordenar los datos y pasar el trabajo a una herramienta mantenible.</p><a href="/contact?subject=Migraci%C3%B3n%20de%20Excel%20o%20Access&ref=migracion-excel-access"><Button size="lg" withArrow>Revisar mi sistema actual</Button></a></header>
+    <section class="prose prose-neutral max-w-3xl"><h2>El problema no es el archivo</h2><p>El riesgo aparece cuando solo una persona entiende las fórmulas, cuando circulan varias versiones o cuando el documento sostiene ventas, operaciones o cobros sin trazabilidad.</p><h2>Qué migramos</h2><ul><li>Datos y relaciones que viven en pestañas o tablas.</li><li>Reglas de negocio y estados que nadie ha documentado.</li><li>Flujos que necesitan responsables, permisos y una siguiente acción.</li></ul><h2>Casos y recursos</h2><p>El caso de <a href="/projects/ifco">IFCO Systems</a> muestra una modernización de gestión legacy. Antes de decidir, puedes leer <a href="/recursos/excel-como-crm-cuando-cambiar">cuándo un Excel deja de ser un CRM</a>.</p><h2>Cómo migramos sin parar</h2><ol><li>Auditamos fórmulas, datos, dependencias y trabajo fuera del archivo.</li><li>Construimos una primera pieza sobre el proceso crítico.</li><li>Probamos con datos reales, formamos al equipo y ampliamos por fases.</li></ol><h2>Preguntas frecuentes</h2><h3>¿Hay que migrarlo todo?</h3><p>No. Una migración progresiva suele ser más segura y permite validar cada fase.</p><h3>¿Se conservan los datos históricos?</h3><p>Depende de su calidad y utilidad. Lo definimos antes de importar y dejamos claro qué se transforma.</p></section>
+  </main>
+</MainLayout>
