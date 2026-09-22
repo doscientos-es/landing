@@ -81,4 +81,28 @@ const isSVG = logo.src.endsWith(".svg");
     height: 100% !important;
     object-fit: contain !important;
   }
+
+  /* Ajustes ópticos: las marcas no tienen la misma densidad visual aunque
+     compartan una caja geométrica. */
+  .client-logo-wrapper.kache-envios :global(img) {
+    transform: scale(1.26);
+  }
+
+  .client-logo-wrapper.salvadis :global(img) {
+    transform: scale(1.2);
+  }
+
+  .client-logo-wrapper.ifco :global(img),
+  .client-logo-wrapper.cash-movil-canarias :global(img) {
+    transform: scale(0.78);
+  }
+
+  .client-logo-wrapper.cyberimpulsa :global(img),
+  .client-logo-wrapper.les-santes :global(img) {
+    transform: scale(0.9);
+  }
+
+  .client-logo-wrapper.palumba :global(img) {
+    transform: scale(0.86);
+  }
 </style>

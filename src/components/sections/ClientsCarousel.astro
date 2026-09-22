@@ -5,19 +5,20 @@ import ClientLogo from "../ui/clients/ClientLogo.astro";
 const projectsWithLogo = (await getProjects()).filter(
   (project) => project.data.logo,
 );
-const featuredProjects = projectsWithLogo.slice(0, 8);
-const DEFAULT_LOGO_SIZE = { width: 90, height: 30 };
-const LOGO_SIZES: Record<string, typeof DEFAULT_LOGO_SIZE> = {
-  arenas: { width: 88, height: 32 },
-  "cash-movil-canarias": { width: 76, height: 38 },
-  cyberimpulsa: { width: 112, height: 30 },
-  flatmatch: { width: 76, height: 36 },
-  ifco: { width: 96, height: 30 },
-  "les-santes": { width: 90, height: 34 },
-  optinergia: { width: 80, height: 36 },
-  palumba: { width: 42, height: 42 },
-  salvadis: { width: 104, height: 34 },
-};
+const featuredIds = [
+  "gruas-del-valles",
+  "kache-envios",
+  "palumba",
+  "salvadis",
+  "ifco",
+  "les-santes",
+  "cyberimpulsa",
+  "cash-movil-canarias",
+];
+const featuredProjects = featuredIds
+  .map((id) => projectsWithLogo.find((project) => project.id === id))
+  .filter((project): project is (typeof projectsWithLogo)[number] => Boolean(project));
+const LOGO_FRAME = { width: 96, height: 34 };
 ---
 
 <section class="clients-section w-full">
@@ -29,7 +30,7 @@ const LOGO_SIZES: Record<string, typeof DEFAULT_LOGO_SIZE> = {
       data-easing="smooth"
       data-distance="small"
     >
-      Empresas que confían en nosotros
+      Una selección de proyectos reales
     </p>
 
     <ul
@@ -41,25 +42,24 @@ const LOGO_SIZES: Record<string, typeof DEFAULT_LOGO_SIZE> = {
     >
       {
         featuredProjects.map((project) => {
-          const size = LOGO_SIZES[project.id] ?? DEFAULT_LOGO_SIZE;
-
           return (
             <li class="flex items-center justify-center">
               <ClientLogo
                 logo={project.data.logo!}
                 alt={`Logo de ${project.data.client}`}
-                height={size.height}
-                width={size.width}
+                height={LOGO_FRAME.height}
+                width={LOGO_FRAME.width}
+                class={project.id}
               />
             </li>
           );
         })
       }
       <li
-        class="inline-flex min-h-8 items-center justify-center whitespace-nowrap rounded-full bg-background px-[0.7rem] py-[0.4rem] text-[0.72rem] font-[750] text-foreground shadow-[0_4px_12px_color-mix(in_srgb,var(--foreground)_8%,transparent)]"
+        class="inline-flex items-center justify-center whitespace-nowrap px-[0.2rem] py-[0.35rem] text-[0.68rem] font-semibold text-muted-foreground"
         aria-label="Más de 20 proyectos entregados"
       >
-        20+ más
+        +20 proyectos
       </li>
     </ul>
   </div>

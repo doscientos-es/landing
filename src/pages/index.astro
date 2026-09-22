@@ -83,6 +83,11 @@ const faqs = [
 
 <style>
   .home-top-surface {
-    background: color-mix(in srgb, var(--foreground) 6%, var(--background));
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--foreground) 6%, var(--background)) 0%,
+      color-mix(in srgb, var(--foreground) 5%, var(--background)) 48%,
+      var(--background) 100%
+    );
   }
 </style>

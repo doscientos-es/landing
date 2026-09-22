@@ -6,18 +6,29 @@ type Props = {
 const { label, value } = Astro.props;
 ---
 
-<li class="p-2 rounded-full bg-muted flex gap-3 items-center">
+<li class="highlight-card flex min-h-[92px] items-center gap-3 rounded-3xl border border-muted/70 bg-muted/70 p-3">
   <i
-    class="size-12 grid place-items-center aspect-square rounded-full bg-background"
+    class="grid size-11 shrink-0 place-items-center rounded-2xl bg-background"
   >
     <slot />
   </i>
-  <div class="flex flex-col gap-1 pr-4">
-    <span class="text-xs tracking-tight uppercase text-muted-foreground">
+  <div class="flex min-w-0 flex-col gap-1 pr-2">
+    <span class="text-[10px] font-medium uppercase tracking-[0.08em] text-muted-foreground">
       {label}
     </span>
-    <span class="text-foreground">
+    <span class="text-sm leading-snug text-foreground">
       {value}
     </span>
   </div>
 </li>
+
+<style>
+  .highlight-card {
+    transition: transform 180ms ease, background-color 180ms ease;
+  }
+
+  .highlight-card:hover {
+    transform: translateY(-2px);
+    background-color: hsl(var(--muted));
+  }
+</style>
