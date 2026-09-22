@@ -71,6 +71,10 @@ const timelineText =
     <Breadcrumbs
       className="pl-4 pt-4"
       items={[{ name: "Proyectos", url: "/projects" }]}
+      schemaItems={[
+        { name: "Proyectos", url: "/projects" },
+        { name: project.data.client, url: `/projects/${project.id}` },
+      ]}
     />
 
     <header class="space-y-6 border mb-20 border-muted p-6 lg:p-8 rounded-5xl">
