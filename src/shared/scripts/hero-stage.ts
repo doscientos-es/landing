@@ -493,13 +493,15 @@ export const setupHeroStage = () => {
         rows[rowIndex],
         { backgroundColor: '#e3e5e7', borderColor: 'transparent' },
         {
-          backgroundColor: '#e4f5cf',
-          borderColor: '#acd97a',
+          backgroundColor: '#eef0f1',
+          borderColor: 'transparent',
           duration: 0.1,
           ease: 'power1.out',
         },
         at,
       )
+      tl!.to(rows[rowIndex], { scale: 1.012, duration: 0.08, ease: 'power1.out' }, at)
+        .to(rows[rowIndex], { scale: 1, duration: 0.16, ease: 'power2.out' }, at + 0.08)
     }
 
     if (firstTarget) {

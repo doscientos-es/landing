@@ -81,6 +81,11 @@ const benefits = [
       <li class="service-card lg:col-span-4" data-reveal="top-right">
         <h3>{services[1].title}</h3>
         <p>{services[1].description}</p>
+        <ol class="service-process" aria-label="Proceso de lanzamiento">
+          <li><span>01</span><strong>Entender</strong><small>El problema real</small></li>
+          <li><span>02</span><strong>Construir</strong><small>Lo que hace falta</small></li>
+          <li><span>03</span><strong>Lanzar</strong><small>Con usuarios reales</small></li>
+        </ol>
         <ul class="service-tags">{benefits.map((step) => { const IconComponent = step.icon; return <li><IconComponent class="size-3.5" />{step.label}</li>; })}</ul>
       </li>
       <li class="service-card lg:col-span-4" data-reveal="right">
@@ -107,5 +112,10 @@ const benefits = [
   .service-card-image { margin-top: auto; width: 100%; border-radius: .9rem; opacity: .9; }
   .service-tags { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: auto; }
   .service-tags span, .service-tags li { display: inline-flex; align-items: center; gap: .4rem; border-radius: 999px; background: rgba(0,0,0,.28); padding: .4rem .7rem; color: rgba(255,255,255,.78); font-size: .7rem; font-weight: 600; }
+  .service-process { display: grid; grid-template-columns: repeat(3, 1fr); gap: .75rem; margin-top: auto; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,.1); }
+  .service-process li { display: flex; min-width: 0; flex-direction: column; gap: .15rem; }
+  .service-process span { color: rgba(255,255,255,.38); font-size: .7rem; font-weight: 700; }
+  .service-process strong { font-size: .95rem; }
+  .service-process small { color: rgba(255,255,255,.5); font-size: .72rem; }
   @media (max-width: 640px) { .service-card { min-height: 0; padding: 1.25rem; } }
 </style>
