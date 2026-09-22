@@ -28,26 +28,47 @@ const benefits = [
 ];
 ---
 
-<section id="open-source" class="open-source-section landing-section">
-  <div class="open-source-shell">
-    <div class="open-source-intro" data-stagger="100">
-      <span class="open-source-kicker" data-reveal="bottom"
-        >BASE TÉCNICA ABIERTA</span
+<section id="open-source" class="landing-section py-[clamp(3rem,8vw,7rem)]">
+  <div
+    class="mx-auto grid w-full max-w-6xl grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] items-center gap-[clamp(2rem,7vw,7rem)] max-[800px]:grid-cols-1 max-[800px]:gap-10"
+  >
+    <div class="max-w-[34rem]" data-stagger="100">
+      <h2
+        class="m-0 max-w-[13ch] text-[clamp(2.25rem,4vw,4.25rem)] font-extrabold leading-[0.96] tracking-[-0.065em] text-foreground text-balance max-[800px]:max-w-[15ch]"
+        data-reveal="bottom"
+        data-speed="normal"
+        data-easing="smooth"
       >
-      <h2 data-reveal="bottom" data-speed="normal" data-easing="smooth">
         No empezamos de cero donde no aporta valor.
       </h2>
-      <p data-reveal="bottom" data-speed="normal" data-easing="soft">
+      <p
+        class="m-0 max-w-[31rem] text-base leading-[1.65] text-muted-foreground"
+        data-reveal="bottom"
+        data-speed="normal"
+        data-easing="soft"
+      >
         Construimos lo específico de tu negocio a medida. Para lo repetible,
         partimos de componentes propios, mantenidos y abiertos.
       </p>
-      <p class="open-source-downloads" data-reveal="bottom" data-speed="fast">
-        <strong>{downloads}</strong>
-        <span>descargas acumuladas de nuestras herramientas abiertas</span>
+      <p
+        class="mt-7 flex w-fit items-baseline gap-[0.7rem] border-t border-t-[color-mix(in_srgb,var(--foreground)_14%,transparent)] pt-4 max-[480px]:w-full"
+        data-reveal="bottom"
+        data-speed="fast"
+      >
+        <strong
+          class="text-[clamp(2rem,3vw,2.75rem)] font-extrabold leading-[0.9] tracking-[-0.06em] text-primary"
+        >
+          {downloads}
+        </strong>
+        <span
+          class="max-w-56 text-[0.72rem] font-bold leading-[1.35] text-muted-foreground"
+        >
+          descargas acumuladas de nuestras herramientas abiertas
+        </span>
       </p>
       <a
         href="/open-source"
-        class="open-source-link"
+        class="mt-6 inline-flex items-center gap-[0.45rem] rounded-full border border-[color-mix(in_srgb,var(--foreground)_14%,transparent)] px-[0.9rem] py-[0.7rem] text-[0.88rem] font-[750] text-foreground no-underline transition-[background-color,border-color,color] duration-200 hover:border-primary hover:bg-[color-mix(in_srgb,var(--primary)_8%,var(--background))] hover:text-primary focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-[3px] [&_svg]:transition-transform [&:hover_svg]:translate-x-[0.14rem] [&:hover_svg]:-translate-y-[0.14rem]"
         data-reveal="bottom"
         data-speed="fast"
         data-easing="soft"
@@ -65,8 +86,11 @@ const benefits = [
         data-reveal="bottom"
         data-easing="smooth"
       >
-        <span>La regla</span>
-        <p>Estándar donde da seguridad. A medida donde da ventaja.</p>
+        <p
+          class="m-0 max-w-[23rem] text-[clamp(1.45rem,2.4vw,2rem)] font-bold leading-[1.04] tracking-[-0.04em] text-background text-balance"
+        >
+          Estándar donde da seguridad. A medida donde da ventaja.
+        </p>
       </div>
       <ul class="open-source-benefits">
         {
@@ -99,98 +123,6 @@ const benefits = [
 </section>
 
 <style>
-  .open-source-section {
-    padding-block: clamp(3rem, 8vw, 7rem);
-  }
-  .open-source-shell {
-    display: grid;
-    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
-    gap: clamp(2rem, 7vw, 7rem);
-    width: min(72rem, 100%);
-    margin: 0 auto;
-    align-items: center;
-  }
-  .open-source-intro {
-    max-width: 34rem;
-  }
-  .open-source-kicker {
-    color: var(--primary);
-    font-size: 0.68rem;
-    font-weight: 800;
-    letter-spacing: 0.13em;
-  }
-  .open-source-intro h2 {
-    max-width: 13ch;
-    margin: 0.8rem 0 1.25rem;
-    color: var(--foreground);
-    font-size: clamp(2.25rem, 4vw, 4.25rem);
-    font-weight: 800;
-    line-height: 0.96;
-    letter-spacing: -0.065em;
-    text-wrap: balance;
-  }
-  .open-source-intro > p {
-    max-width: 31rem;
-    margin: 0;
-    color: var(--muted-foreground);
-    font-size: 1rem;
-    line-height: 1.65;
-  }
-  .open-source-downloads {
-    display: flex;
-    align-items: baseline;
-    gap: 0.7rem;
-    width: fit-content;
-    margin: 1.75rem 0 0;
-    padding-top: 1rem;
-    border-top: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent);
-  }
-  .open-source-downloads strong {
-    color: var(--primary);
-    font-size: clamp(2rem, 3vw, 2.75rem);
-    font-weight: 800;
-    line-height: 0.9;
-    letter-spacing: -0.06em;
-  }
-  .open-source-downloads span {
-    max-width: 14rem;
-    color: var(--muted-foreground);
-    font-size: 0.72rem;
-    font-weight: 700;
-    line-height: 1.35;
-  }
-  .open-source-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
-    margin-top: 1.5rem;
-    padding: 0.7rem 0.9rem;
-    border: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent);
-    border-radius: 999px;
-    color: var(--foreground);
-    font-size: 0.88rem;
-    font-weight: 750;
-    text-decoration: none;
-    transition:
-      background-color 180ms ease,
-      border-color 180ms ease,
-      color 180ms ease;
-  }
-  .open-source-link:hover {
-    border-color: var(--primary);
-    background: color-mix(in srgb, var(--primary) 8%, var(--background));
-    color: var(--primary);
-  }
-  .open-source-link:focus-visible {
-    outline: 2px solid var(--primary);
-    outline-offset: 3px;
-  }
-  .open-source-link :global(svg) {
-    transition: transform 180ms ease;
-  }
-  .open-source-link:hover :global(svg) {
-    transform: translate(0.14rem, -0.14rem);
-  }
   .open-source-panel {
     position: relative;
     isolation: isolate;
@@ -225,21 +157,6 @@ const benefits = [
       color-mix(in srgb, var(--primary) 40%, var(--foreground)),
       color-mix(in srgb, var(--primary) 12%, var(--foreground))
     );
-  }
-  .open-source-principle span {
-    color: color-mix(in srgb, var(--background) 62%, transparent);
-    font-size: 0.68rem;
-    font-weight: 750;
-  }
-  .open-source-principle p {
-    max-width: 23rem;
-    margin: 0.65rem 0 0;
-    color: var(--background);
-    font-size: clamp(1.45rem, 2.4vw, 2rem);
-    font-weight: 700;
-    line-height: 1.04;
-    letter-spacing: -0.04em;
-    text-wrap: balance;
   }
   .open-source-benefits {
     display: grid;
@@ -287,21 +204,11 @@ const benefits = [
     line-height: 1.6;
   }
   @media (max-width: 800px) {
-    .open-source-shell {
-      grid-template-columns: 1fr;
-      gap: 2.5rem;
-    }
-    .open-source-intro h2 {
-      max-width: 15ch;
-    }
     .open-source-panel {
       max-width: 38rem;
     }
   }
   @media (max-width: 480px) {
-    .open-source-downloads {
-      width: 100%;
-    }
     .open-source-benefits li {
       grid-template-columns: auto 1fr;
       column-gap: 0.8rem;

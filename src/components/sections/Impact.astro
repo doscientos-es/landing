@@ -7,7 +7,6 @@ const projectById = new Map(projects.map((project) => [project.id, project]));
 const highlights = [
   {
     id: "flatmatch",
-    eyebrow: "Producto digital",
     result: "500+",
     resultLabel: "usuarios orgánicos en 3 meses",
     title: "Una experiencia que hizo crecer el producto",
@@ -16,7 +15,6 @@ const highlights = [
   },
   {
     id: "bitacora",
-    eyebrow: "Automatización",
     result: "-90%",
     resultLabel: "de tiempo en procesos manuales",
     title: "De tres horas de trabajo a quince minutos",
@@ -25,7 +23,6 @@ const highlights = [
   },
   {
     id: "ifco",
-    eyebrow: "Modernización",
     result: "0 min",
     resultLabel: "de interrupción durante la migración",
     title: "Modernización sin parar la operación",
@@ -35,43 +32,74 @@ const highlights = [
 ];
 ---
 
-<section class="impact-section-new" aria-labelledby="impact-title">
-  <div class="impact-section-new__inner">
-    <header class="impact-section-new__header">
+<section
+  class="w-full px-6 py-12 max-[640px]:px-4 max-[640px]:py-8"
+  aria-labelledby="impact-title"
+>
+  <div class="mx-auto w-full max-w-[75rem]">
+    <header
+      class="mb-14 grid items-end gap-6 min-[901px]:grid-cols-[minmax(0,1.15fr)_minmax(18rem,0.85fr)] min-[901px]:gap-16 max-[640px]:mb-8"
+    >
       <div>
-        <h2 id="impact-title">Trabajo que ya está cambiando negocios</h2>
+        <h2
+          id="impact-title"
+          class="m-0 max-w-3xl text-[clamp(2.25rem,4.25vw,4.25rem)] font-extrabold leading-[0.98] tracking-[-0.07em] text-foreground text-balance max-[640px]:text-[clamp(2.5rem,12vw,4rem)]"
+        >
+          Trabajo que ya está cambiando negocios
+        </h2>
       </div>
-      <div class="impact-section-new__intro">
-        <p>
+      <div class="max-w-[22rem] pb-[0.2rem] max-[900px]:max-w-[30rem]">
+        <p class="m-0 mb-5 text-[0.95rem] leading-[1.55] text-muted-foreground">
           Sistemas, productos y automatizaciones que están en producción y
           resuelven problemas reales todos los días.
         </p>
-        <a href="/projects"
-          >Ver todos los proyectos <span aria-hidden="true">↗</span></a
+        <a
+          href="/projects"
+          class="group text-[0.82rem] font-extrabold text-primary underline decoration-[color-mix(in_srgb,var(--brand-lime)_85%,var(--primary))] underline-offset-[0.3rem]"
+          >Ver todos los proyectos <span
+            class="inline-block transition-transform duration-200 group-hover:translate-x-[0.15rem] group-hover:-translate-y-[0.15rem]"
+            aria-hidden="true">↗</span
+          ></a
         >
       </div>
     </header>
 
-    <div class="impact-grid">
+    <div class="impact-grid grid grid-cols-3 gap-8 max-[900px]:grid-cols-1">
       {
         highlights.map((item) => {
           const project = projectById.get(item.id);
           if (!project) return null;
 
           return (
-            <a href={`/projects/${project.id}`} class="impact-card">
-              <div class="impact-card__topline">
-                <span>{item.eyebrow}</span>
-                <span>{project.data.client}</span>
+            <a
+              href={`/projects/${project.id}`}
+              class="group flex min-h-[21rem] flex-col items-start gap-4 border-t border-t-[color-mix(in_srgb,var(--foreground)_18%,transparent)] pt-5 max-[900px]:min-h-0 max-[900px]:pb-10"
+            >
+              <div class="text-[0.68rem] font-extrabold text-primary">
+                {project.data.client}
               </div>
-              <h3>{item.title}</h3>
-              <p>{item.description}</p>
-              <div class="impact-card__result">
-                <strong>{item.result}</strong>
-                <span>{item.resultLabel}</span>
+              <h3 class="m-0 text-[clamp(1.35rem,2.2vw,2rem)] font-[750] leading-none tracking-[-0.045em] text-foreground text-balance transition-colors duration-200 group-hover:text-primary">
+                {item.title}
+              </h3>
+              <p class="m-0 text-[0.84rem] leading-[1.5] text-muted-foreground">
+                {item.description}
+              </p>
+              <div class="mt-auto flex flex-col gap-[0.35rem]">
+                <strong class="text-[clamp(2rem,3vw,2.75rem)] font-extrabold leading-[0.9] tracking-[-0.06em] text-primary">
+                  {item.result}
+                </strong>
+                <span class="max-w-44 text-[0.72rem] leading-[1.35] text-muted-foreground">
+                  {item.resultLabel}
+                </span>
               </div>
-              <span class="impact-link">
-                Ver caso <span aria-hidden="true">↗</span>
+              <span class="text-[0.82rem] font-extrabold text-primary underline decoration-[color-mix(in_srgb,var(--brand-lime)_85%,var(--primary))] underline-offset-[0.3rem]">
+                Ver caso{" "}
+                <span
+                  class="inline-block transition-transform duration-200 group-hover:translate-x-[0.15rem] group-hover:-translate-y-[0.15rem]"
+                  aria-hidden="true"
+                >
+                  ↗
+                </span>
               </span>
             </a>
           );
@@ -80,181 +108,3 @@ const highlights = [
     </div>
   </div>
 </section>
-
-<style>
-  .impact-section-new {
-    width: 100%;
-    padding: 3rem 1.5rem;
-  }
-
-  .impact-section-new__inner {
-    width: min(75rem, 100%);
-    margin: 0 auto;
-  }
-
-  .impact-section-new__header {
-    display: grid;
-    grid-template-columns: minmax(0, 1.15fr) minmax(18rem, 0.85fr);
-    align-items: end;
-    gap: 4rem;
-    margin-bottom: 3.5rem;
-  }
-
-  .impact-card__topline {
-    color: var(--primary);
-    font-size: 0.68rem;
-    font-weight: 800;
-  }
-
-  .impact-section-new h2 {
-    max-width: 48rem;
-    margin: 0;
-    color: var(--foreground);
-    font-size: clamp(2.25rem, 4.25vw, 4.25rem);
-    font-weight: 800;
-    line-height: 0.98;
-    letter-spacing: -0.07em;
-    text-wrap: balance;
-  }
-
-  .impact-section-new__intro {
-    max-width: 22rem;
-    padding-bottom: 0.2rem;
-  }
-
-  .impact-section-new__intro p {
-    margin: 0 0 1.25rem;
-    color: var(--muted-foreground);
-    font-size: 0.95rem;
-    line-height: 1.55;
-  }
-
-  .impact-section-new__intro a,
-  .impact-link {
-    color: var(--primary);
-    font-size: 0.82rem;
-    font-weight: 800;
-    text-decoration: underline;
-    text-decoration-color: color-mix(
-      in srgb,
-      var(--brand-lime) 85%,
-      var(--primary)
-    );
-    text-underline-offset: 0.3rem;
-  }
-
-  .impact-section-new a span {
-    display: inline-block;
-    transition: transform 200ms ease;
-  }
-
-  .impact-section-new a:hover > span,
-  .impact-section-new a:hover .impact-link span {
-    transform: translate(0.15rem, -0.15rem);
-  }
-
-  .impact-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 2rem;
-  }
-
-  .impact-card {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
-    min-height: 21rem;
-    padding-top: 1.25rem;
-    border-top: 1px solid color-mix(in srgb, var(--foreground) 18%, transparent);
-  }
-
-  .impact-card:hover h3 {
-    color: var(--primary);
-  }
-
-  .impact-card__topline {
-    display: flex;
-    justify-content: space-between;
-    gap: 1rem;
-    width: 100%;
-  }
-
-  .impact-card__topline span:last-child {
-    opacity: 0.58;
-  }
-
-  .impact-card h3 {
-    margin: 0;
-    color: var(--foreground);
-    font-size: clamp(1.35rem, 2.2vw, 2rem);
-    font-weight: 750;
-    line-height: 1;
-    letter-spacing: -0.045em;
-    text-wrap: balance;
-    transition: color 180ms ease;
-  }
-
-  .impact-card > p {
-    margin: 0;
-    color: var(--muted-foreground);
-    font-size: 0.84rem;
-    line-height: 1.5;
-  }
-
-  .impact-card__result {
-    display: flex;
-    flex-direction: column;
-    gap: 0.35rem;
-    margin-top: auto;
-  }
-
-  .impact-card__result strong {
-    color: var(--primary);
-    font-size: clamp(2rem, 3vw, 2.75rem);
-    font-weight: 800;
-    line-height: 0.9;
-    letter-spacing: -0.06em;
-  }
-
-  .impact-card__result span {
-    max-width: 11rem;
-    color: var(--muted-foreground);
-    font-size: 0.72rem;
-    line-height: 1.35;
-  }
-
-  @media (max-width: 900px) {
-    .impact-section-new__header {
-      grid-template-columns: 1fr;
-      gap: 1.5rem;
-    }
-
-    .impact-section-new__intro {
-      max-width: 30rem;
-    }
-
-    .impact-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .impact-card {
-      min-height: auto;
-      padding-bottom: 2.5rem;
-    }
-  }
-
-  @media (max-width: 640px) {
-    .impact-section-new {
-      padding: 2rem 1rem;
-    }
-
-    .impact-section-new__header {
-      margin-bottom: 2rem;
-    }
-
-    .impact-section-new h2 {
-      font-size: clamp(2.5rem, 12vw, 4rem);
-    }
-  }
-</style>

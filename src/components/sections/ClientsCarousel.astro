@@ -33,7 +33,7 @@ const LOGO_SIZES: Record<string, typeof DEFAULT_LOGO_SIZE> = {
     </p>
 
     <ul
-      class="client-logo-grid"
+      class="mx-auto flex max-w-[32rem] flex-wrap items-center justify-center gap-[0.9rem] [&_.client-logo-wrapper]:opacity-60 max-[639px]:gap-x-[0.55rem] max-[639px]:gap-y-[0.8rem]"
       aria-label="Clientes de doscientos"
       data-reveal="scale"
       data-speed="normal"
@@ -44,7 +44,7 @@ const LOGO_SIZES: Record<string, typeof DEFAULT_LOGO_SIZE> = {
           const size = LOGO_SIZES[project.id] ?? DEFAULT_LOGO_SIZE;
 
           return (
-            <li>
+            <li class="flex items-center justify-center">
               <ClientLogo
                 logo={project.data.logo!}
                 alt={`Logo de ${project.data.client}`}
@@ -55,52 +55,12 @@ const LOGO_SIZES: Record<string, typeof DEFAULT_LOGO_SIZE> = {
           );
         })
       }
-      <li class="client-more" aria-label="Más de 20 proyectos entregados">
+      <li
+        class="inline-flex min-h-8 items-center justify-center whitespace-nowrap rounded-full bg-background px-[0.7rem] py-[0.4rem] text-[0.72rem] font-[750] text-foreground shadow-[0_4px_12px_color-mix(in_srgb,var(--foreground)_8%,transparent)]"
+        aria-label="Más de 20 proyectos entregados"
+      >
         20+ más
       </li>
     </ul>
   </div>
 </section>
-
-<style>
-  .client-logo-grid {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    gap: 0.9rem;
-    max-width: 32rem;
-    margin: 0 auto;
-  }
-
-  .client-logo-grid li {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .client-logo-grid :global(.client-logo-wrapper) {
-    opacity: 0.6;
-  }
-
-  .client-more {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 2rem;
-    padding: 0.4rem 0.7rem;
-    border-radius: 9999px;
-    background: var(--background);
-    box-shadow: 0 4px 12px color-mix(in srgb, var(--foreground) 8%, transparent);
-    color: var(--foreground);
-    font-size: 0.72rem;
-    font-weight: 750;
-    white-space: nowrap;
-  }
-
-  @media (max-width: 639px) {
-    .client-logo-grid {
-      gap: 0.8rem 0.55rem;
-    }
-  }
-</style>
