@@ -24,6 +24,9 @@ import droneOne from '../../assets/media/projects/gruas-del-valles/dron-1.avif'
 import droneTwo from '../../assets/media/projects/gruas-del-valles/dron-2.avif'
 import operation from '../../assets/media/projects/gruas-del-valles/operacion.avif'
 import landingHome from '../../assets/media/projects/gruas-del-valles/landing-home.avif'
+import landingMachinery from '../../assets/media/projects/gruas-del-valles/landing-maquinaria.avif'
+import landingAbout from '../../assets/media/projects/gruas-del-valles/landing-nosotros.avif'
+import landingContact from '../../assets/media/projects/gruas-del-valles/landing-contact.avif'
 
 **Grúas del Vallès** tenía una historia, una flota y una capacidad operativa muy potentes. El reto era que una persona que llega por primera vez pudiera entenderlo rápido: qué hacen, para qué tipo de obra y por qué confiar en ellos.
 
@@ -58,6 +61,21 @@ La landing presenta la empresa sin obligar al visitante a descifrar lenguaje té
   <Image src={landingHome} alt="Página principal de la landing de Grúas del Vallès" class="rounded-2xl w-full" />
 </div>
 
+<div class="not-prose grid gap-4 my-10 sm:grid-cols-2">
+  <figure class="m-0 flex h-full flex-col overflow-hidden rounded-2xl bg-muted/35">
+    <Image src={landingMachinery} alt="Sección de maquinaria de la web de Grúas del Vallès" class="aspect-[16/10] w-full object-cover" data-zoomable />
+    <figcaption class="flex-1 px-4 py-3 text-sm text-muted-foreground">La flota se presenta de forma clara para que cada cliente pueda identificar la capacidad que necesita.</figcaption>
+  </figure>
+  <figure class="m-0 flex h-full flex-col overflow-hidden rounded-2xl bg-muted/35">
+    <Image src={landingAbout} alt="Sección sobre Grúas del Vallès y su experiencia" class="aspect-[16/10] w-full object-cover" data-zoomable />
+    <figcaption class="flex-1 px-4 py-3 text-sm text-muted-foreground">La experiencia y la forma de trabajar también forman parte de la propuesta comercial.</figcaption>
+  </figure>
+  <figure class="m-0 flex h-full flex-col overflow-hidden rounded-2xl bg-muted/35 sm:col-span-2">
+    <Image src={landingContact} alt="Sección de contacto de la web de Grúas del Vallès" class="aspect-[16/7] w-full object-cover" data-zoomable />
+    <figcaption class="flex-1 px-4 py-3 text-sm text-muted-foreground">El recorrido termina con una llamada a la acción directa para solicitar información o presupuesto.</figcaption>
+  </figure>
+</div>
+
 <video controls preload="metadata" class="not-prose my-8 aspect-video w-full rounded-2xl bg-foreground object-cover" poster="/projects/gruas-del-valles/dron-1.avif">
   <source src="/projects/gruas-del-valles/dron.mp4" type="video/mp4" />
 </video>
@@ -66,6 +84,4 @@ La landing presenta la empresa sin obligar al visitante a descifrar lenguaje té
 
 El valor del proyecto está en que cada pieza cumple una función comercial distinta: la landing ayuda a descubrir y contactar; la presentación ayuda a explicar y defender la propuesta; las imágenes y el dron hacen visible una escala que el texto por sí solo no puede transmitir.
 
-<Image src={operation} alt="Operación portuaria de Grúas del Vallès" class="rounded-2xl my-6" />
-
-El resultado es una presencia digital pensada para personas que necesitan tomar una decisión con rapidez, pero también necesitan sentir que detrás hay una empresa preparada para responder.
+<Image src={operation} alt="Operación portuaria de Grúas del Vallès" class="round

@@ -69,11 +69,8 @@ const timelineText =
   >
     <!-- Breadcrumbs para SEO -->
     <Breadcrumbs
-      className="pl-4"
-      items={[
-        { name: "Proyectos", url: "/projects" },
-        { name: project.data.title, url: `/projects/${project.id}` },
-      ]}
+      className="pl-4 pt-4"
+      items={[{ name: "Proyectos", url: "/projects" }]}
     />
 
     <header class="space-y-6 border mb-20 border-muted p-6 lg:p-8 rounded-5xl">
@@ -143,7 +140,7 @@ const timelineText =
     </header>
 
     <div
-      class="px-2
+      class="project-content px-2
       prose prose-neutral prose-sm mx-auto w-full max-w-none
       prose-p:max-w-xl prose-p:mx-auto
       prose-ul:max-w-xl prose-ul:mx-auto
@@ -181,10 +178,15 @@ const timelineText =
 <script>
   import mediumZoom from "medium-zoom";
   document.addEventListener("astro:page-load", () => {
-    mediumZoom(".prose img", { background: "rgba(12,17,11,0.6)", margin: 24 });
+    const zoomableImages = document.querySelectorAll<HTMLImageElement>(
+      ".project-content img, .project-content [data-zoomable]",
+    );
+    if (zoomableImages.length > 0) {
+      mediumZoom(zoomableImages, { background: "rgba(12,17,11,0.72)", margin: 24 });
+    }
 
     // Scroll reveal para todas las imágenes del prose
-    const imgs = document.querySelectorAll<HTMLImageElement>(".prose img");
+    const imgs = document.querySelectorAll<HTMLImageElement>(".project-content img");
     const io = new IntersectionObserver(
       (entries) => {
         for (const { target, isIntersecting } of entries) {
@@ -194,11 +196,4 @@ const timelineText =
           }
         }
       },
-      { threshold: 0.08, rootMargin: "0px 0px -40px 0px" },
-    );
-    for (const img of imgs) {
-      img.setAttribute("data-scroll-reveal", "");
-      io.observe(img);
-    }
-  });
-</script>
+      { threshold: 
