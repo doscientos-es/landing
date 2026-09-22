@@ -1,7 +1,7 @@
 ---
+import Button from "~/components/ui/Button.astro";
 import { branding } from "~/config/branding";
 import { diagnosticRoute, headerNavItems } from "~/data/commercialRoutes";
-import UpRightArrow from "~/components/ui/UpRightArrow.astro";
 
 const desktopNavItems = headerNavItems;
 const mobileNavItems = [{ href: "/", label: "Inicio" }, ...desktopNavItems];
@@ -11,25 +11,28 @@ const pathname = Astro.url.pathname;
 
 <header
   data-reveal="top"
-  class="site-nav fixed top-6 left-1/2 z-50 flex w-[calc(100vw-2rem)] max-w-[90vw] -translate-x-1/2 items-center justify-between gap-2 lg:w-fit lg:justify-center lg:gap-3"
+  class="site-nav fixed top-6 left-1/2 z-50 flex h-10 w-[calc(100vw-2rem)] max-w-[90vw] -translate-x-1/2 items-center justify-between gap-2 lg:w-fit lg:justify-center lg:gap-3"
 >
   <a
     id="nav-home-link"
     href="/"
     aria-label={branding.name}
-    class="nav-pill flex size-9 shrink-0 cursor-pointer items-center justify-center hover:opacity-80 transition-opacity"
+    class="nav-pill flex h-full w-auto shrink-0 cursor-pointer items-center justify-center gap-2 px-3 hover:opacity-80 transition-opacity"
   >
-    <div id="nav-logo-iso" class="flex size-5 items-center justify-center">
+    <div id="nav-logo-iso" class="flex size-7 items-center justify-center">
       <img
         src={branding.assets.isotype}
         alt={branding.name}
-        class="h-5 w-auto object-contain"
+        class="h-full w-auto object-contain"
       />
     </div>
+    <span class="text-md font-semibold text-primary lg:hidden"
+      >{branding.name}</span
+    >
   </a>
 
   <nav
-    class="nav-pill hidden items-center gap-0 lg:flex"
+    class="hidden h-full items-center gap-0 rounded-full bg-white shadow-sm lg:flex"
     aria-label="Navegación principal"
   >
     {
@@ -41,7 +44,7 @@ const pathname = Astro.url.pathname;
           <a
             href={item.href}
             aria-current={isActive ? "page" : undefined}
-            class={`rounded-full px-3.5 py-2.5 text-sm leading-none font-medium transition-colors ${isActive ? "text-foreground" : "text-muted-foreground hover:text-foreground"}`}
+            class={`flex h-full items-center rounded-full px-4 text-sm leading-none font-medium ${isActive ? "text-foreground" : "text-muted-foreground hover:text-foreground"}`}
           >
             {item.label}
           </a>
@@ -73,13 +76,23 @@ const pathname = Astro.url.pathname;
     </svg>
   </button>
 
-  <div id="nav-cta" class="hidden items-center lg:flex">
+  <div id="nav-cta" class="hidden h-full items-center lg:flex">
     <a
       href={`${diagnosticRoute.href}?ref=nav-cta`}
-      class="flex items-center gap-2 rounded-full bg-foreground px-4 py-1.5 text-sm leading-none font-medium whitespace-nowrap text-background shadow-pastel-sm transition-all hover:bg-foreground/90 hover:shadow-xl"
+      class="flex h-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-sm font-medium leading-none text-background shadow-md transition-colors hover:bg-foreground/90"
     >
-      Diagnóstico gratis
-      <UpRightArrow inverted />
+      Diagnostico gratis
+      <svg
+        class="size-4"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M5 12h14M12 5l7 7-7 7"></path>
+      </svg>
     </a>
   </div>
 </header>
@@ -105,7 +118,7 @@ const pathname = Astro.url.pathname;
           <a
             href={item.href}
             aria-current={isActive ? "page" : undefined}
-            class={`mobile-menu-link text-2xl font-medium transition-colors translate-y-4 opacity-0 ${isActive ? "text-primary underline" : "text-foreground hover:text-primary"}`}
+            class={`mobile-menu-link text-2xl font-medium transition-colors translate-y-6 opacity-0 ${isActive ? "text-primary underline" : "text-foreground hover:text-primary"}`}
             style={`transition: opacity 300ms ${80 + i * 60}ms, transform 300ms ${80 + i * 60}ms;`}
           >
             {item.label}
@@ -115,7 +128,7 @@ const pathname = Astro.url.pathname;
     }
     <a
       href={`${diagnosticRoute.href}?ref=mobile-nav-cta`}
-      class="mobile-menu-link translate-y-4 opacity-0"
+      class="mobile-menu-link translate-y-6 opacity-0"
       style={`transition: opacity 300ms ${80 + mobileNavItems.length * 60}ms, transform 300ms ${80 + mobileNavItems.length * 60}ms;`}
     >
       <Button size="lg" withArrow> Diagnóstico gratis </Button>
@@ -279,11 +292,10 @@ const pathname = Astro.url.pathname;
   }
 
   .nav-pill {
-    border: 1px solid rgb(35 35 35 / 0.06);
+    /* border: 1px solid rgb(35 35 35 / 0.06); */
     background: #fff;
     border-radius: 9999px;
     box-shadow: var(--shadow-pastel-sm);
-    backdrop-filter: blur(24px);
   }
 
   #bar-top,
