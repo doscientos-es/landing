@@ -1,7 +1,7 @@
 ---
-import Button from "~/components/ui/Button.astro";
 import { branding } from "~/config/branding";
 import { diagnosticRoute, headerNavItems } from "~/data/commercialRoutes";
+import UpRightArrow from "~/components/ui/UpRightArrow.astro";
 
 const desktopNavItems = headerNavItems;
 const mobileNavItems = [{ href: "/", label: "Inicio" }, ...desktopNavItems];
@@ -11,29 +11,27 @@ const pathname = Astro.url.pathname;
 
 <header
   data-reveal="top"
-  class="site-nav fixed w-[calc(100vw-2rem)] max-w-[90vw] lg:w-fit rounded-full top-6 left-1/2 -translate-x-1/2 z-50 flex items-center justify-between gap-2 lg:gap-4"
+  class="site-nav fixed top-6 left-1/2 z-50 flex w-[calc(100vw-2rem)] max-w-[90vw] -translate-x-1/2 items-center justify-between gap-2 lg:w-fit lg:justify-center lg:gap-3"
 >
   <a
     id="nav-home-link"
     href="/"
-    class="flex cursor-pointer items-center gap-2 rounded-full bg-background shadow-pastel-sm px-3 py-2 hover:opacity-80 transition-opacity lg:bg-transparent lg:shadow-none lg:px-2 lg:py-0"
+    aria-label={branding.name}
+    class="nav-pill flex size-9 shrink-0 cursor-pointer items-center justify-center hover:opacity-80 transition-opacity"
   >
-    <div
-      id="nav-logo-iso"
-      class="overflow-hidden transition-all duration-300 ease-in-out"
-      style="width: 28px; opacity: 1;"
-    >
+    <div id="nav-logo-iso" class="flex size-5 items-center justify-center">
       <img
         src={branding.assets.isotype}
-        alt=""
-        aria-hidden="true"
-        class="h-7 w-auto object-contain"
+        alt={branding.name}
+        class="h-5 w-auto object-contain"
       />
     </div>
-    <span class="text-xl font-bold text-primary">{branding.name}</span>
   </a>
 
-  <nav class="hidden lg:flex items-center" aria-label="Navegación principal">
+  <nav
+    class="nav-pill hidden items-center gap-0 lg:flex"
+    aria-label="Navegación principal"
+  >
     {
       desktopNavItems.map((item) => {
         const isActive =
@@ -43,7 +41,7 @@ const pathname = Astro.url.pathname;
           <a
             href={item.href}
             aria-current={isActive ? "page" : undefined}
-            class={`py-2 px-4 text-sm font-medium transition-colors ${isActive ? "text-foreground underline" : "text-muted-foreground hover:underline"}`}
+            class={`rounded-full px-3.5 py-2.5 text-sm leading-none font-medium transition-colors ${isActive ? "text-foreground" : "text-muted-foreground hover:text-foreground"}`}
           >
             {item.label}
           </a>
@@ -54,7 +52,7 @@ const pathname = Astro.url.pathname;
 
   <button
     id="mobile-menu-button"
-    class="lg:hidden p-2.5 text-foreground bg-background shadow-pastel-sm hover:bg-background/85 rounded-full transition-colors"
+    class="nav-pill flex size-10 items-center justify-center text-foreground transition-colors hover:bg-background/85 lg:hidden"
     aria-label="Abrir menú"
     aria-controls="mobile-menu"
     aria-expanded="false"
@@ -75,11 +73,13 @@ const pathname = Astro.url.pathname;
     </svg>
   </button>
 
-  <div id="nav-cta" class="hidden lg:flex items-center gap-4">
-    <a href={`${diagnosticRoute.href}?ref=nav-cta`}>
-      <Button size="sm" withArrow class="whitespace-nowrap">
-        Diagnostico gratis
-      </Button>
+  <div id="nav-cta" class="hidden items-center lg:flex">
+    <a
+      href={`${diagnosticRoute.href}?ref=nav-cta`}
+      class="flex items-center gap-2 rounded-full bg-foreground px-4 py-1.5 text-sm leading-none font-medium whitespace-nowrap text-background shadow-pastel-sm transition-all hover:bg-foreground/90 hover:shadow-xl"
+    >
+      Diagnóstico gratis
+      <UpRightArrow inverted />
     </a>
   </div>
 </header>
@@ -130,22 +130,6 @@ const pathname = Astro.url.pathname;
     cleanupNavbar?.();
     const controller = new AbortController();
     const { signal } = controller;
-    const logoIso = document.getElementById("nav-logo-iso");
-    const updateLogo = () => {
-      if (!logoIso) return;
-      if (window.scrollY > 40) {
-        logoIso.style.width = "0px";
-        logoIso.style.opacity = "0";
-        logoIso.style.marginRight = "0px";
-      } else {
-        logoIso.style.width = "28px";
-        logoIso.style.opacity = "1";
-        logoIso.style.marginRight = "";
-      }
-    };
-    window.addEventListener("scroll", updateLogo, { passive: true, signal });
-    updateLogo();
-
     const menuButton = document.getElementById("mobile-menu-button");
     const mobileMenu = document.getElementById("mobile-menu");
     const homeLink = document.getElementById("nav-home-link");
@@ -294,14 +278,12 @@ const pathname = Astro.url.pathname;
     background: transparent;
   }
 
-  @media (min-width: 1024px) {
-    .site-nav {
-      padding: 0.25rem;
-      border: 1px solid rgb(42 66 39 / 0.13);
-      background: rgb(246 247 249 / 0.76);
-      box-shadow: var(--shadow-pastel-sm);
-      backdrop-filter: blur(24px);
-    }
+  .nav-pill {
+    border: 1px solid rgb(35 35 35 / 0.06);
+    background: #fff;
+    border-radius: 9999px;
+    box-shadow: var(--shadow-pastel-sm);
+    backdrop-filter: blur(24px);
   }
 
   #bar-top,

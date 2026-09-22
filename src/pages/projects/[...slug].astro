@@ -193,7 +193,7 @@ const timelineText =
     if (!content || content.dataset.mediaReady === "true") return;
     content.dataset.mediaReady = "true";
 
-    projectZoom?.destroy();
+    projectZoom?.detach();
     const zoomImages = Array.from(
       document.querySelectorAll<HTMLImageElement>(
         ".project-content img, .project-cover-image",
@@ -222,5 +222,11 @@ const timelineText =
   };
 
   document.addEventListener("astro:page-load", initProjectMedia);
-  document.addEventListener("DOMContentLoaded", initProjectMedia);
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initProjectMedia, {
+      once: true,
+    });
+  } else {
+    initProjectMedia();
+  }
 </script>
