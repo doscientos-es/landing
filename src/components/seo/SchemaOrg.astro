@@ -1,5 +1,5 @@
 ---
-import type { BlogPosting, CreativeWork, FAQPage, Organization, ProfessionalService, Service, WebSite, WithContext } from "schema-dts";
+import type { BlogPosting, CreativeWork, FAQPage, Organization, ProfessionalService, Service, WebPage, WebSite, WithContext } from "schema-dts";
 import { branding } from "~/config/branding";
 import { company } from "~/config/company";
 import { absoluteUrl, serializeJsonLd, type JsonLdSchema } from "~/shared/lib/schema/jsonLd";
@@ -40,7 +40,19 @@ const organizationSchema = {
   email: branding.contact.email,
   telephone: branding.contact.whatsapp.displayNumber,
   address: { "@id": addressId },
-  sameAs: Object.values(branding.social),
+  sameAs: Object.values(branding.social).filter(Boolean),
+  founder: branding.team.map((member) => ({
+    "@type": "Person",
+    name: member.name,
+    jobTitle: member.role,
+    url: member.link,
+  })),
+  knowsAbout: [
+    "Desarrollo de software a medida",
+    "Automatización de procesos empresariales",
+    "CRM y herramientas internas",
+    "Desarrollo web y producto digital",
+  ],
 } satisfies WithContext<Organization>;
 
 const professionalServiceSchema = {
@@ -75,7 +87,24 @@ const websiteSchema = {
 } satisfies WithContext<WebSite>;
 
 const schemas: JsonLdSchema[] = [organizationSchema, professionalServiceSchema as WithContext<ProfessionalService>];
-if (type === "website") schemas.push(websiteSchema);
+schemas.push(websiteSchema);
+
+const pageImage = absoluteUrl(
+  project?.image || article?.image || undefined,
+  base,
+);
+schemas.push({
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": `${currentUrl}#webpage`,
+  url: currentUrl,
+  name: article?.title || project?.name || branding.name,
+  description: article?.description || project?.description || branding.slogan,
+  inLanguage: "es-ES",
+  isPartOf: { "@id": websiteId },
+  about: { "@id": organizationId },
+  ...(pageImage ? { primaryImageOfPage: { "@type": "ImageObject", url: pageImage } } : {}),
+} satisfies WithContext<WebPage>);
 
 if (article) {
   schemas.push({
@@ -123,6 +152,7 @@ if (project) {
     url: absoluteUrl(project.url || Astro.url.pathname, base),
     inLanguage: "es-ES",
     creator: { "@id": organizationId },
+    mainEntityOfPage: { "@id": `${absoluteUrl(project.url || Astro.url.pathname, base)}#webpage` },
     ...(project.client ? { funder: { "@type": "Organization", name: project.client } } : {}),
     ...(project.services?.length ? { keywords: project.services.join(", ") } : {}),
   } satisfies WithContext<CreativeWork>);

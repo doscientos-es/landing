@@ -372,9 +372,9 @@ export const setupHeroStage = () => {
     {
       x: (_i, target: HTMLElement) => Number(target.dataset.dx),
       y: (_i, target: HTMLElement) => Number(target.dataset.dy),
-      rotation: () => gsap.utils.random(-28, 28),
+      rotation: () => gsap.utils.random(-14, 14),
       stagger: { each: 0.035, from: 'random' },
-      ease: 'back.in(1.6)',
+      ease: 'power2.inOut',
       duration: fusionSpan * 0.7,
       overwrite: false,
     },
@@ -493,7 +493,7 @@ export const setupHeroStage = () => {
         rows[rowIndex],
         { backgroundColor: '#e3e5e7', borderColor: 'transparent' },
         {
-          backgroundColor: '#eef0f1',
+          backgroundColor: '#e4f5cf',
           borderColor: 'transparent',
           duration: 0.1,
           ease: 'power1.out',

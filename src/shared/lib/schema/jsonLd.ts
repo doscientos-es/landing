@@ -5,6 +5,7 @@ import type {
   Organization,
   ProfessionalService,
   Service,
+  WebPage,
   WebSite,
   WithContext,
 } from 'schema-dts'
@@ -15,6 +16,7 @@ export type JsonLdSchema =
   | WithContext<WebSite>
   | WithContext<BlogPosting>
   | WithContext<Service>
+  | WithContext<WebPage>
   | WithContext<CreativeWork>
   | WithContext<FAQPage>
 

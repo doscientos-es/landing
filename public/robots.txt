@@ -9,6 +9,10 @@ Allow: /
 User-agent: ChatGPT-User
 Allow: /
 
+# ChatGPT Search — permite rastrear páginas públicas para resultados y citas
+User-agent: OAI-SearchBot
+Allow: /
+
 User-agent: Claude-Web
 Allow: /
 
