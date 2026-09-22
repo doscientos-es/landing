@@ -57,8 +57,14 @@ La landing presenta la empresa sin obligar al visitante a descifrar lenguaje té
 </div>
 
 <div class="not-prose grid grid-cols-1 sm:grid-cols-2 gap-4 my-8">
-  <Image src={droneOne} alt="Vista aérea de una operación de Grúas del Vallès" class="rounded-2xl w-full" />
-  <Image src={landingHome} alt="Página principal de la landing de Grúas del Vallès" class="rounded-2xl w-full" />
+  <figure class="m-0 flex h-full flex-col overflow-hidden rounded-2xl bg-muted/35">
+    <Image src={droneOne} alt="Vista aérea de una operación de Grúas del Vallès" class="aspect-[16/10] w-full object-cover" data-zoomable />
+    <figcaption class="flex-1 px-4 py-3 text-sm text-muted-foreground">La escala de las operaciones se entiende mejor cuando se ve el entorno real de trabajo.</figcaption>
+  </figure>
+  <figure class="m-0 flex h-full flex-col overflow-hidden rounded-2xl bg-muted/35">
+    <Image src={landingHome} alt="Página principal de la landing de Grúas del Vallès" class="aspect-[16/10] w-full object-cover" data-zoomable />
+    <figcaption class="flex-1 px-4 py-3 text-sm text-muted-foreground">La nueva landing convierte esa capacidad en una primera impresión clara y comercial.</figcaption>
+  </figure>
 </div>
 
 <div class="not-prose grid gap-4 my-10 sm:grid-cols-2">

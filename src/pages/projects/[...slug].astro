@@ -112,7 +112,7 @@ const timelineText =
           alt={project.data.title}
           width={1200}
           height={600}
-          class="object-cover w-full h-full rounded-4xl aspect-video bg-muted"
+          class="project-cover-image object-cover w-full h-full rounded-4xl aspect-video bg-muted"
         />
       </div>
       <div class="grid gap-3 sm:grid-cols-2">
@@ -126,15 +126,23 @@ const timelineText =
           <Timer class="size-5 text-muted-foreground" />
         </Highlight>
       </div>
-      <div class="mt-4 flex flex-col gap-3 rounded-3xl bg-muted/45 px-4 py-4 sm:flex-row sm:items-center sm:px-5">
-        <div class="flex shrink-0 items-center gap-2 text-[10px] font-medium uppercase tracking-[0.08em] text-muted-foreground">
+      <div
+        class="mt-4 flex flex-col gap-3 rounded-3xl bg-muted/45 px-4 py-4 sm:flex-row sm:items-center sm:px-5"
+      >
+        <div
+          class="flex shrink-0 items-center gap-2 text-[10px] font-medium uppercase tracking-[0.08em] text-muted-foreground"
+        >
           <Layout class="size-4" />
           <span>Servicios</span>
         </div>
         <div class="flex flex-wrap gap-1.5">
-          {project.data.services_provided?.map((service) => (
-            <span class="rounded-full bg-background/80 px-2.5 py-1 text-xs leading-tight text-foreground">{service}</span>
-          ))}
+          {
+            project.data.services_provided?.map((service) => (
+              <span class="rounded-full bg-background/80 px-2.5 py-1 text-xs leading-tight text-foreground">
+                {service}
+              </span>
+            ))
+          }
         </div>
       </div>
     </header>
@@ -177,30 +185,42 @@ const timelineText =
 
 <script>
   import mediumZoom from "medium-zoom";
-  document.addEventListener("astro:page-load", () => {
-    const zoomableImages = document.querySelectorAll<HTMLImageElement>(
-      ".project-content img, .project-content [data-zoomable]",
-    );
-    if (zoomableImages.length > 0) {
-      mediumZoom(zoomableImages, { background: "rgba(12,17,11,0.72)", margin: 24 });
-    }
 
-    // Scroll reveal para todas las imágenes del prose
-    const imgs = document.querySelectorAll<HTMLImageElement>(".project-content img");
+  let projectZoom: ReturnType<typeof mediumZoom> | undefined;
+
+  const initProjectMedia = () => {
+    const content = document.querySelector<HTMLElement>(".project-content");
+    if (!content || content.dataset.mediaReady === "true") return;
+    content.dataset.mediaReady = "true";
+
+    projectZoom?.destroy();
+    const zoomImages = Array.from(
+      document.querySelectorAll<HTMLImageElement>(
+        ".project-content img, .project-cover-image",
+      ),
+    );
+    projectZoom = mediumZoom(zoomImages, {
+      background: "rgba(12,17,11,0.86)",
+      margin: 24,
+    });
+
+    const imgs = content.querySelectorAll<HTMLImageElement>("img");
     const io = new IntersectionObserver(
-      (entries) => {
-        for (const { target, isIntersecting } of entries) {
+      (entries) =>
+        entries.forEach(({ target, isIntersecting }) => {
           if (isIntersecting) {
             target.classList.add("img-visible");
             io.unobserve(target);
           }
-        }
-      },
+        }),
       { threshold: 0.08, rootMargin: "0px 0px -40px 0px" },
     );
-    for (const img of imgs) {
+    imgs.forEach((img) => {
       img.setAttribute("data-scroll-reveal", "");
       io.observe(img);
-    }
-  });
+    });
+  };
+
+  document.addEventListener("astro:page-load", initProjectMedia);
+  document.addEventListener("DOMContentLoaded", initProjectMedia);
 </script>
