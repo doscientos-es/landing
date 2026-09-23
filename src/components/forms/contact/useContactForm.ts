@@ -360,9 +360,19 @@ export function useContactForm() {
         )
       }
 
-      // The thank-you URL is the stable conversion signal for Google Tag
-      // Manager. It is only reached after the API has confirmed the lead.
-      window.location.assign('/contact/gracias')
+      // The thank-you URL is reserved for confirmed Google Ads leads. Other
+      // sources keep the existing in-page calendar flow and must not trigger
+      // the URL-based Google Ads conversion.
+      const paidGoogleVisit = Boolean(
+        attribution.first_gclid ||
+          attribution.last_gclid ||
+          ((attribution.first_utm_source || attribution.last_utm_source).toLowerCase() ===
+            'google' &&
+            ['cpc', 'ppc', 'paid', 'paidsearch'].includes(
+              (attribution.first_utm_medium || attribution.last_utm_medium).toLowerCase(),
+            )),
+      )
+      if (paidGoogleVisit) window.location.assign('/contact/gracias')
     } catch (err) {
       setStatus('error')
       setErrorMessage('Error de conexión. Verifica tu internet.')
