@@ -63,7 +63,7 @@ export const copy = {
         },
       ],
       window: {
-        label: "Tu software",
+        label: "Tu software · doscientos",
         rows: [
           "Pedido confirmado sin copiar datos",
           "Factura enviada automáticamente",
