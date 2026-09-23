@@ -256,6 +256,14 @@ export function useContactForm() {
     trackEvent('form_submit_attempted', { conversionStep: 'contact_form' })
 
     const attribution = buildAttributionPayload()
+    const firstTouch = {
+      utm_source: attribution.first_utm_source,
+      utm_medium: attribution.first_utm_medium,
+      utm_campaign: attribution.first_utm_campaign,
+      utm_term: attribution.first_utm_term,
+      utm_content: attribution.first_utm_content,
+      gclid: attribution.first_gclid,
+    }
     const metaAttribution = getMetaAttribution()
     const body = {
       ...attribution,
@@ -273,11 +281,12 @@ export function useContactForm() {
       budget: formData.budget,
       dedupeKey: dedupeKey.current,
       website, // honeypot — debe quedar vacío
-      utm_source: contextParams.current.utm_source,
-      utm_medium: contextParams.current.utm_medium,
-      utm_campaign: contextParams.current.utm_campaign,
-      utm_term: contextParams.current.utm_term,
-      utm_content: contextParams.current.utm_content,
+      utm_source: contextParams.current.utm_source || firstTouch.utm_source,
+      utm_medium: contextParams.current.utm_medium || firstTouch.utm_medium,
+      utm_campaign: contextParams.current.utm_campaign || firstTouch.utm_campaign,
+      utm_term: contextParams.current.utm_term || firstTouch.utm_term,
+      utm_content: contextParams.current.utm_content || firstTouch.utm_content,
+      gclid: firstTouch.gclid,
       referrer: document.referrer ?? '',
       language: navigator.language ?? '',
       landing_path: contextParams.current.page_path,
@@ -330,6 +339,13 @@ export function useContactForm() {
           conversion_step: attribution.conversion_step,
         })
       }
+      window.dataLayer = window.dataLayer || []
+      window.dataLayer.push({
+        event: 'generate_lead',
+        conversion_step: 'contact_form',
+        lead_id: payload?.leadId ?? undefined,
+        event_id: attribution.event_id,
+      })
 
       if ('fbq' in window) {
         // @ts-ignore

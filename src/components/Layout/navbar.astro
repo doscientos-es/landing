@@ -1,7 +1,7 @@
 ---
 import Button from "~/components/ui/Button.astro";
 import { branding } from "~/config/branding";
-import { diagnosticRoute, headerNavItems } from "~/data/commercialRoutes";
+import { headerNavItems } from "~/data/commercialRoutes";
 
 const desktopNavItems = headerNavItems;
 const mobileNavItems = [{ href: "/", label: "Inicio" }, ...desktopNavItems];
@@ -78,10 +78,10 @@ const pathname = Astro.url.pathname;
 
   <div id="nav-cta" class="hidden h-full items-center lg:flex">
     <a
-      href={`${diagnosticRoute.href}?ref=nav-cta`}
+      href="/contact?ref=nav-cta"
       class="flex h-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-sm font-medium leading-none text-background shadow-md transition-colors hover:bg-foreground/90"
     >
-      Diagnostico gratis
+      Hablemos
       <svg
         class="size-4"
         fill="none"
@@ -127,11 +127,11 @@ const pathname = Astro.url.pathname;
       })
     }
     <a
-      href={`${diagnosticRoute.href}?ref=mobile-nav-cta`}
+      href="/contact?ref=mobile-nav-cta"
       class="mobile-menu-link translate-y-6 opacity-0"
       style={`transition: opacity 300ms ${80 + mobileNavItems.length * 60}ms, transform 300ms ${80 + mobileNavItems.length * 60}ms;`}
     >
-      <Button size="lg" withArrow> Diagnóstico gratis </Button>
+      <Button size="lg" withArrow> Hablemos </Button>
     </a>
   </nav>
 </header>

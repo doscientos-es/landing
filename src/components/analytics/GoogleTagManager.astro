@@ -1,0 +1,40 @@
+---
+/** Google Ads container. It is loaded only for paid Google traffic and after
+ * marketing consent, so organic visitors do not activate the Ads container. */
+---
+
+<script is:inline>
+  (function () {
+    var params = new URLSearchParams(window.location.search);
+    var googleAdsVisit = Boolean(
+      params.get('gclid') ||
+      params.get('gbraid') ||
+      params.get('wbraid') ||
+      (params.get('utm_source') || '').toLowerCase() === 'google',
+    );
+    if (!googleAdsVisit) return;
+
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+
+    function loadGtm() {
+      if (document.getElementById('google-tag-manager')) return;
+      var script = document.createElement('script');
+      script.id = 'google-tag-manager';
+      script.async = true;
+      script.src = 'https://www.googletagmanager.com/gtm.js?id=GTM-K9P9PXPR';
+      document.head.appendChild(script);
+    }
+
+    function waitForConsent() {
+      var consent = window.__DOS_CONSENT;
+      if (consent && consent.marketing === true) {
+        loadGtm();
+        return;
+      }
+      window.setTimeout(waitForConsent, 250);
+    }
+
+    waitForConsent();
+  })();
+</script>

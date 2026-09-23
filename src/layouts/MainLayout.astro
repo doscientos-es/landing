@@ -5,6 +5,7 @@ import Footer from "../components/Layout/footer.astro";
 import Navbar from "../components/Layout/navbar.astro";
 import AttributionScript from "../components/analytics/AttributionScript.astro";
 import GoogleAnalytics from "../components/analytics/GoogleAnalytics.astro";
+import GoogleTagManager from "../components/analytics/GoogleTagManager.astro";
 import MetaPixel from "../components/analytics/MetaPixel.astro";
 import MicrosoftClarity from "../components/analytics/MicrosoftClarity.astro";
 import ConsentScript from "../components/consent/ConsentScript.astro";
@@ -100,6 +101,7 @@ const {
       faqs={faqs}
     />
     <GoogleAnalytics />
+    <GoogleTagManager />
     <AttributionScript />
     <MicrosoftClarity />
     <MetaPixel />

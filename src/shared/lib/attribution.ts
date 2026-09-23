@@ -13,6 +13,7 @@ type Touch = {
   utm_campaign: string
   utm_term: string
   utm_content: string
+  gclid: string
   fbclid: string
   captured_at: string
 }
@@ -35,6 +36,8 @@ export type AttributionPayload = {
   last_utm_campaign: string
   last_utm_term: string
   last_utm_content: string
+  first_gclid: string
+  last_gclid: string
   internal_traffic: boolean
 }
 
@@ -75,6 +78,7 @@ function currentTouch(): Touch {
     utm_campaign: p.get('utm_campaign') || '',
     utm_term: p.get('utm_term') || '',
     utm_content: p.get('utm_content') || '',
+    gclid: p.get('gclid') || '',
     fbclid: p.get('fbclid') || '',
     captured_at: new Date().toISOString(),
   }
@@ -159,6 +163,8 @@ export function buildAttributionPayload(
     last_utm_campaign: last.utm_campaign,
     last_utm_term: last.utm_term,
     last_utm_content: last.utm_content,
+    first_gclid: first.gclid,
+    last_gclid: last.gclid,
     internal_traffic: isInternalTraffic(),
   }
 }
