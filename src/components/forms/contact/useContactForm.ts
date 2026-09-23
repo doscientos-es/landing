@@ -359,6 +359,10 @@ export function useContactForm() {
           { eventID: attribution.event_id },
         )
       }
+
+      // The thank-you URL is the stable conversion signal for Google Tag
+      // Manager. It is only reached after the API has confirmed the lead.
+      window.location.assign('/contact/gracias')
     } catch (err) {
       setStatus('error')
       setErrorMessage('Error de conexión. Verifica tu internet.')

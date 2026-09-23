@@ -1,0 +1,25 @@
+---
+import MainLayout from "~/layouts/MainLayout.astro";
+import SectionHeader from "~/components/ui/SectionHeader.astro";
+---
+
+<MainLayout
+  title="Gracias por contactar | doscientos"
+  description="Hemos recibido tus datos y nos pondremos en contacto contigo pronto."
+>
+  <section class="mx-auto flex min-h-[70vh] w-full max-w-3xl items-center px-6 py-32">
+    <div class="w-full space-y-8 text-center" data-reveal="bottom">
+      <SectionHeader
+        title="Gracias por escribirnos"
+        description="Hemos recibido tu formulario. Nos pondremos en contacto contigo lo antes posible."
+        align="center"
+      />
+      <a
+        href="/"
+        class="bg-primary text-background inline-flex rounded-full px-6 py-3 font-semibold transition-opacity hover:opacity-90"
+      >
+        Volver al inicio
+      </a>
+    </div>
+  </section>
+</MainLayout>
