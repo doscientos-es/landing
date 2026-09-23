@@ -1,4 +1,3 @@
-import confetti from 'canvas-confetti'
 import { useEffect, useRef, useState } from 'react'
 
 import { buildAttributionPayload, getMetaAttribution, trackEvent } from '~/shared/lib/attribution'
@@ -334,7 +333,6 @@ export function useContactForm() {
       } catch {
         // localStorage no disponible
       }
-      confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } })
       if ('gtag' in window) {
         // @ts-ignore
         window.gtag('event', 'generate_lead', {
@@ -373,12 +371,11 @@ export function useContactForm() {
       // get a proper confirmation without entering that conversion goal.
       const paidGoogleVisit = Boolean(
         attribution.first_gclid ||
-          attribution.last_gclid ||
-          ((attribution.first_utm_source || attribution.last_utm_source).toLowerCase() ===
-            'google' &&
-            ['cpc', 'ppc', 'paid', 'paidsearch'].includes(
-              (attribution.first_utm_medium || attribution.last_utm_medium).toLowerCase(),
-            )),
+        attribution.last_gclid ||
+        ((attribution.first_utm_source || attribution.last_utm_source).toLowerCase() === 'google' &&
+          ['cpc', 'ppc', 'paid', 'paidsearch'].includes(
+            (attribution.first_utm_medium || attribution.last_utm_medium).toLowerCase(),
+          )),
       )
       window.location.assign(
         paidGoogleVisit

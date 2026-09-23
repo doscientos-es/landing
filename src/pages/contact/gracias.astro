@@ -11,7 +11,7 @@ import SectionHeader from "~/components/ui/SectionHeader.astro";
     <div class="w-full space-y-8 text-center" data-reveal="bottom">
       <SectionHeader
         title="Gracias por escribirnos"
-        description="Hemos recibido tu formulario. Nos pondremos en contacto contigo lo antes posible."
+        description="Hemos recibido tu formulario y nos pondremos en contacto contigo lo antes posible. Te hemos enviado un email de confirmación desde hola@doscientos.es; si no lo ves en unos minutos, revisa la carpeta de spam o promociones."
         align="center"
       />
       <a
@@ -23,3 +23,9 @@ import SectionHeader from "~/components/ui/SectionHeader.astro";
     </div>
   </section>
 </MainLayout>
+
+<script>
+  import confetti from "canvas-confetti";
+
+  confetti({ particleCount: 120, spread: 75, origin: { y: 0.6 } });
+</script>
