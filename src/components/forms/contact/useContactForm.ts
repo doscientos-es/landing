@@ -68,10 +68,14 @@ export function useContactForm() {
       const saved = window.sessionStorage.getItem(STORAGE_KEY)
       if (!saved) return EMPTY_FORM
       const parsed = JSON.parse(saved) as Partial<ContactValues>
-      // Do not persist name, email, phone or free-text company data in the
-      // browser. Only restore the low-sensitivity selector choices.
+      // Restore the complete in-progress form so the visitor can resume it
+      // after navigating away and coming back during the same session.
       return {
         ...EMPTY_FORM,
+        name: parsed.name ?? '',
+        email: parsed.email ?? '',
+        phone: parsed.phone ?? '',
+        company: parsed.company ?? '',
         solutionType: parsed.solutionType ?? '',
         companySize: parsed.companySize ?? '',
         urgency: parsed.urgency ?? '',
@@ -122,6 +126,10 @@ export function useContactForm() {
       window.sessionStorage.setItem(
         STORAGE_KEY,
         JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          company: formData.company,
           solutionType: formData.solutionType,
           companySize: formData.companySize,
           urgency: formData.urgency,
@@ -360,9 +368,9 @@ export function useContactForm() {
         )
       }
 
-      // The thank-you URL is reserved for confirmed Google Ads leads. Other
-      // sources keep the existing in-page calendar flow and must not trigger
-      // the URL-based Google Ads conversion.
+      // All confirmed leads see the same thank-you page. The query parameter
+      // lets GTM count only Google Ads conversions, while other sources still
+      // get a proper confirmation without entering that conversion goal.
       const paidGoogleVisit = Boolean(
         attribution.first_gclid ||
           attribution.last_gclid ||
@@ -372,7 +380,11 @@ export function useContactForm() {
               (attribution.first_utm_medium || attribution.last_utm_medium).toLowerCase(),
             )),
       )
-      if (paidGoogleVisit) window.location.assign('/contact/gracias')
+      window.location.assign(
+        paidGoogleVisit
+          ? '/contact/gracias?conversion=google_ads'
+          : '/contact/gracias?conversion=lead',
+      )
     } catch (err) {
       setStatus('error')
       setErrorMessage('Error de conexión. Verifica tu internet.')
