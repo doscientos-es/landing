@@ -9,7 +9,7 @@ const integration = 'changelog-markdown-json-astro-nextjs'
 
 test('código abierto describe el estado real y enlaza a las dos guías', () => {
   const html = readPage('open-source')
-  assert.match(html, /product-changelog/)
+  assert.match(html, /<strong[^>]*>changelog<\/strong>/)
   assert.match(html, /EN PREPARACIÓN/)
   assert.match(html, /Todavía no está publicada como paquete npm/)
   assert.match(html, /<link rel="canonical" href="https:\/\/doscientos\.es\/open-source/)
