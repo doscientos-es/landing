@@ -1,0 +1,70 @@
+---
+title: 'Cómo automatizar un changelog con Git y evitar cambios duplicados'
+description: 'Un método práctico para generar notas de producto a partir de commits y PRs sin sobrescribir entradas ni confundir código integrado con cambios publicados.'
+publishDate: '2026-09-24'
+tags: ['arquitectura de software', 'calidad de software', 'IA aplicada', 'producto digital']
+resourceType: 'guia'
+buyerStage: 'awareness'
+author: 'doscientos'
+draft: false
+faqs:
+  - question: '¿Cómo sabe una herramienta qué commits ya están en el changelog?'
+    answer: 'Guarda el SHA del último commit revisado y calcula el intervalo hasta HEAD. Antes de escribir comprueba que el cursor siga siendo ancestro de HEAD.'
+  - question: '¿Un changelog generado desde Git demuestra que algo está publicado?'
+    answer: 'No. Un commit integrado no demuestra que se haya desplegado. El equipo debe contrastar el estado de producción antes de presentarlo como una novedad publicada.'
+  - question: '¿Puede la IA redactar las novedades sin revisión?'
+    answer: 'Puede proponer un resumen comprensible tras revisar cambios y PRs disponibles, pero una persona debe validar el impacto, el público y la ausencia de datos sensibles.'
+---
+
+Un historial de commits explica qué cambió en el código. Una persona que usa el producto necesita otra respuesta: **qué puede hacer ahora y por qué le importa**. Traducir una cosa en la otra a mano funciona al principio; cuando conviven varias aplicaciones y equipos, es fácil repetir una mejora, omitir un cambio o atribuirle una fecha equivocada.
+
+En Doscientos hemos diseñado un flujo para actualizar el changelog desde una conversación con un agente sin cederle el control del historial. Hemos preparado la skill `product-changelog` y su utilidad de Git para nuestros proyectos internos; **su publicación como herramienta instalable está en preparación**. Aquí explicamos el método y las decisiones que lo hacen revisable.
+
+## El problema de pedir «resume los últimos commits»
+
+«Últimos» depende de quién pregunte y cuándo. Si el agente elige una fecha aproximada, puede volver a incluir un cambio ya comunicado o perder commits antiguos que entraron más tarde por otra rama. Y un mensaje como «refactor de formulario» no dice si una persona notará algo distinto.
+
+También hay una diferencia importante entre tres estados:
+
+1. El cambio está en un commit.
+2. El cambio se ha integrado en la rama que revisamos.
+3. El cambio está desplegado y disponible para las personas usuarias.
+
+Git puede ayudar con los dos primeros. **El tercero requiere comprobar el despliegue**. No deberíamos escribir «ya está disponible» solo porque el código aparece en `HEAD`.
+
+## Un cursor Git, no una fecha adivinada
+
+Nuestro `CHANGELOG.md` guarda el SHA completo del último commit revisado en un comentario. Al preparar una actualización, el script compara ese cursor con `HEAD` y lista los commits pendientes del intervalo. Si el cursor ya no es ancestro de `HEAD` —por ejemplo, tras reescribir la historia—, se detiene para que una persona revise qué ocurrió.
+
+La primera adopción exige elegir explícitamente un commit base. No significa que todo el historial anterior quede documentado: solo define desde dónde empieza la revisión. A partir de ahí, cada entrada nueva se **añade delante de las anteriores**, sin reescribirlas. Si no hay cambios pendientes, no se inventa una publicación.
+
+El cursor registra lo _revisado_, no lo _desplegado_. Son comprobaciones distintas y conviene mantenerlas separadas.
+
+## Qué hace la herramienta y qué hace el equipo
+
+El flujo tiene cuatro pasos:
+
+1. **Planificar:** consultar el intervalo exacto de commits pendientes y verificar el estado del repositorio.
+2. **Investigar:** contrastar commits, archivos afectados y PRs fusionados si hay acceso. Un commit aislado puede no contar toda la historia.
+3. **Redactar y revisar:** agrupar únicamente cambios relevantes para el público de ese producto, en lenguaje claro y sin detalles sensibles.
+4. **Añadir y sincronizar:** validar la entrada, mover el cursor al commit revisado y generar un JSON para la interfaz. Antes de integrar, revisar el diff y ejecutar pruebas.
+
+La IA ayuda sobre todo en el tercer paso: convierte evidencia técnica en un borrador editorial. El script no «escribe con IA» por su cuenta. Comprueba el formato, el intervalo Git y que el borrador siga correspondiendo al `HEAD` esperado. Si falta información para afirmar el impacto de un cambio, se pregunta en lugar de rellenar huecos.
+
+## Cinco casos que conviene tratar explícitamente
+
+- **Solo hay tareas internas:** no convertir mantenimiento invisible en una funcionalidad ficticia ni avanzar el cursor sin revisar cómo se quiere registrar ese intervalo.
+- **El historial ha cambiado:** volver a planificar, nunca forzar un marcador viejo.
+- **Otro proceso está editando el changelog:** bloquear una escritura concurrente y revisar qué proceso dejó el bloqueo antes de intervenir.
+- **Un PR o su contexto no están disponibles:** usar la evidencia de Git y reconocer esa limitación.
+- **El cambio aún no está desplegado:** no anunciarlo como disponible en una página pública.
+
+Esta distinción importa especialmente cuando hay productos para clientes: una nota puede ser técnicamente correcta y, aun así, revelar información privada o anunciar algo antes de tiempo.
+
+## Del registro editorial a la página de novedades
+
+El Markdown es cómodo para revisar en un PR y el JSON es cómodo para que una web presente cada versión con su propio diseño. En vez de pedir a cada frontend que interprete Markdown en producción, generamos el JSON a partir del archivo revisado y comprobamos que no se haya quedado obsoleto antes del build.
+
+En nuestra landing puedes ver el resultado en [Novedades](/changelog). Si te interesa el contrato entre el archivo y la interfaz, explicamos los detalles en [cómo convertir un changelog Markdown en JSON para Astro y Next.js](/recursos/changelog-markdown-json-astro-nextjs). La herramienta aparece como **en preparación** junto a nuestras [bases técnicas abiertas](/open-source); no hay aún un enlace de instalación público para esta skill.
+
+La idea no es que una IA «publique por nosotros». Es reducir trabajo mecánico sin renunciar a una decisión humana: **qué se ha entregado realmente y qué conviene contar**.

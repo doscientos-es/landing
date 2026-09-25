@@ -4,8 +4,8 @@ import { defineConfig } from 'vitest/config'
 
 export default defineConfig({
   test: {
-    // Tests de unidad (sin build): excluye el smoke test que requiere `dist/`
-    exclude: ['**/node_modules/**', 'src/tests/**'],
+    // Los smoke tests de scripts usan node:test y se ejecutan tras la build.
+    exclude: ['**/node_modules/**', 'src/tests/**', 'scripts/**/*.test.mjs'],
     environment: 'node',
   },
   resolve: {

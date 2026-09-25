@@ -3,6 +3,7 @@
 import type { APIRoute } from 'astro'
 import { getCollection } from 'astro:content'
 
+import changelog from '~/data/changelog.json'
 import { commercialRoutes } from '~/data/commercialRoutes'
 import { packs } from '~/data/packs'
 import { getResourceCategories, resourceCategories } from '~/shared/lib/resourceCategories'
@@ -159,6 +160,19 @@ export const GET: APIRoute = async ({ site }) => {
       url: 'marca',
       source: 'src/pages/marca.astro',
       priority: '0.6',
+      changefreq: 'monthly',
+    },
+    {
+      url: 'changelog',
+      source: 'src/pages/changelog.astro',
+      priority: '0.5',
+      changefreq: 'monthly',
+      lastmod: changelog.releases[0]?.date,
+    },
+    {
+      url: 'open-source',
+      source: 'src/pages/open-source.astro',
+      priority: '0.7',
       changefreq: 'monthly',
     },
     // Páginas SEO locales

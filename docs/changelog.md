@@ -1,0 +1,7 @@
+# Novedades de la landing
+
+`CHANGELOG.md` es la fuente de verdad. Su comentario invisible guarda el último SHA revisado. `src/data/changelog.json` es una proyección para Astro, no se edita manualmente. La ruta pública `/changelog` importa ese JSON en build y aparece en el footer.
+
+Desde **esta raíz Git**, pide en Augment «actualiza el changelog de la landing». La skill versionada en `.agents/skills/product-changelog` muestra los commits pendientes, pide contrastarlos con PRs cuando estén disponibles, redacta novedades sin datos sensibles y actualiza Markdown y JSON. Alternativamente: `node .agents/skills/product-changelog/bin/changelog.mjs plan`, después `add <SHA del plan> <AAAA-MM-DD> <título> <borrador.json>` y `pnpm changelog:sync`. Usa `pnpm changelog:check` para detectar un JSON obsoleto antes de publicar.
+
+La entrada inicial resume commits recientes hasta el SHA del comentario. **Integrado en Git no significa desplegado:** antes de describir una novedad como «publicada» hay que comprobar el despliegue de producción; ni el script ni el changelog prueban ese estado. El histórico anterior a la entrada inicial no está cubierto. `pnpm test` comprueba el enlace y los datos sin build; `pnpm changelog:smoke` comprueba la página y el sitemap después de `pnpm build` (también forma parte de `pnpm test:build`). Revisa siempre el diff, no avances el cursor si el historial cambió y no hagas commit/despliegue automático desde la skill.

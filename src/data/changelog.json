@@ -1,0 +1,24 @@
+{
+  "releases": [
+    {
+      "date": "2026-09-24",
+      "title": "Más claro contactar con doscientos",
+      "sections": [
+        {
+          "title": "Nuevas funciones",
+          "items": [
+            "Hemos añadido páginas para conocer nuestros servicios de CRM, software a medida y migración desde Excel y Access.",
+            "Tras enviar un contacto confirmado, aparece una página de agradecimiento con la confirmación."
+          ]
+        },
+        {
+          "title": "Mejoras",
+          "items": [
+            "Es más fácil encontrar cómo contactar con nosotros desde la página principal.",
+            "La portada presenta con mayor claridad la identidad de doscientos."
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+---
+title: 'De CHANGELOG.md a JSON: novedades de producto en Astro y Next.js'
+description: 'Cómo usar un changelog Markdown como fuente editorial y generar JSON para mostrar novedades en distintas aplicaciones sin duplicar contenido.'
+publishDate: '2026-09-24'
+tags: ['arquitectura de software', 'desarrollo web', 'producto digital', 'calidad de software']
+resourceType: 'guia'
+buyerStage: 'consideration'
+author: 'doscientos'
+draft: false
+faqs:
+  - question: '¿Por qué no leer CHANGELOG.md directamente desde el frontend?'
+    answer: 'Un JSON generado antes del build permite que cada aplicación presente las mismas entradas a su manera sin interpretar Markdown ni acceder a archivos del repositorio en producción.'
+  - question: '¿Dónde se edita una novedad: en Markdown o en JSON?'
+    answer: 'En el CHANGELOG.md. El JSON se genera a partir de él y se verifica antes de construir la aplicación para evitar dos fuentes de verdad.'
+  - question: '¿Hay que usar el mismo diseño en Astro y Next.js?'
+    answer: 'No. El contrato JSON solo define fechas, títulos, categorías e ítems. Cada aplicación decide cómo mostrar sus novedades.'
+---
+
+Un changelog suele empezar como un archivo Markdown y acabar copiado en una página web. Si alguien actualiza uno y olvida el otro, la página queda desfasada. Si cada aplicación interpreta el archivo a su manera, pronto aparecen diferencias en fechas, títulos y categorías.
+
+Para una landing en Astro y un backoffice en Next.js elegimos otra división: **un archivo editorial revisable y un dato generado para la interfaz**. No es una API nueva ni una base de datos para algo que puede vivir en Git.
+
+## Una sola fuente de verdad: CHANGELOG.md
+
+Cada producto mantiene su propio `CHANGELOG.md` en la raíz de su repositorio. Una entrada tiene fecha, título y secciones como «Nuevas funciones», «Mejoras» y «Correcciones»; las novedades son frases de texto plano orientadas a las personas que usan ese producto.
+
+El archivo contiene también un comentario con el SHA del último commit revisado. Ese cursor permite calcular qué falta por analizar en la siguiente actualización. Es metadato del proceso editorial: no se muestra en la página y **no prueba que esa versión esté desplegada**.
+
+El formato es deliberadamente limitado. No hace falta soportar todas las variantes de Markdown para una lista de novedades; validar una estructura pequeña evita que un cambio de estilo se convierta en una interpretación distinta en cada frontend.
+
+## El JSON es una proyección, no un segundo documento
+
+Un script lee y valida el Markdown y produce una estructura con una lista `releases`. Cada entrada incluye `date`, `title` y `sections`; cada sección contiene `title` e `items`. No se edita el JSON a mano: si hay que corregir una frase, se corrige en Markdown y se vuelve a generar.
+
+Esto permite separar tres responsabilidades:
+
+- **Equipo editorial:** decide qué cambios comunicar y revisa el texto en el diff de Git.
+- **Script:** valida el contrato y genera datos reproducibles; un modo de comprobación falla si el JSON está desactualizado.
+- **Frontend:** importa los datos y decide cómo presentarlos, sin tener que leer archivos Markdown en producción.
+
+El control antes del build importa: si se modifica el Markdown pero se olvida generar de nuevo el JSON, la compilación debe avisar en vez de mostrar información anterior.
+
+## Dos interfaces, un mismo contrato
+
+En la landing de Doscientos, Astro importa el JSON al construir [/changelog](/changelog). La página presenta las novedades públicamente, con su propia maquetación y un enlace desde el footer. El sitemap incluye esa ruta.
+
+En el backoffice, Next.js puede importar su **propio** JSON y mostrar novedades dentro de Ajustes, bajo la autenticación de esa aplicación. No comparte el contenido de la landing: comparte el formato. Así evitamos mezclar información interna de un producto con notas públicas de otro.
+
+El patrón se puede repetir en otros proyectos sin imponer los mismos componentes o colores. El repositorio y el público determinan el contenido; el contrato JSON resuelve únicamente cómo llega a la interfaz.
+
+## ¿Por qué no usar una API, una tabla o un parser en el navegador?
+
+Son opciones válidas cuando las novedades se editan desde un panel, necesitan permisos por entrada o deben actualizarse sin desplegar. Si el equipo ya revisa cambios en Git y la web se construye a partir del repositorio, añaden piezas que quizá no hacen falta.
+
+Generar JSON antes del build tiene límites: **la página no cambia hasta que se vuelva a construir y desplegar**. Tampoco verifica por sí mismo el estado real del despliegue. Precisamente por eso el flujo incluye revisión humana antes de presentar un cambio como disponible.
+
+Si lo que quieres resolver primero es qué commits entran en cada actualización, consulta [cómo automatizar un changelog con Git sin duplicar cambios](/recursos/automatizar-changelog-git-sin-duplicados). El proyecto `product-changelog` que usamos para este flujo figura **en preparación para su publicación** en nuestra página de [código abierto](/open-source); no lo presentamos todavía como paquete instalable desde npm.
+
+El resultado es sencillo de mantener: **se escribe una vez, se valida una vez y cada producto lo muestra a su manera**.
