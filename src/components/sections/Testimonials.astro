@@ -1,48 +1,61 @@
 ---
 import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
 import { Check, Star } from "@lucide/astro";
 import SectionHeader from "../ui/SectionHeader.astro";
 
 import carlosImg from "~/assets/media/testimonials/carlos-ruiz.webp";
 import michaelImg from "~/assets/media/testimonials/michael-schmidt.webp";
 import sofiaImg from "~/assets/media/testimonials/sofia-martinez.webp";
+import cyberimpulsaLogo from "~/assets/media/projects/cyberimpulsa/logo.svg";
+import salvadisLogo from "~/assets/media/projects/salvadis/logo.webp";
 
-const testimonials = [
+type Testimonial = {
+  quote: string;
+  author: string;
+  role: string;
+  company?: string;
+  project: string;
+  rating?: number;
+  metrics: string;
+  highlight: string;
+  image?: ImageMetadata;
+  imageIsLogo?: boolean;
+};
+
+const testimonials: Testimonial[] = [
   {
     quote:
-      "No solo programan - entienden de producto. Nos ayudaron a priorizar lo que importaba y en 6 semanas teníamos 500+ usuarios y €50K en funding.",
-    author: "Sofia Martínez",
-    role: "CEO",
-    company: "Exchange Student",
-    project: "Flatmatch",
+      "Muy buena experiencia con Doscientos. Profesionalidad, cercanía y muy buena atención desde el primer momento. Nos ayudaron con la puesta en marcha de la web y con diferentes cuestiones técnicas, siempre de forma rápida y profesional. Muy satisfechos con el trato y el servicio. Totalmente recomendable.",
+    author: "Salvadis",
+    role: "Reseña de Google",
+    project: "Web corporativa y soporte técnico",
     rating: 5,
-    metrics: "500+ usuarios · €50K funding · ROI 300%",
-    highlight: "De 0 a 500+ usuarios en 3 meses",
-    image: sofiaImg,
+    metrics: "Puesta en marcha web · Soporte técnico",
+    highlight: "Atención rápida y profesional",
+    image: salvadisLogo,
+    imageIsLogo: true,
   },
   {
     quote:
-      "Nadie se atrevía a tocar nuestro sistema de 15 años. doscientos lo migró sin parar el negocio ni un minuto. Cero downtime, +40% de rendimiento.",
-    author: "Michael Schmidt",
-    role: "CTO",
-    company: "IFCO Systems",
-    project: "IFCO Recollections",
+      "Trabajar con Doscientos ha sido una muy buena decisión. Necesitábamos una página web que transmitiera profesionalidad nada más entrar y eso mismo es lo que han conseguido. Una empresa seria y muy buenos profesionales, gracias!",
+    author: "Cyberimpulsa",
+    role: "Reseña de Google",
+    project: "Landing web",
     rating: 5,
-    metrics: "0 downtime · +40% rendimiento · €30K/año ahorrados",
-    highlight: "Migración crítica sin interrupciones",
-    image: michaelImg,
+    metrics: "Página web · Imagen profesional",
+    highlight: "Una web que transmite profesionalidad",
+    image: cyberimpulsaLogo,
+    imageIsLogo: true,
   },
   {
     quote:
-      "De 3 horas a 15 minutos. El sistema se pagó solo en 2 meses. Y cuando tenemos dudas, responden en el día.",
-    author: "Carlos Ruiz",
-    role: "Director técnico",
-    company: "Bitácora",
-    project: "Bitácora ERP",
-    rating: 5,
-    metrics: "€15K/mes ahorrados · ROI en 2 meses · -90% tiempo",
-    highlight: "Automatización con ROI del 600%",
-    image: carlosImg,
+      "Ràpids, clars i molt professionals. M'han ajudat a prioritzar bé i a no complicar el projecte innecessàriament. Han fet el disseny, m'han acompanyat en el proces i el producte m'ha encantat!",
+    author: "Natura Studio",
+    role: "Ressenya de Google",
+    project: "Disseny web",
+    metrics: "Disseny · Priorització · Acompanyament",
+    highlight: "Un procés clar i sense complicacions",
   },
 ];
 ---
@@ -55,7 +68,7 @@ const testimonials = [
   />
 
   <div
-    class="grid md:grid-cols-3 gap-4 max-w-6xl mx-auto w-full"
+    class="grid md:grid-cols-2 xl:grid-cols-3 gap-4 max-w-6xl mx-auto w-full"
     data-stagger="100"
   >
     {
@@ -73,15 +86,18 @@ const testimonials = [
             data-easing="soft"
           >
             {/* Rating */}
-            <div class="flex gap-0">
-              {Array.from({ length: testimonial.rating }).map(() => (
-                <Star
-                  class="size-5 text-yellow-400"
-                  fill="currentColor"
-                  stroke="currentColor"
-                />
-              ))}
-            </div>
+            {testimonial.rating && (
+              <div class="flex gap-0" aria-hidden="true">
+                {Array.from({ length: testimonial.rating }).map(() => (
+                  <Star
+                    class="size-5 text-yellow-400"
+                    fill="currentColor"
+                    stroke="currentColor"
+                    aria-hidden="true"
+                  />
+                ))}
+              </div>
+            )}
 
             {/* Highlight badge */}
             <div
@@ -121,13 +137,22 @@ const testimonials = [
             <div
               class={`flex items-start gap-3 pt-2 border-t ${isFeatured ? "border-background/20" : "border-muted"}`}
             >
-              <Image
-                src={testimonial.image}
-                alt={testimonial.author}
-                width={40}
-                height={40}
-                class="size-10 rounded-full object-cover object-top mt-2 shrink-0"
-              />
+              {testimonial.image ? (
+                <Image
+                  src={testimonial.image}
+                  alt={testimonial.author}
+                  width={40}
+                  height={40}
+                  class={`size-10 rounded-full mt-2 shrink-0 ${testimonial.imageIsLogo ? "object-contain bg-white p-1" : "object-cover object-top"}`}
+                />
+              ) : (
+                <div
+                  aria-hidden="true"
+                  class="size-10 rounded-full mt-2 shrink-0 flex items-center justify-center bg-primary/10 text-primary font-semibold"
+                >
+                  {testimonial.author.slice(0, 1)}
+                </div>
+              )}
               <div class="mt-2">
                 <p
                   class={`font-semibold ${isFeatured ? "text-background" : "text-foreground"}`}
@@ -137,7 +162,8 @@ const testimonials = [
                 <p
                   class={`text-xs ${isFeatured ? "text-background/60" : "text-muted-foreground"}`}
                 >
-                  {testimonial.role}, {testimonial.company}
+                  {testimonial.role}
+                  {testimonial.company ? `, ${testimonial.company}` : ""}
                 </p>
                 <p
                   class={`text-xs mt-1 ${isFeatured ? "text-background/60" : "text-muted-foreground"}`}
@@ -175,5 +201,3 @@ const testimonials = [
     </div>
   </div>
 </section>
-
-
