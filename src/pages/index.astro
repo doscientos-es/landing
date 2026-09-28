@@ -18,41 +18,12 @@ import Services from "~/components/sections/Services.astro";
 import Testimonials from "~/components/sections/Testimonials.astro";
 import ProjectsBadge from "~/components/ui/ProjectsBadge.astro";
 
-const title =
-  "Software a Medida y Automatización de Procesos para PYMEs | doscientos";
+const title = "Software a medida y automatización para pymes | doscientos";
 const description =
-  "Desarrollamos CRMs, ERPs y automatizaciones a medida para PYMEs. Base en Premià de Mar, cobertura Barcelona-Maresme, precio fijo y entrega en 6 semanas.";
-
-const faqs = [
-  {
-    question: "¿Cuánto cuesta desarrollar un backoffice o ERP a medida?",
-    answer:
-      "Trabajamos siempre a precio fijo acordado antes de empezar. El coste varía según el alcance, pero el precio no cambia una vez firmado. Sin sorpresas ni presupuestos variables.",
-  },
-  {
-    question: "¿En cuánto tiempo estará en producción mi proyecto?",
-    answer:
-      "El plazo habitual es de 4 a 6 semanas desde el inicio. Hacemos una demo semanal para que veas el progreso en tiempo real.",
-  },
-  {
-    question: "¿Quién se queda con el código al terminar?",
-    answer:
-      "El código es 100% tuyo desde el primer commit. Sin lock-in, sin licencias de uso, sin dependencia de nuestra plataforma.",
-  },
-  {
-    question: "¿Trabajáis en Barcelona y el Maresme?",
-    answer:
-      "Sí. Tenemos base en Premià de Mar y combinamos reuniones presenciales en el Maresme con trabajo remoto para empresas de Barcelona y toda España.",
-  },
-  {
-    question: "¿Qué ocurre si necesito cambios tras el lanzamiento?",
-    answer:
-      "Incluimos 30 días de soporte post-lanzamiento sin coste. Después ofrecemos mantenimiento y evolución del producto con condiciones acordadas.",
-  },
-];
+  "Creamos software a medida, CRM, ERP y automatizaciones para pymes de Barcelona y el Maresme. Base en Premià de Mar, precio cerrado y entrega en 6 semanas.";
 ---
 
-<MainLayout title={title} description={description} faqs={faqs}>
+<MainLayout title={title} description={description}>
   <div class="home-top-surface">
     <!-- Block-level wrapper so ScrollTrigger's pin-spacer lives in normal flow.
          Pinning a direct flex child of <main> collapses pin-spacing to 0. -->

@@ -75,7 +75,7 @@ const {
   <head>
     {publishedBrandStyle && <style is:inline>:root { {publishedBrandStyle} }</style>}
     <ConsentScript />
-    <BaseHead title={title} description={description} image={image} />
+    <BaseHead title={title} description={description} />
     <SEOHead robots={robots} />
     <OpenGraph
       title={title}
@@ -86,6 +86,9 @@ const {
     />
     <SchemaOrg
       type={type}
+      title={title}
+      description={description}
+      image={image}
       article={article
         ? {
             title,

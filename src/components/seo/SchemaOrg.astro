@@ -1,18 +1,67 @@
 ---
-import type { BlogPosting, CreativeWork, FAQPage, Organization, ProfessionalService, Service, WebPage, WebSite, WithContext } from "schema-dts";
+import type {
+  BlogPosting,
+  CreativeWork,
+  FAQPage,
+  Organization,
+  ProfessionalService,
+  Service,
+  WebPage,
+  WebSite,
+  WithContext,
+} from "schema-dts";
 import { branding } from "~/config/branding";
 import { company } from "~/config/company";
-import { absoluteUrl, serializeJsonLd, type JsonLdSchema } from "~/shared/lib/schema/jsonLd";
+import {
+  absoluteUrl,
+  serializeJsonLd,
+  type JsonLdSchema,
+} from "~/shared/lib/schema/jsonLd";
 
 interface Props {
   type?: "organization" | "website" | "article" | "service" | "project";
-  article?: { title?: string; description?: string; image?: string; datePublished?: string; dateModified?: string; author?: string };
-  service?: { name: string; description: string; image?: string; url?: string; serviceType?: string; price?: number; priceCurrency?: string };
-  project?: { name: string; description: string; image?: string; client?: string; datePublished?: string; url?: string; services?: string[] };
+  title?: string;
+  description?: string;
+  image?: string;
+  article?: {
+    title?: string;
+    description?: string;
+    image?: string;
+    datePublished?: string;
+    dateModified?: string;
+    author?: string;
+  };
+  service?: {
+    name: string;
+    description: string;
+    image?: string;
+    url?: string;
+    serviceType?: string;
+    price?: number;
+    priceCurrency?: string;
+  };
+  project?: {
+    name: string;
+    description: string;
+    image?: string;
+    client?: string;
+    datePublished?: string;
+    url?: string;
+    services?: string[];
+  };
   faqs?: { question: string; answer: string }[];
 }
 
-const { type = "organization", article, service, project, faqs } = Astro.props;
+const {
+  type = "organization",
+  title,
+  description,
+  image,
+  article,
+  service,
+  project,
+  faqs,
+} = Astro.props;
 const base = new URL(Astro.site?.toString() ?? branding.url);
 const baseUrl = base.toString().replace(/\/$/, "");
 const organizationId = `${baseUrl}/#organization`;
@@ -63,13 +112,20 @@ const professionalServiceSchema = {
   url: baseUrl,
   provider: { "@id": organizationId },
   address,
-  geo: { "@type": "GeoCoordinates", latitude: company.geo.latitude, longitude: company.geo.longitude },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: company.geo.latitude,
+    longitude: company.geo.longitude,
+  },
   hasMap: "https://www.google.com/maps/search/?api=1&query=Premi%C3%A0+de+Mar",
-  areaServed: company.serviceAreas.map((name) => ({ "@type": name === "España" ? "Country" : "Place", name })),
-      contactPoint: company.contactPoints.map((point) => ({
-        "@type": "ContactPoint",
-        ...point,
-      })),
+  areaServed: company.serviceAreas.map((name) => ({
+    "@type": name === "España" ? "Country" : "Place",
+    name,
+  })),
+  contactPoint: company.contactPoints.map((point) => ({
+    "@type": "ContactPoint",
+    ...point,
+  })),
   openingHoursSpecification: company.openingHours.map((hours) => ({
     "@type": "OpeningHoursSpecification",
     ...hours,
@@ -86,24 +142,32 @@ const websiteSchema = {
   publisher: { "@id": organizationId },
 } satisfies WithContext<WebSite>;
 
-const schemas: JsonLdSchema[] = [organizationSchema, professionalServiceSchema as WithContext<ProfessionalService>];
+const schemas: JsonLdSchema[] = [
+  organizationSchema,
+  professionalServiceSchema as WithContext<ProfessionalService>,
+];
 schemas.push(websiteSchema);
 
-const pageImage = absoluteUrl(
-  project?.image || article?.image || undefined,
-  base,
-);
+const pageTitle = title || article?.title || project?.name || branding.name;
+const pageDescription =
+  description ||
+  article?.description ||
+  project?.description ||
+  branding.slogan;
+const pageImage = absoluteUrl(project?.image || article?.image || image, base);
 schemas.push({
   "@context": "https://schema.org",
   "@type": "WebPage",
   "@id": `${currentUrl}#webpage`,
   url: currentUrl,
-  name: article?.title || project?.name || branding.name,
-  description: article?.description || project?.description || branding.slogan,
+  name: pageTitle,
+  description: pageDescription,
   inLanguage: "es-ES",
   isPartOf: { "@id": websiteId },
   about: { "@id": organizationId },
-  ...(pageImage ? { primaryImageOfPage: { "@type": "ImageObject", url: pageImage } } : {}),
+  ...(pageImage
+    ? { primaryImageOfPage: { "@type": "ImageObject", url: pageImage } }
+    : {}),
 } satisfies WithContext<WebPage>);
 
 if (article) {
@@ -117,14 +181,19 @@ if (article) {
     datePublished: article.datePublished,
     dateModified: article.dateModified || article.datePublished,
     inLanguage: "es-ES",
-    author: article.author ? { "@type": "Person", name: article.author } : { "@id": organizationId },
+    author: article.author
+      ? { "@type": "Person", name: article.author }
+      : { "@id": organizationId },
     publisher: { "@id": organizationId },
     mainEntityOfPage: { "@id": currentUrl },
   } satisfies WithContext<BlogPosting>);
 }
 
 if (service) {
-  const serviceUrl = absoluteUrl(service.url || Astro.url.pathname, base) as string;
+  const serviceUrl = absoluteUrl(
+    service.url || Astro.url.pathname,
+    base,
+  ) as string;
   schemas.push({
     "@context": "https://schema.org",
     "@type": "Service",
@@ -136,7 +205,16 @@ if (service) {
     url: serviceUrl,
     provider: { "@id": organizationId },
     areaServed: { "@type": "Country", name: "España" },
-    ...(service.price !== undefined ? { offers: { "@type": "Offer", price: service.price, priceCurrency: service.priceCurrency || "EUR", url: serviceUrl } } : {}),
+    ...(service.price !== undefined
+      ? {
+          offers: {
+            "@type": "Offer",
+            price: service.price,
+            priceCurrency: service.priceCurrency || "EUR",
+            url: serviceUrl,
+          },
+        }
+      : {}),
   } satisfies WithContext<Service>);
 }
 
@@ -152,9 +230,15 @@ if (project) {
     url: absoluteUrl(project.url || Astro.url.pathname, base),
     inLanguage: "es-ES",
     creator: { "@id": organizationId },
-    mainEntityOfPage: { "@id": `${absoluteUrl(project.url || Astro.url.pathname, base)}#webpage` },
-    ...(project.client ? { funder: { "@type": "Organization", name: project.client } } : {}),
-    ...(project.services?.length ? { keywords: project.services.join(", ") } : {}),
+    mainEntityOfPage: {
+      "@id": `${absoluteUrl(project.url || Astro.url.pathname, base)}#webpage`,
+    },
+    ...(project.client
+      ? { funder: { "@type": "Organization", name: project.client } }
+      : {}),
+    ...(project.services?.length
+      ? { keywords: project.services.join(", ") }
+      : {}),
   } satisfies WithContext<CreativeWork>);
 }
 
@@ -162,9 +246,21 @@ if (faqs?.length) {
   schemas.push({
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: faqs.map((faq) => ({ "@type": "Question", name: faq.question, acceptedAnswer: { "@type": "Answer", text: faq.answer } })),
+    mainEntity: faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: { "@type": "Answer", text: faq.answer },
+    })),
   } satisfies WithContext<FAQPage>);
 }
 ---
 
-{schemas.map((schema) => <script is:inline type="application/ld+json" set:html={serializeJsonLd(schema)} />)}
+{
+  schemas.map((schema) => (
+    <script
+      is:inline
+      type="application/ld+json"
+      set:html={serializeJsonLd(schema)}
+    />
+  ))
+}

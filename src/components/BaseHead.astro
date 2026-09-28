@@ -13,7 +13,6 @@ import "@polgubau/astro-reveal/styles";
 interface Props {
   title?: string;
   description?: string;
-  image?: string;
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
@@ -21,11 +20,8 @@ const lang = getLangFromUrl(Astro.url);
 
 const metadata = getMetadata();
 
-const {
-  title = metadata.title,
-  description = metadata.description,
-  image = "/og-image.png",
-} = Astro.props;
+const { title = metadata.title, description = metadata.description } =
+  Astro.props;
 const googleSiteVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
 
 // Generate alternate language URL (single-locale site)
@@ -75,8 +71,6 @@ const alternateUrl = new URL(
   href={new URL("rss.xml", Astro.site)}
 />
 <meta name="generator" content={Astro.generator} />
-<meta property="og:image" content={new URL(image, Astro.site)} />
-<meta name="twitter:card" content="summary_large_image" />
 {
   googleSiteVerification && (
     <meta name="google-site-verification" content={googleSiteVerification} />

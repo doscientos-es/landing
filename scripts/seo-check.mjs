@@ -12,6 +12,10 @@ function assert(condition, message) {
 
 const schemaOrg = read('src/components/seo/SchemaOrg.astro')
 assert(
+  schemaOrg.includes('name: pageTitle') && schemaOrg.includes('description: pageDescription'),
+  'WebPage JSON-LD must use the current page title and description.',
+)
+assert(
   !schemaOrg.includes('aggregateRating'),
   'SchemaOrg must not emit aggregateRating without eligible review data.',
 )
@@ -22,6 +26,27 @@ assert(
 assert(
   !schemaOrg.includes('"@type": "Review"'),
   'SchemaOrg must not emit Review snippets for generic testimonials.',
+)
+
+const baseHead = read('src/components/BaseHead.astro')
+assert(
+  !baseHead.includes('property="og:image"') && !baseHead.includes('name="twitter:card"'),
+  'Open Graph and Twitter metadata must be emitted only once by OpenGraph.astro.',
+)
+
+const homePage = read('src/pages/index.astro')
+assert(
+  homePage.includes('Software a medida y automatización para pymes | doscientos'),
+  'Homepage title must describe the primary services and audience.',
+)
+assert(
+  homePage.includes('pymes de Barcelona y el Maresme') &&
+    homePage.includes('precio cerrado'),
+  'Homepage description must include the verified audience, service area, and offer.',
+)
+assert(
+  !homePage.includes('faqs={faqs}'),
+  'Homepage must not emit stale FAQ structured data separate from visible FAQ content.',
 )
 
 const commercialRoutes = read('src/data/commercialRoutes.ts')
