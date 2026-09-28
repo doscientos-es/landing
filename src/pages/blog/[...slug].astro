@@ -201,7 +201,25 @@ const ctaVariant: BlogCtaVariant =
 
 <script>
   import mediumZoom from "medium-zoom";
-  document.addEventListener("astro:page-load", () => {
-    mediumZoom(".prose img", { background: "rgba(12,17,11,0.6)", margin: 24 });
-  });
+
+  let blogZoom: ReturnType<typeof mediumZoom> | undefined;
+
+  const initBlogMedia = () => {
+    blogZoom?.detach();
+    blogZoom = undefined;
+    if (!window.location.pathname.startsWith("/blog/")) return;
+
+    blogZoom = mediumZoom(".prose img", {
+      background: "rgba(12,17,11,0.6)",
+      margin: 24,
+    });
+  };
+
+  document.addEventListener("astro:after-swap", initBlogMedia);
+  document.addEventListener("astro:page-load", initBlogMedia);
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initBlogMedia, { once: true });
+  } else {
+    initBlogMedia();
+  }
 </script>

@@ -1,13 +1,13 @@
-import { ArrowLeft, Check, ChevronRight, Loader2, Lock } from 'lucide-react'
+import { ArrowLeft, Check, ChevronRight, Loader2, Lock } from "lucide-react";
 
-import { BudgetPicker } from './contact/BudgetPicker'
-import { CalEmbed } from './contact/CalEmbed'
-import { Field } from './contact/Field'
-import { ProgressBar } from './contact/ProgressBar'
-import { COMPANY_SIZE_OPTIONS, SOLUTION_TYPE_OPTIONS, URGENCY_OPTIONS } from './contact/types'
-import { useContactForm } from './contact/useContactForm'
+import { BudgetPicker } from "./contact/BudgetPicker";
+import { CalEmbed } from "./contact/CalEmbed";
+import { Field } from "./contact/Field";
+import { ProgressBar } from "./contact/ProgressBar";
+import { COMPANY_SIZE_OPTIONS, SOLUTION_TYPE_OPTIONS, URGENCY_OPTIONS } from "./contact/types";
+import { useContactForm } from "./contact/useContactForm";
 
-const TOTAL_STEPS = 2
+const TOTAL_STEPS = 2;
 
 export default function ContactForm() {
   const {
@@ -25,13 +25,14 @@ export default function ContactForm() {
     handleFieldFocus,
     handleStep1KeyDown,
     selectBudget,
+    selectLanguage,
     selectCompanySize,
     selectSolutionType,
     selectUrgency,
     nextStep,
     prevStep,
     handleSubmit,
-  } = useContactForm()
+  } = useContactForm();
 
   if (step === 3) {
     return (
@@ -42,7 +43,7 @@ export default function ContactForm() {
         leadId={submittedLeadId}
         dedupeKey={dedupeKey}
       />
-    )
+    );
   }
 
   return (
@@ -65,8 +66,8 @@ export default function ContactForm() {
             key="step-1"
             className={`motion-safe:animate-in motion-safe:fade-in w-full motion-safe:duration-300 motion-safe:ease-out ${
               stepDirection === 1
-                ? 'motion-safe:slide-in-from-right-4'
-                : 'motion-safe:slide-in-from-left-4'
+                ? "motion-safe:slide-in-from-right-4"
+                : "motion-safe:slide-in-from-left-4"
             }`}
           >
             <div className="grid lg:grid-cols-2 lg:gap-6">
@@ -119,8 +120,8 @@ export default function ContactForm() {
             key="step-2"
             className={`motion-safe:animate-in motion-safe:fade-in space-y-4 motion-safe:duration-300 motion-safe:ease-out ${
               stepDirection === 1
-                ? 'motion-safe:slide-in-from-right-4'
-                : 'motion-safe:slide-in-from-left-4'
+                ? "motion-safe:slide-in-from-right-4"
+                : "motion-safe:slide-in-from-left-4"
             }`}
           >
             <Field
@@ -227,6 +228,24 @@ export default function ContactForm() {
               </select>
             </div>
 
+            <div className="space-y-1.5">
+              <label htmlFor="contactLanguage" className="text-foreground text-sm font-medium">
+                ¿En qué idioma prefieres que te contactemos?
+              </label>
+              <select
+                id="contactLanguage"
+                name="language"
+                value={formData.language}
+                onChange={(event) => selectLanguage(event.target.value)}
+                onFocus={handleFieldFocus}
+                className="border-muted-foreground/30 bg-background text-foreground focus:border-primary focus:ring-primary h-12 w-full rounded-xl border px-4 text-base transition-all focus:ring-1"
+              >
+                <option value="es">Español</option>
+                <option value="ca">Català</option>
+                <option value="en">English</option>
+              </select>
+            </div>
+
             <BudgetPicker value={formData.budget} onSelect={selectBudget} />
 
             <div className="flex gap-3 pt-2">
@@ -241,19 +260,19 @@ export default function ContactForm() {
               </button>
               <button
                 type="submit"
-                disabled={status === 'loading'}
-                aria-busy={status === 'loading'}
+                disabled={status === "loading"}
+                aria-busy={status === "loading"}
                 className="bg-primary text-background flex h-12 flex-1 items-center justify-center gap-2 rounded-full px-4 font-semibold whitespace-nowrap transition-all hover:opacity-90 disabled:opacity-50"
               >
-                {status === 'loading' ? (
+                {status === "loading" ? (
                   <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
                 ) : (
                   <Check className="h-4 w-4" aria-hidden="true" />
                 )}
-                {status === 'loading' ? 'Enviando...' : 'Confirmar y agendar'}
+                {status === "loading" ? "Enviando..." : "Confirmar y agendar"}
               </button>
             </div>
-            {status === 'error' && (
+            {status === "error" && (
               <p
                 role="alert"
                 className="flex items-center justify-center gap-1.5 rounded-lg bg-red-500/10 px-3 py-2 text-sm text-red-500"
@@ -270,5 +289,5 @@ export default function ContactForm() {
         )}
       </form>
     </div>
-  )
+  );
 }

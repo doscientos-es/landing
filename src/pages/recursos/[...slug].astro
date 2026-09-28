@@ -296,7 +296,27 @@ const ctaVariant: BlogCtaVariant =
 
 <script>
   import mediumZoom from "medium-zoom";
-  document.addEventListener("astro:page-load", () => {
-    mediumZoom(".prose img", { background: "rgba(12,17,11,0.6)", margin: 24 });
-  });
+
+  let resourceZoom: ReturnType<typeof mediumZoom> | undefined;
+
+  const initResourceMedia = () => {
+    resourceZoom?.detach();
+    resourceZoom = undefined;
+    if (!window.location.pathname.startsWith("/recursos/")) return;
+
+    resourceZoom = mediumZoom(".prose img", {
+      background: "rgba(12,17,11,0.6)",
+      margin: 24,
+    });
+  };
+
+  document.addEventListener("astro:after-swap", initResourceMedia);
+  document.addEventListener("astro:page-load", initResourceMedia);
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initResourceMedia, {
+      once: true,
+    });
+  } else {
+    initResourceMedia();
+  }
 </script>

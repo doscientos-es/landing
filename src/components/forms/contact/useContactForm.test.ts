@@ -6,9 +6,21 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import { isInternalTraffic } from '~/shared/lib/attribution'
 
 import { BUDGET_OPTIONS } from './types'
-import { useContactForm } from './useContactForm'
+import { preferredContactLanguage, useContactForm } from './useContactForm'
 
 vi.mock('canvas-confetti', () => ({ default: vi.fn() }))
+
+describe('preferredContactLanguage', () => {
+  it.each([
+    ['ca-ES', 'ca'],
+    ['en-US', 'en'],
+    ['es-ES', 'es'],
+    ['fr-FR', 'es'],
+    [null, 'es'],
+  ])('maps browser language %s to %s', (browserLanguage, expected) => {
+    expect(preferredContactLanguage(browserLanguage)).toBe(expected)
+  })
+})
 
 // --- Helpers ---
 

@@ -225,6 +225,9 @@ const timelineText =
     });
   };
 
+  // Attach as soon as the new DOM is in place so a quick click after
+  // client-side navigation cannot beat the later page-load event.
+  document.addEventListener("astro:after-swap", initProjectMedia);
   document.addEventListener("astro:page-load", initProjectMedia);
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", initProjectMedia, {
