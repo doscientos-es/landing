@@ -9,6 +9,7 @@ import michaelImg from "~/assets/media/testimonials/michael-schmidt.webp";
 import sofiaImg from "~/assets/media/testimonials/sofia-martinez.webp";
 import cyberimpulsaLogo from "~/assets/media/projects/cyberimpulsa/logo.svg";
 import salvadisLogo from "~/assets/media/projects/salvadis/logo.webp";
+import naturastudioImg from "~/assets/media/testimonials/naturastudio.webp";
 
 type Testimonial = {
   quote: string;
@@ -20,6 +21,7 @@ type Testimonial = {
   metrics: string;
   highlight: string;
   image?: ImageMetadata;
+  imageAlt?: string;
   imageIsLogo?: boolean;
 };
 
@@ -56,6 +58,8 @@ const testimonials: Testimonial[] = [
     project: "Disseny web",
     metrics: "Disseny · Priorització · Acompanyament",
     highlight: "Un procés clar i sense complicacions",
+    image: naturastudioImg,
+    imageAlt: "Retrat de la fotógrafa de Natura Studio",
   },
 ];
 ---
@@ -140,7 +144,7 @@ const testimonials: Testimonial[] = [
               {testimonial.image ? (
                 <Image
                   src={testimonial.image}
-                  alt={testimonial.author}
+                  alt={testimonial.imageAlt ?? testimonial.author}
                   width={40}
                   height={40}
                   class={`size-10 rounded-full mt-2 shrink-0 ${testimonial.imageIsLogo ? "object-contain bg-white p-1" : "object-cover object-top"}`}
