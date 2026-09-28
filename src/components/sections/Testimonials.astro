@@ -1,27 +1,19 @@
 ---
 import { Image } from "astro:assets";
 import type { ImageMetadata } from "astro";
-import { Check, Star } from "@lucide/astro";
-import SectionHeader from "../ui/SectionHeader.astro";
+import { ChevronLeft, ChevronRight } from "@lucide/astro";
 
-import carlosImg from "~/assets/media/testimonials/carlos-ruiz.webp";
-import michaelImg from "~/assets/media/testimonials/michael-schmidt.webp";
-import sofiaImg from "~/assets/media/testimonials/sofia-martinez.webp";
 import cyberimpulsaLogo from "~/assets/media/projects/cyberimpulsa/logo.svg";
 import salvadisLogo from "~/assets/media/projects/salvadis/logo.webp";
 import naturastudioImg from "~/assets/media/testimonials/naturastudio.webp";
 
 type Testimonial = {
   quote: string;
-  author: string;
-  role: string;
-  company?: string;
-  project: string;
-  rating?: number;
-  metrics: string;
   highlight: string;
-  image?: ImageMetadata;
-  imageAlt?: string;
+  author: string;
+  attribution: string;
+  image: ImageMetadata;
+  imageAlt: string;
   imageIsLogo?: boolean;
 };
 
@@ -29,35 +21,30 @@ const testimonials: Testimonial[] = [
   {
     quote:
       "Muy buena experiencia con Doscientos. Profesionalidad, cercanía y muy buena atención desde el primer momento. Nos ayudaron con la puesta en marcha de la web y con diferentes cuestiones técnicas, siempre de forma rápida y profesional. Muy satisfechos con el trato y el servicio. Totalmente recomendable.",
+    highlight: "Profesionalidad, cercanía y muy buena atención",
     author: "Salvadis",
-    role: "Reseña de Google",
-    project: "Web corporativa y soporte técnico",
-    rating: 5,
-    metrics: "Puesta en marcha web · Soporte técnico",
-    highlight: "Atención rápida y profesional",
+    attribution: "Reseña de Google",
     image: salvadisLogo,
+    imageAlt: "Logo de Salvadis",
     imageIsLogo: true,
   },
   {
     quote:
       "Trabajar con Doscientos ha sido una muy buena decisión. Necesitábamos una página web que transmitiera profesionalidad nada más entrar y eso mismo es lo que han conseguido. Una empresa seria y muy buenos profesionales, gracias!",
+    highlight:
+      "una página web que transmitiera profesionalidad nada más entrar",
     author: "Cyberimpulsa",
-    role: "Reseña de Google",
-    project: "Landing web",
-    rating: 5,
-    metrics: "Página web · Imagen profesional",
-    highlight: "Una web que transmite profesionalidad",
+    attribution: "Reseña de Google",
     image: cyberimpulsaLogo,
+    imageAlt: "Logo de Cyberimpulsa",
     imageIsLogo: true,
   },
   {
     quote:
       "Ràpids, clars i molt professionals. M'han ajudat a prioritzar bé i a no complicar el projecte innecessàriament. Han fet el disseny, m'han acompanyat en el proces i el producte m'ha encantat!",
+    highlight: "el producte m'ha encantat!",
     author: "Natura Studio",
-    role: "Ressenya de Google",
-    project: "Disseny web",
-    metrics: "Disseny · Priorització · Acompanyament",
-    highlight: "Un procés clar i sense complicacions",
+    attribution: "Ressenya de Google",
     image: naturastudioImg,
     imageAlt: "Retrat de la fotógrafa de Natura Studio",
   },
@@ -65,143 +52,169 @@ const testimonials: Testimonial[] = [
 ---
 
 <section class="landing-section bg-accent/5">
-  <SectionHeader
-    title="Lo que dicen nuestros clientes"
-    description="Testimonios y métricas de proyectos que podemos documentar"
-    align="center"
-  />
-
   <div
-    class="grid md:grid-cols-2 xl:grid-cols-3 gap-4 max-w-6xl mx-auto w-full"
-    data-stagger="100"
+    class="mx-auto w-full max-w-6xl"
+    data-testimonial-carousel
+    role="region"
+    aria-roledescription="carrusel"
+    aria-labelledby="testimonials-title"
   >
-    {
-      testimonials.map((testimonial, i) => {
-        const isFeatured = i === 1;
-        return (
-          <div
-            class={`testimonial-card rounded-2xl p-8 flex flex-col gap-4 ${
-              isFeatured
-                ? "bg-foreground text-background shadow-xl md:-translate-y-4 md:scale-[1.02] z-10"
-                : "bg-background border border-muted shadow-pastel"
-            }`}
-            data-reveal="bottom"
-            data-speed="normal"
-            data-easing="soft"
-          >
-            {/* Rating */}
-            {testimonial.rating && (
-              <div class="flex gap-0" aria-hidden="true">
-                {Array.from({ length: testimonial.rating }).map(() => (
-                  <Star
-                    class="size-5 text-yellow-400"
-                    fill="currentColor"
-                    stroke="currentColor"
-                    aria-hidden="true"
-                  />
-                ))}
-              </div>
-            )}
+    <div class="mx-auto mb-8 flex max-w-4xl items-center justify-between gap-4">
+      <h2
+        id="testimonials-title"
+        class="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+      >
+        Lo que dicen nuestros clientes
+      </h2>
+      <div class="flex shrink-0 items-center gap-2">
+        <button
+          type="button"
+          class="inline-flex size-11 items-center justify-center rounded-full border border-muted bg-muted/50 text-foreground transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 active:bg-muted"
+          aria-label="Testimonio anterior"
+          data-testimonial-prev
+          style="touch-action: manipulation; -webkit-tap-highlight-color: transparent;"
+        >
+          <ChevronLeft class="size-4" aria-hidden="true" />
+        </button>
+        <button
+          type="button"
+          class="inline-flex size-11 items-center justify-center rounded-full border border-muted bg-muted/50 text-foreground transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 active:bg-muted"
+          aria-label="Siguiente testimonio"
+          data-testimonial-next
+          style="touch-action: manipulation; -webkit-tap-highlight-color: transparent;"
+        >
+          <ChevronRight class="size-4" aria-hidden="true" />
+        </button>
+      </div>
+    </div>
 
-            {/* Highlight badge */}
-            <div
-              class={`inline-flex items-center gap-2 px-3 py-1 rounded-md w-fit text-xs font-semibold ${
-                isFeatured
-                  ? "bg-background/15 text-background"
-                  : "bg-primary/10 text-primary"
-              }`}
+    <div class="mx-auto max-w-4xl">
+      {
+        testimonials.map((testimonial, index) => {
+          const [quoteBefore, ...quoteAfter] = testimonial.quote.split(
+            testimonial.highlight,
+          );
+          return (
+            <article
+              data-testimonial-slide
+              data-testimonial-author={testimonial.author}
+              role="group"
+              aria-roledescription="testimonio"
+              aria-label={`Testimonio ${index + 1} de ${testimonials.length}`}
+              hidden={index !== 0}
             >
-              <Check class="size-3" />
-              {testimonial.highlight}
-            </div>
-
-            {/* Quote */}
-            <blockquote
-              class={`leading-relaxed flex-1 ${isFeatured ? "text-background/90" : "text-foreground"}`}
-            >
-              "{testimonial.quote}"
-            </blockquote>
-
-            {/* Metrics */}
-            <div
-              class={`px-4 py-3 rounded-lg border mb-3 ${
-                isFeatured
-                  ? "border-background/20 bg-background/10"
-                  : "border-muted"
-              }`}
-            >
-              <p
-                class={`text-sm font-semibold ${isFeatured ? "text-background/70" : "text-muted-foreground"}`}
-              >
-                {testimonial.metrics}
-              </p>
-            </div>
-
-            {/* Author */}
-            <div
-              class={`flex items-start gap-3 pt-2 border-t ${isFeatured ? "border-background/20" : "border-muted"}`}
-            >
-              {testimonial.image ? (
+              <div class="flex flex-col items-start gap-6 sm:flex-row sm:items-center sm:gap-8">
                 <Image
                   src={testimonial.image}
-                  alt={testimonial.imageAlt ?? testimonial.author}
-                  width={40}
-                  height={40}
-                  class={`size-10 rounded-full mt-2 shrink-0 ${testimonial.imageIsLogo ? "object-contain bg-white p-1" : "object-cover object-top"}`}
+                  alt={testimonial.imageAlt}
+                  width={128}
+                  height={128}
+                  class={`size-28 shrink-0 rounded-2xl sm:size-32 ${testimonial.imageIsLogo ? "bg-white p-4 object-contain" : "object-cover object-top"}`}
                 />
-              ) : (
-                <div
-                  aria-hidden="true"
-                  class="size-10 rounded-full mt-2 shrink-0 flex items-center justify-center bg-primary/10 text-primary font-semibold"
-                >
-                  {testimonial.author.slice(0, 1)}
+                <div class="min-w-0 flex-1">
+                  <blockquote class="text-lg font-normal leading-relaxed text-muted-foreground text-pretty sm:text-xl">
+                    “{quoteBefore}
+                    <strong class="font-semibold text-foreground">
+                      {testimonial.highlight}
+                    </strong>
+                    {quoteAfter.join(testimonial.highlight)}”
+                  </blockquote>
+                  <footer class="mt-6 border-t border-muted pt-4">
+                    <p class="font-semibold text-foreground">
+                      {testimonial.author}
+                    </p>
+                    <p class="text-sm text-muted-foreground">
+                      {testimonial.attribution}
+                    </p>
+                  </footer>
                 </div>
-              )}
-              <div class="mt-2">
-                <p
-                  class={`font-semibold ${isFeatured ? "text-background" : "text-foreground"}`}
-                >
-                  {testimonial.author}
-                </p>
-                <p
-                  class={`text-xs ${isFeatured ? "text-background/60" : "text-muted-foreground"}`}
-                >
-                  {testimonial.role}
-                  {testimonial.company ? `, ${testimonial.company}` : ""}
-                </p>
-                <p
-                  class={`text-xs mt-1 ${isFeatured ? "text-background/60" : "text-muted-foreground"}`}
-                >
-                  Proyecto: {testimonial.project}
-                </p>
               </div>
-            </div>
-          </div>
-        );
-      })
-    }
-  </div>
-
-  {/* Trust indicators */}
-  <div
-    class="flex flex-wrap justify-center items-center gap-8 text-sm text-muted-foreground"
-    data-reveal="bottom"
-    data-speed="normal"
-    data-easing="soft"
-  >
-    <div class="flex items-center gap-2">
-      <Check class="size-5 text-green-500" />
-      <span>Casos con métricas operativas</span>
+            </article>
+          );
+        })
+      }
     </div>
-    <div class="flex items-center gap-2">
-      <Check class="size-5 text-green-500" />
 
-      <span>Demos y alcance definidos por escrito</span>
-    </div>
-    <div class="flex items-center gap-2">
-      <Check class="size-5 text-green-500" />
-
-      <span>Soporte post-lanzamiento incluido</span>
-    </div>
+    <p
+      class="sr-only"
+      aria-live="polite"
+      aria-atomic="true"
+      data-testimonial-status
+    >
+    </p>
   </div>
 </section>
+
+<script>
+  const initTestimonialCarousels = () => {
+    document
+      .querySelectorAll<HTMLElement>("[data-testimonial-carousel]")
+      .forEach((carousel) => {
+        if (carousel.dataset.testimonialInitialized === "true") return;
+
+        const slides = Array.from(
+          carousel.querySelectorAll<HTMLElement>("[data-testimonial-slide]"),
+        );
+        const previousButton = carousel.querySelector<HTMLButtonElement>(
+          "[data-testimonial-prev]",
+        );
+        const nextButton = carousel.querySelector<HTMLButtonElement>(
+          "[data-testimonial-next]",
+        );
+        const status = carousel.querySelector<HTMLElement>(
+          "[data-testimonial-status]",
+        );
+
+        if (!slides.length || !previousButton || !nextButton) return;
+        carousel.dataset.testimonialInitialized = "true";
+
+        let activeIndex = Math.max(
+          0,
+          slides.findIndex((slide) => !slide.hidden),
+        );
+
+        const showRelativeSlide = (direction: number) => {
+          const nextIndex =
+            (activeIndex + direction + slides.length) % slides.length;
+          const previousSlide = slides[activeIndex];
+          const nextSlide = slides[nextIndex];
+          if (!previousSlide || !nextSlide) return;
+
+          nextSlide.getAnimations().forEach((animation) => animation.cancel());
+          previousSlide.hidden = true;
+          nextSlide.hidden = false;
+          activeIndex = nextIndex;
+
+          if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+            nextSlide.animate(
+              [
+                {
+                  opacity: 0,
+                  transform: `translateX(${direction > 0 ? "0.75rem" : "-0.75rem"})`,
+                },
+                { opacity: 1, transform: "translateX(0)" },
+              ],
+              { duration: 280, easing: "cubic-bezier(0.22, 1, 0.36, 1)" },
+            );
+          }
+
+          const author = nextSlide.dataset.testimonialAuthor ?? "";
+          if (status) {
+            status.textContent = `Testimonio ${activeIndex + 1} de ${slides.length}: ${author}`;
+          }
+        };
+
+        previousButton.addEventListener("click", () => showRelativeSlide(-1));
+        nextButton.addEventListener("click", () => showRelativeSlide(1));
+      });
+  };
+
+  document.addEventListener("astro:page-load", initTestimonialCarousels);
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initTestimonialCarousels, {
+      once: true,
+    });
+  } else {
+    initTestimonialCarousels();
+  }
+</script>
