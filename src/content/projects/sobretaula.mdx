@@ -1,0 +1,219 @@
+---
+title: 'Sobretaula, el sistema operativo del restaurante'
+summary: 'Unifica TPV, reservas, sala, equipo, inventario y costes del restaurante en un único sistema modular, trazable y preparado para funcionar sin conexión.'
+seoTitle: 'Sobretaula | Software de gestión integral para restaurantes'
+metaDescription: 'Sobretaula, producto propio de doscientos en desarrollo: TPV, reservas, sala, stock, escandallos, equipo y analítica para restaurantes en un solo sistema.'
+available: true
+client: 'Producto propio'
+endedAt: '2026-09-29'
+timelineLabel: 'En desarrollo'
+color: '#ff5f4d'
+services_provided:
+  - Producto SaaS
+  - Diseño de producto
+  - Arquitectura offline-first
+  - Vídeo y media
+cover: '../../assets/media/projects/sobretaula/cover.webp'
+logo: '../../assets/media/projects/sobretaula/logo.svg'
+---
+
+import { Image, getImage } from 'astro:assets'
+import trailerPosterSrc from '../../assets/media/projects/sobretaula/trailer-poster.jpg'
+import fluxPosterSrc from '../../assets/media/projects/sobretaula/flux-poster.jpg'
+
+export const trailerPoster = await getImage({ src: trailerPosterSrc, format: 'webp', width: 1280 })
+export const fluxPoster = await getImage({ src: fluxPosterSrc, format: 'webp', width: 1280 })
+
+import sala from '../../assets/media/projects/sobretaula/sala.jpg'
+import reserves from '../../assets/media/projects/sobretaula/reserves.jpg'
+import albara from '../../assets/media/projects/sobretaula/albara.jpg'
+import escandall from '../../assets/media/projects/sobretaula/escandall.jpg'
+import equip from '../../assets/media/projects/sobretaula/equip.jpg'
+import offline from '../../assets/media/projects/sobretaula/offline.jpg'
+import moduls from '../../assets/media/projects/sobretaula/moduls.jpg'
+import previsions from '../../assets/media/projects/sobretaula/previsions.jpg'
+import fluxReserva from '../../assets/media/projects/sobretaula/flux-reserva.jpg'
+import fluxTpv from '../../assets/media/projects/sobretaula/flux-tpv.jpg'
+import fluxCuina from '../../assets/media/projects/sobretaula/flux-cuina.jpg'
+import fluxEstoc from '../../assets/media/projects/sobretaula/flux-estoc.jpg'
+import fluxEscandall from '../../assets/media/projects/sobretaula/flux-escandall.jpg'
+import fluxDireccio from '../../assets/media/projects/sobretaula/flux-direccio.jpg'
+import fluxComplet from '../../assets/media/projects/sobretaula/flux-complet.jpg'
+
+Sobretaula es un producto propio de doscientos para restaurantes. Nace de una observación repetida: el día a día de un local se reparte entre un TPV, una agenda de reservas, hojas de cálculo de costes y apps de turnos que no se hablan entre sí.
+
+La propuesta es un único sistema en el que cada reserva, comanda, cobro, albarán y fichaje comparte los mismos datos. Parte del producto ya funciona; el resto se está construyendo por fases junto a los primeros restaurantes.
+
+**Esta página muestra el producto completo que estamos construyendo, no solo lo que existe hoy.**
+
+<Image src={fluxComplet} alt="Sobretaula: diagrama completo con todos los módulos del restaurante conectados" widths={[960, 1440, 1920]} sizes="(min-width: 1024px) 64rem, 100vw" class="rounded-2xl my-6" />
+
+<div class="not-prose grid gap-3 my-8 sm:grid-cols-3">
+  <div class="rounded-2xl border border-muted bg-white px-5 py-4"><span class="block text-3xl font-bold tabular-nums">8</span><span class="text-sm text-muted-foreground">módulos en un único sistema</span></div>
+  <div class="rounded-2xl border border-muted bg-white px-5 py-4"><span class="block text-3xl font-bold tabular-nums">1</span><span class="text-sm text-muted-foreground">modelo de datos compartido</span></div>
+  <div class="rounded-2xl border border-[#ff5f4d]/30 bg-[#ff5f4d]/[0.06] px-5 py-4"><span class="block text-3xl font-bold">MVP</span><span class="text-sm text-muted-foreground">funcional, en fase de desarrollo</span></div>
+</div>
+
+---
+
+## El problema
+
+Un restaurante suele gestionar ventas, reservas, turnos, carta y costes con **herramientas separadas**. Los datos no comparten contexto, la información se duplica y la dirección detecta tarde los descuadres de caja, las mermas o la pérdida de margen.
+
+Además, un corte de conexión en pleno servicio puede dejar la sala sin cobrar ni enviar comandas a cocina.
+
+---
+
+## La solución
+
+<div class="not-prose my-8 flex flex-col gap-3 rounded-3xl border border-[#ff5f4d]/25 bg-[#ff5f4d]/[0.06] px-6 py-5 sm:flex-row sm:items-center sm:gap-5">
+  <span class="inline-flex w-fit shrink-0 items-center gap-2 rounded-full bg-[#ff5f4d] px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white">
+    <span class="size-2 rounded-full bg-white motion-safe:animate-pulse" aria-hidden="true"></span>
+    En desarrollo
+  </span>
+  <p class="m-0 text-sm leading-relaxed text-foreground/80 text-pretty">
+    Las pantallas y vídeos de esta sección representan la visión del producto final. Algunos módulos todavía no están disponibles.
+  </p>
+</div>
+
+<figure class="not-prose m-0 mb-10 flex flex-col gap-3">
+  <div class="overflow-hidden rounded-2xl border border-foreground/10 bg-[#fbf8f4] shadow-[0_1px_2px_rgb(0_0_0/0.06),0_24px_60px_-20px_rgb(0_0_0/0.35)]">
+    <video class="block aspect-video h-auto w-full" width="1920" height="1080" poster={trailerPoster.src} preload="none" controls muted playsinline aria-describedby="sobretaula-trailer-caption">
+      <source src="/projects/sobretaula/trailer.webm" type="video/webm" />
+      <source src="/projects/sobretaula/trailer.mp4" type="video/mp4" />
+      <a href="/projects/sobretaula/trailer.mp4">Descargar el vídeo (MP4)</a>
+    </video>
+  </div>
+  <figcaption id="sobretaula-trailer-caption" class="mx-auto max-w-2xl text-center text-sm leading-relaxed text-muted-foreground text-pretty">
+    Tráiler sin audio de 1&nbsp;minuto, en catalán: sala y TPV, reservas, albaranes, escandallos, equipo, modo sin conexión y previsiones. Muestra el producto final que estamos construyendo.
+  </figcaption>
+</figure>
+
+**Sobretaula reúne toda la gestión del restaurante, del albarán del proveedor a la reseña del cliente, en un único sistema.** Cada módulo comparte datos, permisos y trazabilidad con los demás. El restaurante activa solo los que necesita y puede cambiar la configuración sin migraciones ni reinstalaciones.
+
+<div class="not-prose grid grid-cols-2 gap-3 my-8 sm:grid-cols-4">
+  <div class="rounded-2xl border border-muted bg-white px-4 py-4"><span class="block text-sm font-semibold">Sala y TPV</span><span class="text-xs text-muted-foreground">Comandas, cocina y cobros</span></div>
+  <div class="rounded-2xl border border-muted bg-white px-4 py-4"><span class="block text-sm font-semibold">Reservas</span><span class="text-xs text-muted-foreground">Mesas, zonas y clientes</span></div>
+  <div class="rounded-2xl border border-muted bg-white px-4 py-4"><span class="block text-sm font-semibold">Carta digital</span><span class="text-xs text-muted-foreground">Alérgenos y preferencias</span></div>
+  <div class="rounded-2xl border border-muted bg-white px-4 py-4"><span class="block text-sm font-semibold">Stock y compras</span><span class="text-xs text-muted-foreground">Proveedores y albaranes</span></div>
+  <div class="rounded-2xl border border-muted bg-white px-4 py-4"><span class="block text-sm font-semibold">Escandallos</span><span class="text-xs text-muted-foreground">Coste real por plato</span></div>
+  <div class="rounded-2xl border border-muted bg-white px-4 py-4"><span class="block text-sm font-semibold">Equipo</span><span class="text-xs text-muted-foreground">Turnos y fichajes</span></div>
+  <div class="rounded-2xl border border-muted bg-white px-4 py-4"><span class="block text-sm font-semibold">Clientes</span><span class="text-xs text-muted-foreground">Fidelización y reseñas</span></div>
+  <div class="rounded-2xl border border-muted bg-white px-4 py-4"><span class="block text-sm font-semibold">Finanzas</span><span class="text-xs text-muted-foreground">Facturación y VERI*FACTU</span></div>
+</div>
+
+<div class="not-prose grid gap-4 my-10 sm:grid-cols-2">
+  <figure class="m-0 flex h-full flex-col overflow-hidden rounded-2xl bg-muted/35">
+    <Image src={sala} alt="Plano de sala de Sobretaula con el estado de cada mesa en tiempo real" widths={[640, 960, 1280]} sizes="(min-width: 640px) 50vw, 100vw" class="aspect-video w-full object-cover" data-zoomable />
+    <figcaption class="flex-1 px-4 py-3 text-sm text-muted-foreground"><strong class="text-foreground">Sala y TPV.</strong> Comandas, cocina y cobros sobre el mismo plano de sala.</figcaption>
+  </figure>
+  <figure class="m-0 flex h-full flex-col overflow-hidden rounded-2xl bg-muted/35">
+    <Image src={reserves} alt="Agenda de reservas de Sobretaula con mesa asignada y previsión de cubiertos" widths={[640, 960, 1280]} sizes="(min-width: 640px) 50vw, 100vw" class="aspect-video w-full object-cover" data-zoomable />
+    <figcaption class="flex-1 px-4 py-3 text-sm text-muted-foreground"><strong class="text-foreground">Reservas.</strong> Cada reserva llega con mesa asignada y la previsión de cubiertos del día.</figcaption>
+  </figure>
+  <figure class="m-0 flex h-full flex-col overflow-hidden rounded-2xl bg-muted/35">
+    <Image src={albara} alt="Escaneo de un albarán de proveedor que actualiza el inventario" widths={[640, 960, 1280]} sizes="(min-width: 640px) 50vw, 100vw" class="aspect-video w-full object-cover" data-zoomable />
+    <figcaption class="flex-1 px-4 py-3 text-sm text-muted-foreground"><strong class="text-foreground">Albaranes.</strong> Una foto al albarán y cada ingrediente entra en el inventario al instante.</figcaption>
+  </figure>
+  <figure class="m-0 flex h-full flex-col overflow-hidden rounded-2xl bg-muted/35">
+    <Image src={escandall} alt="Escandallo de una receta con el margen actualizado" widths={[640, 960, 1280]} sizes="(min-width: 640px) 50vw, 100vw" class="aspect-video w-full object-cover" data-zoomable />
+    <figcaption class="flex-1 px-4 py-3 text-sm text-muted-foreground"><strong class="text-foreground">Escandallos.</strong> Si un proveedor sube un precio, el margen de la receta lo refleja al momento.</figcaption>
+  </figure>
+  <figure class="m-0 flex h-full flex-col overflow-hidden rounded-2xl bg-muted/35">
+    <Image src={equip} alt="Turnos y fichajes del equipo en Sobretaula" widths={[640, 960, 1280]} sizes="(min-width: 640px) 50vw, 100vw" class="aspect-video w-full object-cover" data-zoomable />
+    <figcaption class="flex-1 px-4 py-3 text-sm text-muted-foreground"><strong class="text-foreground">Equipo.</strong> Jornadas partidas y turnos de noche, con cada corrección justificada.</figcaption>
+  </figure>
+  <figure class="m-0 flex h-full flex-col overflow-hidden rounded-2xl bg-muted/35">
+    <Image src={offline} alt="Sobretaula guardando comandas en el dispositivo durante un corte de conexión" widths={[640, 960, 1280]} sizes="(min-width: 640px) 50vw, 100vw" class="aspect-video w-full object-cover" data-zoomable />
+    <figcaption class="flex-1 px-4 py-3 text-sm text-muted-foreground"><strong class="text-foreground">Sin conexión.</strong> Comandas, cobros y fichajes se guardan y se sincronizan sin duplicados.</figcaption>
+  </figure>
+</div>
+
+### Cómo fluye un servicio
+
+La clave no está en cada módulo por separado, sino en cómo se conectan. Seguimos a Laura, una clienta celíaca, desde que reserva hasta que su visita llega a los informes de dirección.
+
+<figure class="not-prose m-0 my-8 flex flex-col gap-3">
+  <div class="overflow-hidden rounded-2xl border border-foreground/10 bg-[#fbf8f4] shadow-[0_1px_2px_rgb(0_0_0/0.06),0_24px_60px_-20px_rgb(0_0_0/0.35)]">
+    <video class="block aspect-video h-auto w-full" width="1920" height="1080" poster={fluxPoster.src} preload="none" controls muted playsinline aria-describedby="sobretaula-flux-caption">
+      <source src="/projects/sobretaula/flux.webm" type="video/webm" />
+      <source src="/projects/sobretaula/flux.mp4" type="video/mp4" />
+      <a href="/projects/sobretaula/flux.mp4">Descargar el vídeo (MP4)</a>
+    </video>
+  </div>
+  <figcaption id="sobretaula-flux-caption" class="mx-auto max-w-2xl text-center text-sm leading-relaxed text-muted-foreground text-pretty">
+    Vídeo sin audio de 1&nbsp;minuto, en catalán: el recorrido completo de un servicio por el diagrama de módulos, paso a paso. Los mismos pasos se describen debajo.
+  </figcaption>
+</figure>
+
+<ol class="not-prose my-10 grid list-none gap-4 p-0 sm:grid-cols-2">
+  <li class="m-0 flex flex-col overflow-hidden rounded-2xl bg-muted/35">
+    <Image src={fluxReserva} alt="Diagrama: la reserva conecta el perfil de alérgenos con la mesa asignada" widths={[640, 960]} sizes="(min-width: 640px) 50vw, 100vw" class="aspect-video w-full object-cover" data-zoomable />
+    <div class="flex-1 px-4 py-3 text-sm text-muted-foreground"><span class="mr-2 font-semibold tabular-nums text-[#ff5f4d]">01</span><strong class="text-foreground">La clienta reserva.</strong> Su celiaquía queda en el perfil y se le asigna mesa.</div>
+  </li>
+  <li class="m-0 flex flex-col overflow-hidden rounded-2xl bg-muted/35">
+    <Image src={fluxTpv} alt="Diagrama: mesa, carta y alérgenos llegan juntos al TPV" widths={[640, 960]} sizes="(min-width: 640px) 50vw, 100vw" class="aspect-video w-full object-cover" data-zoomable />
+    <div class="flex-1 px-4 py-3 text-sm text-muted-foreground"><span class="mr-2 font-semibold tabular-nums text-[#ff5f4d]">02</span><strong class="text-foreground">La comanda entra en el TPV.</strong> Mesa, carta y alérgenos llegan juntos; nadie vuelve a preguntar.</div>
+  </li>
+  <li class="m-0 flex flex-col overflow-hidden rounded-2xl bg-muted/35">
+    <Image src={fluxCuina} alt="Diagrama: el TPV envía la comanda a cocina y el cobro a caja" widths={[640, 960]} sizes="(min-width: 640px) 50vw, 100vw" class="aspect-video w-full object-cover" data-zoomable />
+    <div class="flex-1 px-4 py-3 text-sm text-muted-foreground"><span class="mr-2 font-semibold tabular-nums text-[#ff5f4d]">03</span><strong class="text-foreground">Cocina, barra y caja.</strong> La comanda viaja con el aviso de alergia y el cobro cuadra la caja.</div>
+  </li>
+  <li class="m-0 flex flex-col overflow-hidden rounded-2xl bg-muted/35">
+    <Image src={fluxEstoc} alt="Diagrama: ventas, cocina y compras actualizan el inventario" widths={[640, 960]} sizes="(min-width: 640px) 50vw, 100vw" class="aspect-video w-full object-cover" data-zoomable />
+    <div class="flex-1 px-4 py-3 text-sm text-muted-foreground"><span class="mr-2 font-semibold tabular-nums text-[#ff5f4d]">04</span><strong class="text-foreground">El stock se descuenta solo.</strong> Cada plato resta ingredientes y cada albarán los vuelve a sumar.</div>
+  </li>
+  <li class="m-0 flex flex-col overflow-hidden rounded-2xl bg-muted/35">
+    <Image src={fluxEscandall} alt="Diagrama: el inventario alimenta el escandallo y este la carta" widths={[640, 960]} sizes="(min-width: 640px) 50vw, 100vw" class="aspect-video w-full object-cover" data-zoomable />
+    <div class="flex-1 px-4 py-3 text-sm text-muted-foreground"><span class="mr-2 font-semibold tabular-nums text-[#ff5f4d]">05</span><strong class="text-foreground">El coste real de cada plato.</strong> El escandallo se actualiza y la carta puede reaccionar.</div>
+  </li>
+  <li class="m-0 flex flex-col overflow-hidden rounded-2xl bg-muted/35">
+    <Image src={fluxDireccio} alt="Diagrama: reservas, ventas, caja, stock, horas y reseñas llegan a la analítica" widths={[640, 960]} sizes="(min-width: 640px) 50vw, 100vw" class="aspect-video w-full object-cover" data-zoomable />
+    <div class="flex-1 px-4 py-3 text-sm text-muted-foreground"><span class="mr-2 font-semibold tabular-nums text-[#ff5f4d]">06</span><strong class="text-foreground">Todo llega a dirección.</strong> Sin exportar ni cruzar hojas de cálculo. Y las decisiones vuelven al servicio.</div>
+  </li>
+</ol>
+
+### Lo que lo hace diferente
+
+- **Un modelo operativo compartido.** Reservas, mesas, comandas, cobros, fichajes, ingredientes y costes usan las mismas entidades, reglas y permisos. Se acaban las conciliaciones manuales.
+- **Offline-first.** Las operaciones esenciales siguen funcionando durante un corte de red. Cada comanda, cobro o fichaje lleva un identificador único que evita duplicados al reconectar.
+- **Trazabilidad por eventos.** Una anulación, un descuento o un ajuste de caja nunca sobrescribe el historial: se añade un evento con usuario, hora, terminal y motivo.
+- **Modular y multiempresa.** Los módulos se activan por local y los datos de cada organización quedan separados, en servidores europeos.
+- **Menos desperdicio.** Conectar venta, receta, inventario y compra ayuda a reducir mermas, caducidades y sobrestock.
+
+<div class="not-prose grid gap-4 my-10 sm:grid-cols-2">
+  <figure class="m-0 flex h-full flex-col overflow-hidden rounded-2xl bg-muted/35">
+    <Image src={moduls} alt="Módulos de Sobretaula conectados sobre un mismo modelo de datos" widths={[640, 960, 1280]} sizes="(min-width: 640px) 50vw, 100vw" class="aspect-video w-full object-cover" data-zoomable />
+    <figcaption class="flex-1 px-4 py-3 text-sm text-muted-foreground">Cada restaurante activa los módulos que necesita, todos sobre los mismos datos.</figcaption>
+  </figure>
+  <figure class="m-0 flex h-full flex-col overflow-hidden rounded-2xl bg-muted/35">
+    <Image src={previsions} alt="Previsiones de demanda, compras y personal con recomendaciones" widths={[640, 960, 1280]} sizes="(min-width: 640px) 50vw, 100vw" class="aspect-video w-full object-cover" data-zoomable />
+    <figcaption class="flex-1 px-4 py-3 text-sm text-muted-foreground">Con datos propios, previsiones de demanda, compras y personal explicables y revisables.</figcaption>
+  </figure>
+</div>
+
+---
+
+## Estado del proyecto
+
+Sobretaula ya cuenta con un MVP funcional: la base del restaurante y la carta, la digitalización de albaranes con una foto y la gestión del stock. El resto de módulos se construye por fases, validando cada una con restaurantes reales.
+
+<ol class="not-prose my-8 flex list-none flex-col gap-3 p-0">
+  <li class="m-0 flex items-start gap-4 rounded-2xl border border-muted bg-white px-5 py-4"><span class="mt-0.5 shrink-0 rounded-full bg-foreground px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-background">Hecho</span><span class="text-sm text-muted-foreground"><strong class="text-foreground">MVP funcional.</strong> Base del restaurante, carta, escaneo de albaranes e inventario.</span></li>
+  <li class="m-0 flex items-start gap-4 rounded-2xl border border-[#ff5f4d]/40 bg-[#ff5f4d]/[0.06] px-5 py-4"><span class="mt-0.5 shrink-0 rounded-full bg-[#ff5f4d] px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-white">En curso</span><span class="text-sm text-muted-foreground"><strong class="text-foreground">Núcleo operativo.</strong> Stock, compras, recetas y escandallos, con los primeros restaurantes fundadores.</span></li>
+  <li class="m-0 flex items-start gap-4 rounded-2xl border border-muted bg-white px-5 py-4"><span class="mt-0.5 shrink-0 rounded-full bg-muted px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-foreground">Próximo</span><span class="text-sm text-muted-foreground"><strong class="text-foreground">Sala, reservas, equipo, clientes y finanzas.</strong> Conectados con los módulos ya operativos.</span></li>
+  <li class="m-0 flex items-start gap-4 rounded-2xl border border-muted bg-white px-5 py-4"><span class="mt-0.5 shrink-0 rounded-full bg-muted px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-foreground">Próximo</span><span class="text-sm text-muted-foreground"><strong class="text-foreground">Producto completo.</strong> Integración, hardware, facturación y continuidad sin conexión validados en servicio real.</span></li>
+</ol>
+
+---
+
+## Resultados
+
+Sobretaula está en desarrollo, así que estos son los resultados hasta la fecha:
+
+- **1 MVP funcional**: base del restaurante, carta, escaneo de albaranes e inventario.
+- **8 módulos** diseñados sobre el mismo modelo de datos, permisos y trazabilidad.
+- **6 pasos** de un servicio definidos de extremo a extremo, de la reserva a dirección.
+- **2 vídeos de producto** en catalán para presentar la visión a restaurantes e inversores.
+
+¿Tienes un restaurante y quieres probarlo antes que nadie, o te interesa el proyecto? [Escríbenos](/contact) y te lo enseñamos.

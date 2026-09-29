@@ -18,7 +18,11 @@ cover: '../../assets/media/projects/lex-crm/thumbnail.avif'
 logo: '../../assets/media/projects/lex-crm/logo.svg'
 ---
 
-import { Image } from 'astro:assets'
+import { Image, getImage } from 'astro:assets'
+import showcasePosterSrc from '../../assets/media/projects/lex-crm/showcase-poster.jpg'
+
+export const showcasePoster = await getImage({ src: showcasePosterSrc, format: 'webp', width: 1280 })
+
 import logo from '../../assets/media/projects/lex-crm/logo.svg'
 import inicio from '../../assets/media/projects/lex-crm/inicio.avif'
 import calendario from '../../assets/media/projects/lex-crm/calendario.avif'
@@ -29,6 +33,19 @@ Un despacho no trabaja con “clientes” de forma aislada. Trabaja con personas
 Por eso estamos construyendo **LEX**, un CRM adaptado a la forma de trabajar de un despacho patrimonial: un espacio único para saber qué está pasando, qué toca hacer y qué información necesita cada caso.
 
 <Image src={inicio} alt="Espacio de trabajo de LEX para abogados patrimoniales" class="rounded-2xl my-6" />
+
+<figure class="not-prose m-0 mb-10 flex flex-col gap-3">
+  <div class="overflow-hidden rounded-2xl border border-foreground/10 bg-[#0b0c0b] shadow-[0_1px_2px_rgb(0_0_0/0.06),0_24px_60px_-20px_rgb(0_0_0/0.35)]">
+    <video class="block aspect-video h-auto w-full" width="1920" height="1080" poster={showcasePoster.src} preload="none" controls muted playsinline aria-describedby="lex-showcase-caption">
+      <source src="/projects/lex-crm/showcase.webm" type="video/webm" />
+      <source src="/projects/lex-crm/showcase.mp4" type="video/mp4" />
+      <a href="/projects/lex-crm/showcase.mp4">Descargar el vídeo (MP4)</a>
+    </video>
+  </div>
+  <figcaption id="lex-showcase-caption" class="mx-auto max-w-2xl text-center text-sm leading-relaxed text-muted-foreground text-pretty">
+    Vídeo sin audio con un recorrido por LEX: espacio de trabajo, oportunidades, calendario y expedientes.
+  </figcaption>
+</figure>
 
 <div class="not-prose grid gap-5 md:grid-cols-2 my-10">
   <figure class="m-0 overflow-hidden rounded-2xl border border-muted bg-white shadow-sm">

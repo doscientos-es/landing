@@ -1,0 +1,51 @@
+---
+import SectionHeader from "~/components/ui/SectionHeader.astro";
+---
+
+<section
+  class="w-full px-6 py-12 max-[640px]:px-4 max-[640px]:py-8"
+  aria-labelledby="product-video-title"
+>
+  <div class="mx-auto flex w-full max-w-[75rem] flex-col gap-10">
+    <SectionHeader
+      title="Así se ve un backoffice hecho a medida"
+      subtitle="leads, propuestas, facturas y proyectos en un solo sitio"
+      description="Un recorrido por el backoffice que usamos cada día en doscientos: el mismo tipo de sistema que construimos para tu equipo."
+      align="center"
+    />
+    <figure
+      class="m-0 flex flex-col gap-3"
+      data-reveal="bottom"
+      data-speed="normal"
+      data-easing="smooth"
+    >
+      <div
+        class="overflow-hidden rounded-2xl border border-foreground/10 bg-[#0b0c0b] shadow-[0_1px_2px_rgb(0_0_0/0.06),0_24px_60px_-20px_rgb(0_0_0/0.35)]"
+      >
+        <video
+          class="block aspect-video h-auto w-full"
+          width="1920"
+          height="1080"
+          poster="/video/backoffice-launch-poster.jpg"
+          preload="none"
+          controls
+          muted
+          playsinline
+          aria-describedby="product-video-caption"
+        >
+          <source src="/video/backoffice-launch.webm" type="video/webm" />
+          <source src="/video/backoffice-launch.mp4" type="video/mp4" />
+          <a href="/video/backoffice-launch.mp4">Descargar el vídeo (MP4)</a>
+        </video>
+      </div>
+      <figcaption
+        id="product-video-caption"
+        class="mx-auto max-w-2xl text-center text-sm leading-relaxed text-muted-foreground text-pretty"
+      >
+        Vídeo sin audio de 53&nbsp;segundos: panel de inicio, pipeline de leads,
+        propuestas, facturación con VeriFactu, proyectos y tareas, buscador
+        rápido con <kbd>⌘&nbsp;K</kbd> y versión móvil.
+      </figcaption>
+    </figure>
+  </div>
+</section>
