@@ -24,8 +24,8 @@
     "lint:common:fix": "oxlint --fix --fix-suggestions",
     "quality:common": "pnpm format:oxfmt:check && pnpm lint:common && pnpm check && pnpm test",
     "seo:check": "node scripts/seo-check.mjs",
-    "changelog:sync": "node .agents/skills/product-changelog/bin/changelog.mjs sync src/data/changelog.json",
-    "changelog:check": "node .agents/skills/product-changelog/bin/changelog.mjs sync src/data/changelog.json --check",
+    "changelog:sync": "changelog sync src/data/changelog.json",
+    "changelog:check": "changelog sync src/data/changelog.json --check",
     "changelog:smoke": "node --test scripts/changelog-smoke.test.mjs scripts/product-changelog-content.smoke.test.mjs",
     "npm:downloads": "node scripts/npm-downloads-report.mjs",
     "npm:downloads:sync": "node scripts/sync-npm-downloads.mjs",
@@ -66,6 +66,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
+    "@doscientos/changelog": "^0.1.0",
     "@doscientos/configs": "^0.1.5",
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^14.6.1",
