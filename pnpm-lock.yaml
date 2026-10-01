@@ -94,8 +94,8 @@ importers:
         specifier: ^0.9.10
         version: 0.9.10(prettier@3.9.6)(typescript@6.0.3)
       '@doscientos/changelog':
-        specifier: ^0.1.0
-        version: 0.1.0
+        specifier: ^0.1.2
+        version: 0.1.2
       '@doscientos/configs':
         specifier: ^0.1.5
         version: 0.1.5(oxlint-tsgolint@7.0.2001)(oxlint@1.0.0)(vitest@4.1.8)
@@ -860,8 +860,8 @@ packages:
     resolution: {integrity: sha512-QxULHAm7cNu72w97JUNCBFODFaXpbDg+dP8b/oWFAZ2MTRppA3U00Y2L1HqaS4J6yBqxwa/Y3nMBaxVKbB/NsA==}
     engines: {node: '>=20.19.0'}
 
-  '@doscientos/changelog@0.1.0':
-    resolution: {integrity: sha512-p0LdwadXngpLjIAhGMpy6awUK4bB7EHP7HGSLeIlLxgtsEjvKekeikP3O1j1DdV+mGkBLT164mdmtWOwYoeEsQ==}
+  '@doscientos/changelog@0.1.2':
+    resolution: {integrity: sha512-RiQbgLijoDRGDM8ldQs7/OE1GsxQI2EoY14hcBQRcqr+4uhkQQI8g+/87ikZKxki+d/3MXvx0CX/DbGUZx5RxA==}
     engines: {node: '>=20'}
     hasBin: true
 
@@ -5849,7 +5849,7 @@ snapshots:
 
   '@csstools/css-tokenizer@4.0.0': {}
 
-  '@doscientos/changelog@0.1.0': {}
+  '@doscientos/changelog@0.1.2': {}
 
   '@doscientos/configs@0.1.5(oxlint-tsgolint@7.0.2001)(oxlint@1.0.0)(vitest@4.1.8)':
     optionalDependencies:
