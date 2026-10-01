@@ -21,7 +21,11 @@ logo: '../../assets/media/projects/gruas-del-valles/logo.png'
 import { Image, getImage } from 'astro:assets'
 import showcasePosterSrc from '../../assets/media/projects/gruas-del-valles/showcase-poster.jpg'
 
-export const showcasePoster = await getImage({ src: showcasePosterSrc, format: 'webp', width: 1280 })
+export const showcasePoster = await getImage({
+  src: showcasePosterSrc,
+  format: 'webp',
+  width: 1280,
+})
 import hero from '../../assets/media/projects/gruas-del-valles/hero.avif'
 import droneOne from '../../assets/media/projects/gruas-del-valles/dron-1.avif'
 import droneTwo from '../../assets/media/projects/gruas-del-valles/dron-2.avif'
@@ -33,14 +37,28 @@ import landingContact from '../../assets/media/projects/gruas-del-valles/landing
 
 <figure class="not-prose m-0 mb-10 flex flex-col gap-3">
   <div class="overflow-hidden rounded-2xl border border-foreground/10 bg-[#0b0c0b] shadow-[0_1px_2px_rgb(0_0_0/0.06),0_24px_60px_-20px_rgb(0_0_0/0.35)]">
-    <video class="block aspect-video h-auto w-full" width="1920" height="1080" poster={showcasePoster.src} preload="none" controls muted playsinline aria-describedby="gruas-showcase-caption">
+    <video
+      class="block aspect-video h-auto w-full"
+      width="1920"
+      height="1080"
+      poster={showcasePoster.src}
+      preload="none"
+      controls
+      muted
+      playsinline
+      aria-describedby="gruas-showcase-caption"
+    >
       <source src="/projects/gruas-del-valles/showcase.webm" type="video/webm" />
       <source src="/projects/gruas-del-valles/showcase.mp4" type="video/mp4" />
       <a href="/projects/gruas-del-valles/showcase.mp4">Descargar el vídeo (MP4)</a>
     </video>
   </div>
-  <figcaption id="gruas-showcase-caption" class="mx-auto max-w-2xl text-center text-sm leading-relaxed text-muted-foreground text-pretty">
-    Vídeo sin audio de 36&nbsp;segundos: portada, flota, servicios, cobertura por ciudad y comarca, y versión móvil de la web.
+  <figcaption
+    id="gruas-showcase-caption"
+    class="mx-auto max-w-2xl text-center text-sm leading-relaxed text-muted-foreground text-pretty"
+  >
+    Vídeo sin audio de 36&nbsp;segundos: portada, flota, servicios, cobertura por ciudad y comarca,
+    y versión móvil de la web.
   </figcaption>
 </figure>
 
@@ -67,38 +85,98 @@ Organizamos la experiencia alrededor de tres preguntas sencillas:
 La landing presenta la empresa sin obligar al visitante a descifrar lenguaje técnico. La presentación amplía la historia cuando el equipo necesita explicar la flota, la capacidad y el tipo de operaciones que puede asumir.
 
 <div class="not-prose grid grid-cols-2 sm:grid-cols-3 gap-4 my-8 rounded-3xl bg-muted/45 px-6 py-5">
-  <div><span class="text-2xl font-bold leading-none">2</span><br /><span class="text-[11px] uppercase tracking-wide text-muted-foreground">superficies comerciales</span></div>
-  <div><span class="text-2xl font-bold leading-none">1</span><br /><span class="text-[11px] uppercase tracking-wide text-muted-foreground">historia coherente</span></div>
-  <div><span class="text-2xl font-bold leading-none">∞</span><br /><span class="text-[11px] uppercase tracking-wide text-muted-foreground">maniobras por enseñar</span></div>
+  <div>
+    <span class="text-2xl font-bold leading-none">2</span>
+    <br />
+    <span class="text-[11px] uppercase tracking-wide text-muted-foreground">
+      superficies comerciales
+    </span>
+  </div>
+  <div>
+    <span class="text-2xl font-bold leading-none">1</span>
+    <br />
+    <span class="text-[11px] uppercase tracking-wide text-muted-foreground">
+      historia coherente
+    </span>
+  </div>
+  <div>
+    <span class="text-2xl font-bold leading-none">∞</span>
+    <br />
+    <span class="text-[11px] uppercase tracking-wide text-muted-foreground">
+      maniobras por enseñar
+    </span>
+  </div>
 </div>
 
 <div class="not-prose grid grid-cols-1 sm:grid-cols-2 gap-4 my-8">
   <figure class="m-0 flex h-full flex-col overflow-hidden rounded-2xl bg-muted/35">
-    <Image src={droneOne} alt="Vista aérea de una operación de Grúas del Vallès" class="aspect-[16/10] w-full object-cover" data-zoomable />
-    <figcaption class="flex-1 px-4 py-3 text-sm text-muted-foreground">La escala de las operaciones se entiende mejor cuando se ve el entorno real de trabajo.</figcaption>
+    <Image
+      src={droneOne}
+      alt="Vista aérea de una operación de Grúas del Vallès"
+      class="aspect-[16/10] w-full object-cover"
+      data-zoomable
+    />
+    <figcaption class="flex-1 px-4 py-3 text-sm text-muted-foreground">
+      La escala de las operaciones se entiende mejor cuando se ve el entorno real de trabajo.
+    </figcaption>
   </figure>
   <figure class="m-0 flex h-full flex-col overflow-hidden rounded-2xl bg-muted/35">
-    <Image src={landingHome} alt="Página principal de la landing de Grúas del Vallès" class="aspect-[16/10] w-full object-cover" data-zoomable />
-    <figcaption class="flex-1 px-4 py-3 text-sm text-muted-foreground">La nueva landing convierte esa capacidad en una primera impresión clara y comercial.</figcaption>
+    <Image
+      src={landingHome}
+      alt="Página principal de la landing de Grúas del Vallès"
+      class="aspect-[16/10] w-full object-cover"
+      data-zoomable
+    />
+    <figcaption class="flex-1 px-4 py-3 text-sm text-muted-foreground">
+      La nueva landing convierte esa capacidad en una primera impresión clara y comercial.
+    </figcaption>
   </figure>
 </div>
 
 <div class="not-prose grid gap-4 my-10 sm:grid-cols-2">
   <figure class="m-0 flex h-full flex-col overflow-hidden rounded-2xl bg-muted/35">
-    <Image src={landingMachinery} alt="Sección de maquinaria de la web de Grúas del Vallès" class="aspect-[16/10] w-full object-cover" data-zoomable />
-    <figcaption class="flex-1 px-4 py-3 text-sm text-muted-foreground">La flota se presenta de forma clara para que cada cliente pueda identificar la capacidad que necesita.</figcaption>
+    <Image
+      src={landingMachinery}
+      alt="Sección de maquinaria de la web de Grúas del Vallès"
+      class="aspect-[16/10] w-full object-cover"
+      data-zoomable
+    />
+    <figcaption class="flex-1 px-4 py-3 text-sm text-muted-foreground">
+      La flota se presenta de forma clara para que cada cliente pueda identificar la capacidad que
+      necesita.
+    </figcaption>
   </figure>
   <figure class="m-0 flex h-full flex-col overflow-hidden rounded-2xl bg-muted/35">
-    <Image src={landingAbout} alt="Sección sobre Grúas del Vallès y su experiencia" class="aspect-[16/10] w-full object-cover" data-zoomable />
-    <figcaption class="flex-1 px-4 py-3 text-sm text-muted-foreground">La experiencia y la forma de trabajar también forman parte de la propuesta comercial.</figcaption>
+    <Image
+      src={landingAbout}
+      alt="Sección sobre Grúas del Vallès y su experiencia"
+      class="aspect-[16/10] w-full object-cover"
+      data-zoomable
+    />
+    <figcaption class="flex-1 px-4 py-3 text-sm text-muted-foreground">
+      La experiencia y la forma de trabajar también forman parte de la propuesta comercial.
+    </figcaption>
   </figure>
   <figure class="m-0 flex h-full flex-col overflow-hidden rounded-2xl bg-muted/35 sm:col-span-2">
-    <Image src={landingContact} alt="Sección de contacto de la web de Grúas del Vallès" class="aspect-[16/7] w-full object-cover" data-zoomable />
-    <figcaption class="flex-1 px-4 py-3 text-sm text-muted-foreground">El recorrido termina con una llamada a la acción directa para solicitar información o presupuesto.</figcaption>
+    <Image
+      src={landingContact}
+      alt="Sección de contacto de la web de Grúas del Vallès"
+      class="aspect-[16/7] w-full object-cover"
+      data-zoomable
+    />
+    <figcaption class="flex-1 px-4 py-3 text-sm text-muted-foreground">
+      El recorrido termina con una llamada a la acción directa para solicitar información o
+      presupuesto.
+    </figcaption>
   </figure>
 </div>
 
-<video controls preload="metadata" class="not-prose my-8 aspect-video w-full rounded-2xl bg-foreground object-cover" poster={droneOne.src}>
+<video
+  controls
+  preload="metadata"
+  class="not-prose my-8 aspect-video w-full rounded-2xl bg-foreground object-cover"
+  poster={droneOne.src}
+>
   <source src="/projects/gruas-del-valles/dron.mp4" type="video/mp4" />
 </video>
 

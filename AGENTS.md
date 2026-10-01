@@ -157,7 +157,6 @@ Concise rules for building accessible, fast, delightful UIs. Use MUST/SHOULD/NEV
 - SHOULD: Match browser UI to bg
 - SHOULD: Avoid dark color gradient banding (use background images when needed)
 
-
 Before considering a change complete, verify:
 
 - Keyboard navigation, visible `:focus-visible`, skip link, semantic headings, labels, and named icon-only controls.

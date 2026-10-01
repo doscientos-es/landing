@@ -40,8 +40,7 @@ assert(
   'Homepage title must describe the primary services and audience.',
 )
 assert(
-  homePage.includes('pymes de Barcelona y el Maresme') &&
-    homePage.includes('precio cerrado'),
+  homePage.includes('pymes de Barcelona y el Maresme') && homePage.includes('precio cerrado'),
   'Homepage description must include the verified audience, service area, and offer.',
 )
 assert(

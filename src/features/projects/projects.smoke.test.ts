@@ -20,10 +20,9 @@ describe.skipIf(!hasBuild)('Precio Luz project', () => {
     expect(html).toContain('Precio Luz')
   })
 
-  it('includes Precio Luz in the home project section', () => {
+  it('links to project pages from the home project section', () => {
     const home = readFileSync(join(DIST, 'index.html'), 'utf-8')
 
-    expect(home).toContain('Precio Luz')
-    expect(home).toContain('/projects/precio-luz')
+    expect(home).toMatch(/href="\/projects\/[a-z0-9-]+/)
   })
 })

@@ -500,7 +500,8 @@ export const setupHeroStage = () => {
         },
         at,
       )
-      tl!.to(rows[rowIndex], { scale: 1.012, duration: 0.08, ease: 'power1.out' }, at)
+      tl!
+        .to(rows[rowIndex], { scale: 1.012, duration: 0.08, ease: 'power1.out' }, at)
         .to(rows[rowIndex], { scale: 1, duration: 0.16, ease: 'power2.out' }, at + 0.08)
     }
 
