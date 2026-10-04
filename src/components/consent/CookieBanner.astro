@@ -3,7 +3,7 @@
  * CookieBanner — Banner de consentimiento de cookies (RGPD/LOPDGDD)
  * Categorías:
  *   - analytics: GA4 + Microsoft Clarity
- *   - marketing: Meta Pixel
+ *   - marketing: Meta Pixel; GTM se carga solo si se aceptan ambas categorías.
  * Se muestra solo si no hay preferencias guardadas.
  */
 ---
@@ -11,7 +11,6 @@
 <div
   id="cookie-banner"
   role="dialog"
-  aria-modal="true"
   aria-label="Preferencias de cookies"
   class="fixed bottom-0 left-0 right-0 z-[9999] hidden"
 >
@@ -29,8 +28,9 @@
         </p>
         <p class="text-xs text-background/70 leading-relaxed">
           Usamos cookies analíticas (Google Analytics, Microsoft Clarity) y de
-          marketing (Meta Pixel) para mejorar la web y entender cómo nos
-          encuentras. Las cookies técnicas son siempre activas.
+          marketing (Google Tag Manager y Meta Pixel) para mejorar la web y
+          entender cómo nos encuentras. Las cookies técnicas son siempre
+          activas.
           <a
             href="/cookies"
             class="underline text-background/80 hover:text-background ml-1"
@@ -42,19 +42,19 @@
       <div class="flex flex-wrap gap-2 shrink-0">
         <button
           id="cookie-manage-btn"
-          class="text-xs text-background/60 hover:text-background underline cursor-pointer transition-colors"
+          class="min-h-11 px-2 text-xs text-background/60 hover:text-background underline cursor-pointer transition-colors"
         >
           Gestionar
         </button>
         <button
           id="cookie-reject-btn"
-          class="text-xs px-4 py-2 rounded-lg border border-background/30 text-background hover:bg-background/10 transition-colors cursor-pointer"
+          class="min-h-11 text-xs px-4 py-3 rounded-lg border border-background/30 text-background hover:bg-background/10 transition-colors cursor-pointer"
         >
           Solo necesarias
         </button>
         <button
           id="cookie-accept-btn"
-          class="text-xs px-4 py-2 rounded-lg bg-background text-foreground font-semibold hover:bg-background/90 transition-colors cursor-pointer"
+          class="min-h-11 text-xs px-4 py-3 rounded-lg bg-background text-foreground font-semibold hover:bg-background/90 transition-colors cursor-pointer"
         >
           Aceptar todo
         </button>
@@ -85,10 +85,13 @@
           <div class="bg-background/10 rounded-xl p-4">
             <div class="flex justify-between items-start mb-2">
               <p class="text-sm font-semibold text-background">Analíticas</p>
-              <label class="relative inline-flex items-center cursor-pointer">
+              <label
+                class="relative inline-flex min-h-11 min-w-11 items-center justify-center cursor-pointer"
+              >
                 <input
                   type="checkbox"
                   id="consent-analytics"
+                  aria-label="Permitir cookies analíticas"
                   class="sr-only peer"
                 />
                 <div
@@ -106,10 +109,13 @@
           <div class="bg-background/10 rounded-xl p-4">
             <div class="flex justify-between items-start mb-2">
               <p class="text-sm font-semibold text-background">Marketing</p>
-              <label class="relative inline-flex items-center cursor-pointer">
+              <label
+                class="relative inline-flex min-h-11 min-w-11 items-center justify-center cursor-pointer"
+              >
                 <input
                   type="checkbox"
                   id="consent-marketing"
+                  aria-label="Permitir cookies de marketing"
                   class="sr-only peer"
                 />
                 <div
@@ -119,14 +125,14 @@
               </label>
             </div>
             <p class="text-xs text-background/60">
-              Meta Pixel y seguimiento de campañas de publicidad.
+              Google Tag Manager y Meta Pixel para medir campañas de publicidad.
             </p>
           </div>
         </div>
         <div class="flex gap-3 justify-end">
           <button
             id="cookie-save-btn"
-            class="text-xs px-4 py-2 rounded-lg bg-background text-foreground font-semibold hover:bg-background/90 transition-colors cursor-pointer"
+            class="min-h-11 text-xs px-4 py-3 rounded-lg bg-background text-foreground font-semibold hover:bg-background/90 transition-colors cursor-pointer"
           >
             Guardar preferencias
           </button>
@@ -143,6 +149,7 @@
     const managePanel = document.getElementById("cookie-manage-panel");
 
     function saveConsent(analytics, marketing) {
+      const previousConsent = window.__DOS_CONSENT;
       const consent = {
         analytics: !!analytics,
         marketing: !!marketing,
@@ -166,13 +173,45 @@
       }
 
       banner.classList.add("hidden");
+      window.dispatchEvent(new CustomEvent("doscientos:consent-updated"));
       loadTrackers(consent);
+      if (
+        (previousConsent?.analytics && !consent.analytics) ||
+        (previousConsent?.marketing && !consent.marketing)
+      ) {
+        clearTrackingCookies();
+        try {
+          localStorage.removeItem("doscientos:first-touch");
+          localStorage.removeItem("doscientos:visitor-id");
+          sessionStorage.removeItem("doscientos:event-id");
+        } catch (_) {
+          // Tracking is already blocked by the newly saved preferences.
+        }
+        // Unload trackers that were initialized under the previous choice.
+        window.location.reload();
+      }
+    }
+
+    function clearTrackingCookies() {
+      const names = document.cookie
+        .split(";")
+        .map((part) => part.trim().split("=")[0])
+        .filter((name) =>
+          /^(?:_ga(?:_|$)|_gid$|_gat|_gcl_|_clck$|_clsk$|_fbp$|_fbc$)/.test(
+            name,
+          ),
+        );
+      const host = window.location.hostname;
+      const domains = ["", `; domain=${host}`, `; domain=.${host}`];
+      const secure = window.location.protocol === "https:" ? "; Secure" : "";
+      for (const name of names) {
+        for (const domain of domains) {
+          document.cookie = `${name}=; Max-Age=0; path=/${domain}; SameSite=Lax${secure}`;
+        }
+      }
     }
 
     function loadTrackers(consent) {
-      // GA4 ya carga siempre vía GoogleAnalytics.astro + Consent Mode v2.
-      // Aquí solo cargamos trackers que no soportan Consent Mode (hard-block).
-
       const internalParam = new URLSearchParams(window.location.search).get(
         "internal_traffic",
       );
@@ -217,6 +256,46 @@
           y = l.getElementsByTagName(r)[0];
           y.parentNode.insertBefore(t, y);
         })(window, document, "clarity", "script", window.CLARITY_ID_PENDING);
+      }
+      // Analytics: GA4. The Google script is hard-blocked until opt-in; this
+      // also avoids sending cookieless measurement pings before consent.
+      if (
+        consent.analytics &&
+        !isInternalTraffic &&
+        window.GA_MEASUREMENT_ID_PENDING &&
+        !document.getElementById("google-analytics-tracking")
+      ) {
+        const script = document.createElement("script");
+        script.id = "google-analytics-tracking";
+        script.async = true;
+        script.src =
+          "https://www.googletagmanager.com/gtag/js?id=" +
+          encodeURIComponent(window.GA_MEASUREMENT_ID_PENDING);
+        document.head.appendChild(script);
+        window.gtag("js", new Date());
+        window.gtag("config", window.GA_MEASUREMENT_ID_PENDING);
+      }
+      // The container may contain tags from either category, so require both
+      // choices instead of trusting its current contents to stay unchanged.
+      if (
+        consent.marketing &&
+        consent.analytics &&
+        !isInternalTraffic &&
+        window.GTM_CONTAINER_ID_PENDING &&
+        !document.getElementById("google-tag-manager-tracking")
+      ) {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          "gtm.start": new Date().getTime(),
+          event: "gtm.js",
+        });
+        const script = document.createElement("script");
+        script.id = "google-tag-manager-tracking";
+        script.async = true;
+        script.src =
+          "https://www.googletagmanager.com/gtm.js?id=" +
+          encodeURIComponent(window.GTM_CONTAINER_ID_PENDING);
+        document.head.appendChild(script);
       }
       // Marketing: Meta Pixel (no soporta Consent Mode → hard-block)
       if (
@@ -283,6 +362,7 @@
 
     // Show banner only if no consent stored
     if (!window.__DOS_CONSENT) {
+      clearTrackingCookies();
       banner.classList.remove("hidden");
     } else {
       loadTrackers(window.__DOS_CONSENT);

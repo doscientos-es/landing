@@ -5,7 +5,7 @@ import "~/styles/prose.css";
 import { getMetadata } from "~/shared/lib/constants";
 
 const { name, legalName, links } = getMetadata();
-const lastUpdated = "18 de mayo de 2026";
+const lastUpdated = "4 de octubre de 2026";
 ---
 
 <MainLayout
@@ -30,10 +30,11 @@ const lastUpdated = "18 de mayo de 2026";
       </p>
 
       <p>
-        <strong>Importante:</strong> las cookies analíticas y de marketing solo se
-        activan si das tu consentimiento explícito a través del banner que aparece
-        al visitar el sitio por primera vez. Puedes cambiar tus preferencias en cualquier
-        momento desde el enlace al final de esta página.
+        <strong>Importante:</strong> las cookies y tecnologías analíticas o de marketing
+        solo se activan después de tu elección afirmativa. Rechazarlas está disponible
+        con la misma facilidad que aceptarlas. La elección se conserva durante un
+        máximo de seis meses; puedes modificarla en cualquier momento desde el control
+        al final de esta página.
       </p>
 
       <h2>1. ¿Qué son las cookies?</h2>
@@ -64,13 +65,22 @@ const lastUpdated = "18 de mayo de 2026";
             <td><code>theme</code></td>
             <td>{name}</td>
             <td>Preferencia de tema visual (claro/oscuro).</td>
-            <td>Persistente (localStorage)</td>
+            <td>Hasta que cambies o borres la preferencia</td>
           </tr>
           <tr>
             <td><code>doscientos-consent</code></td>
             <td>{name}</td>
             <td>Almacena tus preferencias de consentimiento de cookies.</td>
-            <td>Persistente (localStorage)</td>
+            <td>Máximo seis meses</td>
+          </tr>
+          <tr>
+            <td><code>doscientos:contact-form</code></td>
+            <td>{name}</td>
+            <td>
+              Guarda temporalmente en sessionStorage el borrador del formulario
+              multipaso para recuperar el progreso durante la sesión.
+            </td>
+            <td>Sesión del navegador</td>
           </tr>
         </tbody>
       </table>
@@ -91,10 +101,11 @@ const lastUpdated = "18 de mayo de 2026";
         <tbody>
           <tr>
             <td>Google Analytics 4</td>
-            <td>Google LLC (EE. UU.)</td>
+            <td>Google</td>
             <td
-              >Analítica de tráfico: páginas vistas, sesiones, fuentes de
-              tráfico. Datos anonimizados.</td
+              >Analítica de tráfico: páginas vistas, sesiones y fuentes de
+              tráfico. La información se trata según la configuración de la
+              herramienta y no se presume anónima.</td
             >
             <td
               ><a
@@ -106,10 +117,10 @@ const lastUpdated = "18 de mayo de 2026";
           </tr>
           <tr>
             <td>Microsoft Clarity</td>
-            <td>Microsoft (EE. UU.)</td>
+            <td>Microsoft</td>
             <td
-              >Mapas de calor y grabaciones de sesión anónimas para detectar
-              problemas de UX.</td
+              >Mapas de calor y reproducción de interacciones para detectar
+              problemas de uso. No introduzcas datos sensibles en la web.</td
             >
             <td
               ><a
@@ -137,8 +148,24 @@ const lastUpdated = "18 de mayo de 2026";
         </thead>
         <tbody>
           <tr>
+            <td>Google Tag Manager</td>
+            <td>Google</td>
+            <td>
+              Carga y administra etiquetas del sitio solo después de aceptar
+              tanto analítica como marketing. El contenedor no debe usarse para
+              añadir etiquetas no descritas aquí.
+            </td>
+            <td
+              ><a
+                href="https://policies.google.com/privacy"
+                target="_blank"
+                rel="noopener noreferrer">Política</a
+              ></td
+            >
+          </tr>
+          <tr>
             <td>Meta Pixel</td>
-            <td>Meta Platforms (EE. UU.)</td>
+            <td>Meta Platforms</td>
             <td
               >Seguimiento de conversiones de campañas de Facebook/Instagram.
               Medición de ROI publicitario.</td
@@ -168,21 +195,25 @@ const lastUpdated = "18 de mayo de 2026";
 
       <h2>4. Transferencias internacionales</h2>
       <p>
-        Google, Microsoft y Meta están ubicados en EE. UU. Las transferencias de
-        datos se realizan bajo las garantías adecuadas del RGPD (Decisiones de
-        Adecuación o Cláusulas Contractuales Tipo). Consulta sus políticas de
-        privacidad para más detalles.
+        Algunos proveedores pueden tratar datos fuera del Espacio Económico
+        Europeo. En esos casos se aplicará el mecanismo de transferencia que
+        corresponda al proveedor y a la configuración vigente, como una decisión
+        de adecuación o cláusulas contractuales tipo. Puedes solicitarnos el
+        detalle aplicable.
       </p>
 
       <h2>5. Cómo gestionar tus preferencias</h2>
       <p>
-        Puedes cambiar tus preferencias de cookies en cualquier momento haciendo
-        clic en el botón "Gestionar preferencias de cookies" al final de esta
-        página, o borrando la clave <code>doscientos-consent</code> de localStorage
-        en las herramientas de desarrollador de tu navegador.
+        Puedes cambiar tus preferencias en cualquier momento con el botón
+        «Gestionar preferencias de cookies» al final de esta página. Al retirar
+        una categoría, el sitio guarda la nueva elección, elimina los
+        identificadores de seguimiento accesibles y recarga la página para
+        detener las etiquetas ya cargadas. La preferencia caduca a los seis
+        meses y volveremos a solicitarla.
       </p>
       <p>
-        También puedes rechazar cookies desde la configuración de tu navegador:
+        También puedes bloquear o borrar cookies desde la configuración de tu
+        navegador; esto no sustituye al control de preferencias del sitio:
       </p>
       <ul>
         <li>
@@ -234,13 +265,13 @@ const lastUpdated = "18 de mayo de 2026";
       <div class="not-prose flex flex-wrap items-center gap-4">
         <button
           onclick="window.__openCookieSettings?.()"
-          class="text-sm px-4 py-2 rounded-lg bg-primary text-primary-foreground font-semibold hover:opacity-90 transition-opacity cursor-pointer"
+          class="min-h-11 text-sm px-4 py-3 rounded-lg bg-primary text-primary-foreground font-semibold hover:opacity-90 transition-opacity cursor-pointer"
         >
           Gestionar preferencias de cookies
         </button>
         <button
           onclick="localStorage.removeItem('doscientos-consent'); window.location.reload();"
-          class="text-sm underline cursor-pointer text-muted-foreground hover:text-foreground transition-colors"
+          class="min-h-11 px-2 text-sm underline cursor-pointer text-muted-foreground hover:text-foreground transition-colors"
         >
           Restablecer mis preferencias de cookies
         </button>

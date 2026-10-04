@@ -61,6 +61,22 @@ function isChatGptReferrer(referrer: string): boolean {
   }
 }
 
+function hasAnalyticsConsent(): boolean {
+  return (
+    typeof window !== 'undefined' &&
+    (window as unknown as { __DOS_CONSENT?: { analytics?: boolean } | null }).__DOS_CONSENT
+      ?.analytics === true
+  )
+}
+
+function hasMarketingConsent(): boolean {
+  return (
+    typeof window !== 'undefined' &&
+    (window as unknown as { __DOS_CONSENT?: { marketing?: boolean } | null }).__DOS_CONSENT
+      ?.marketing === true
+  )
+}
+
 /**
  * A session-scoped opt-out for the team’s manual landing tests. It is activated
  * explicitly with `?internal_traffic=1` and reset with `?internal_traffic=0`.
@@ -101,14 +117,24 @@ function currentTouch(): Touch {
 }
 
 function readFirstTouch(current: Touch): Touch {
-  if (typeof window === 'undefined') return current
+  if (typeof window === 'undefined' || !hasAnalyticsConsent()) return current
   try {
     const stored = window.localStorage.getItem(FIRST_TOUCH_KEY)
-    if (stored) return { ...current, ...JSON.parse(stored) }
-    window.localStorage.setItem(FIRST_TOUCH_KEY, JSON.stringify(current))
-    return current
+    const touch = stored ? { ...current, ...JSON.parse(stored) } : current
+    if (hasMarketingConsent()) {
+      if (!stored) window.localStorage.setItem(FIRST_TOUCH_KEY, JSON.stringify(touch))
+      return touch
+    }
+
+    // Ad click identifiers are marketing data, not general analytics. Do not
+    // retain identifiers captured by an older consent implementation either.
+    const analyticsOnlyTouch = { ...touch, gclid: '', fbclid: '' }
+    if (!stored || touch.gclid || touch.fbclid || current.gclid || current.fbclid) {
+      window.localStorage.setItem(FIRST_TOUCH_KEY, JSON.stringify(analyticsOnlyTouch))
+    }
+    return analyticsOnlyTouch
   } catch {
-    return current
+    return hasMarketingConsent() ? current : { ...current, gclid: '', fbclid: '' }
   }
 }
 
@@ -159,12 +185,13 @@ export function inferConversionStep(): string {
 export function buildAttributionPayload(
   conversionStep = inferConversionStep(),
 ): AttributionPayload {
-  const last = currentTouch()
-  const first = readFirstTouch(last)
+  const consented = hasAnalyticsConsent()
+  const last = consented ? currentTouch() : emptyTouch()
+  const first = consented ? readFirstTouch(last) : last
   return {
-    event_id: getOrCreateEventId(),
-    visitor_id: getOrCreateVisitorId(),
-    conversion_step: conversionStep,
+    event_id: consented ? getOrCreateEventId() : '',
+    visitor_id: consented ? getOrCreateVisitorId() : '',
+    conversion_step: consented ? conversionStep : '',
     first_landing_path: first.landing_path,
     first_referrer: first.referrer,
     first_utm_source: first.utm_source,
@@ -179,9 +206,24 @@ export function buildAttributionPayload(
     last_utm_campaign: last.utm_campaign,
     last_utm_term: last.utm_term,
     last_utm_content: last.utm_content,
-    first_gclid: first.gclid,
-    last_gclid: last.gclid,
-    internal_traffic: isInternalTraffic(),
+    first_gclid: hasMarketingConsent() ? first.gclid : '',
+    last_gclid: hasMarketingConsent() ? last.gclid : '',
+    internal_traffic: consented && isInternalTraffic(),
+  }
+}
+
+function emptyTouch(): Touch {
+  return {
+    landing_path: '',
+    referrer: '',
+    utm_source: '',
+    utm_medium: '',
+    utm_campaign: '',
+    utm_term: '',
+    utm_content: '',
+    gclid: '',
+    fbclid: '',
+    captured_at: '',
   }
 }
 
@@ -245,9 +287,7 @@ export function getMetaAttribution(): {
   meta_fbp: string | null
   meta_fbclid: string | null
 } {
-  const consent =
-    (window as unknown as { __DOS_CONSENT?: { marketing?: boolean } | null }).__DOS_CONSENT
-      ?.marketing === true
+  const consent = hasMarketingConsent()
   if (!consent) {
     return { marketing_consent: false, meta_fbc: null, meta_fbp: null, meta_fbclid: null }
   }
@@ -280,33 +320,55 @@ export function buildTrackedWhatsappUrl({
   return url.toString()
 }
 
+export function buildDirectWhatsappUrl(trackingHref: string): string | null {
+  try {
+    const url = new URL(trackingHref)
+    if (!url.pathname.endsWith('/api/public/whatsapp-click')) return null
+    const phone = (url.searchParams.get('phone') || '').replace(/\D/g, '')
+    const target = new URL(`https://wa.me/${phone || '34671171525'}`)
+    const text = url.searchParams.get('text')
+    if (text) target.searchParams.set('text', text)
+    return target.toString()
+  } catch {
+    return null
+  }
+}
+
 /**
  * Client-only attribution bootstrap. Deliberately minimal: no global click
  * hijacking, y el único tráfico de red que genera sale por `sendBeacon`
  * (ver trackEvent). Hace las dos cosas de las que depende ventas:
  *
- * 1. Capture first-touch (referrer/UTMs) once per visitor, so the eventual
- *    lead submission can report both first- and last-touch attribution.
- * 2. Stamp the visitor/event id + current touch onto WhatsApp CTA links so
- *    the click — logged server-side by /api/public/whatsapp-click — can be
- *    linked back to the lead once it converts.
+ * 1. Capture first-touch (referrer/UTMs) only after analytics consent, so the
+ *    eventual lead submission can report attribution when permitted.
+ * 2. Stamp consented visitor/event IDs onto WhatsApp CTAs; without consent the
+ *    link goes directly to WhatsApp and no click event is stored.
  */
 export function hydrateWhatsappLinks(): void {
   if (typeof document === 'undefined') return
   if (isInternalTraffic()) return
+  const consented = hasAnalyticsConsent()
   const touch = currentTouch()
-  readFirstTouch(touch) // side-effect only: persists first-touch once per visitor
-  const eventId = getOrCreateEventId()
-  const visitorId = getOrCreateVisitorId()
 
   const links = document.querySelectorAll<HTMLAnchorElement>(
-    'a[href*="/api/public/whatsapp-click"]',
+    'a[data-attribution-tracking-href], a[href*="/api/public/whatsapp-click"]',
   )
   for (const link of links) {
     try {
-      const url = new URL(link.href)
+      const url = new URL(link.dataset.attributionTrackingHref || link.href)
+      if (!url.pathname.endsWith('/api/public/whatsapp-click')) continue
+      link.dataset.attributionTrackingHref ||= url.toString()
+      if (!consented) {
+        const directUrl = buildDirectWhatsappUrl(url.toString())
+        if (directUrl) link.href = directUrl
+        continue
+      }
+      readFirstTouch(touch)
+      const eventId = getOrCreateEventId()
+      const visitorId = getOrCreateVisitorId()
       url.searchParams.set('event_id', eventId)
       url.searchParams.set('visitor_id', visitorId)
+      url.searchParams.set('analytics_consent', 'true')
       url.searchParams.set('landing_path', touch.landing_path)
       if (touch.referrer) url.searchParams.set('referrer', touch.referrer)
       for (const key of [
@@ -331,12 +393,27 @@ export function hydrateWhatsappLinks(): void {
  */
 export function hydrateCalendarBookingLinks(): void {
   if (typeof document === 'undefined' || isInternalTraffic()) return
-  const attribution = buildAttributionPayload('calendar_booking')
+  const consented = hasAnalyticsConsent()
+  const attribution = consented ? buildAttributionPayload('calendar_booking') : null
   const links = document.querySelectorAll<HTMLAnchorElement>('a[data-cal-booking]')
 
   for (const link of links) {
+    const originalUrl = link.dataset.attributionOriginalHref || link.href
+    link.dataset.attributionOriginalHref ||= originalUrl
+    if (!consented || !attribution) {
+      link.href = originalUrl
+      if (link.dataset.calBookingTracked === 'true') continue
+      link.dataset.calBookingTracked = 'true'
+      link.addEventListener('click', () => {
+        trackEvent('calendar_booking_clicked', {
+          conversionStep: 'calendar_booking',
+          payload: { placement: link.dataset.calBookingPlacement ?? 'calendar_booking' },
+        })
+      })
+      continue
+    }
     const attributedUrl = buildAttributedCalendarBookingUrl(
-      link.href,
+      originalUrl,
       attribution,
       link.dataset.calBookingRef ?? '',
     )
@@ -396,8 +473,9 @@ const TRACK_DEDUPE_MS = 200
 const lastSentAt = new Map<string, number>()
 
 /**
- * Envía un evento intermedio (page_view, calculator_used, …) al backoffice sin
- * bloquear nada: `sendBeacon` deja la petición en manos del navegador (fuera
+ * Envía un evento intermedio (page_view, calculator_used, …) al backoffice
+ * únicamente tras el consentimiento analítico, sin bloquear nada: `sendBeacon`
+ * deja la petición en manos del navegador (fuera
  * del hilo principal y sobreviviendo a la navegación) y solo si no está
  * disponible cae a `fetch` con `keepalive`. Nunca lanza ni espera respuesta.
  *
@@ -409,8 +487,8 @@ export function trackEvent(
   eventName: string,
   options: { conversionStep?: string; payload?: Record<string, unknown> } = {},
 ): void {
+  if (typeof window === 'undefined' || !hasAnalyticsConsent()) return
   if (isInternalTraffic()) return
-  if (typeof window === 'undefined') return
 
   const dedupeKey = `${eventName}:${options.conversionStep ?? ''}`
   const now = Date.now()
@@ -487,4 +565,12 @@ export function initAttribution(): void {
   hydrateCalendarBookingLinks()
   captureClarityPlayback()
   trackPageView()
+  if (typeof window !== 'undefined' && !window.__DOS_ATTRIBUTION_CONSENT_LISTENER) {
+    window.__DOS_ATTRIBUTION_CONSENT_LISTENER = true
+    window.addEventListener('doscientos:consent-updated', () => {
+      hydrateWhatsappLinks()
+      hydrateCalendarBookingLinks()
+      if (hasAnalyticsConsent()) trackPageView()
+    })
+  }
 }

@@ -4,10 +4,9 @@
  *
  * Implementa Google Consent Mode v2 (gtag.js):
  *  1. Inicializa window.dataLayer y window.gtag.
- *  2. Llama consent 'default' con todo denied para la EEA;
- *     granted por defecto para el resto del mundo (sin banner allí).
- *  3. Si el usuario ya había guardado preferencias, emite consent 'update'
- *     de inmediato para que GA4 no espere innecesariamente.
+ *  2. Llama consent 'default' con todo denied para todos los visitantes.
+ *  3. Solo acepta preferencias válidas durante seis meses; después vuelve a
+ *     pedir una elección y elimina identificadores anteriores.
  *  4. Expone window.__DOS_CONSENT para el resto de componentes.
  */
 ---
@@ -20,42 +19,8 @@
       dataLayer.push(arguments);
     };
 
-    // ── 2. Países EEA donde se muestra el banner (ISO 3166-1 alpha-2) ──
-    var EEA = [
-      "AT",
-      "BE",
-      "BG",
-      "HR",
-      "CY",
-      "CZ",
-      "DK",
-      "EE",
-      "FI",
-      "FR",
-      "DE",
-      "GR",
-      "HU",
-      "IE",
-      "IT",
-      "LV",
-      "LT",
-      "LU",
-      "MT",
-      "NL",
-      "PL",
-      "PT",
-      "RO",
-      "SK",
-      "SI",
-      "ES",
-      "SE",
-      "IS",
-      "LI",
-      "NO",
-      "CH",
-    ];
-
-    // Default denied para EEA (banner activo)
+    // Elección conservadora: no cargar ni almacenar analítica/publicidad sin
+    // una elección afirmativa, independientemente de la ubicación detectada.
     gtag("consent", "default", {
       ad_storage: "denied",
       ad_user_data: "denied",
@@ -64,25 +29,31 @@
       functionality_storage: "granted",
       security_storage: "granted",
       wait_for_update: 500,
-      region: EEA,
-    });
-
-    // Default granted fuera de EEA (sin banner, sin pérdida de medición)
-    gtag("consent", "default", {
-      ad_storage: "granted",
-      ad_user_data: "granted",
-      ad_personalization: "granted",
-      analytics_storage: "granted",
     });
 
     // Mantener los IDs de clic fuera de las URLs públicas. No hay medición
     // entre dominios en la landing, así que no activamos URL passthrough (_gl).
     gtag("set", "ads_data_redaction", true);
 
-    // ── 3. Leer preferencias guardadas ──
+    // ── 3. Leer preferencias vigentes (máximo seis meses) ──
     try {
       var stored = localStorage.getItem("doscientos-consent");
-      window.__DOS_CONSENT = stored ? JSON.parse(stored) : null;
+      var parsed = stored ? JSON.parse(stored) : null;
+      var savedAt = parsed ? Date.parse(parsed.date) : NaN;
+      var valid =
+        parsed &&
+        typeof parsed.analytics === "boolean" &&
+        typeof parsed.marketing === "boolean" &&
+        Number.isFinite(savedAt) &&
+        Date.now() >= savedAt &&
+        Date.now() - savedAt < 180 * 24 * 60 * 60 * 1000;
+      window.__DOS_CONSENT = valid ? parsed : null;
+      if (stored && !valid) localStorage.removeItem("doscientos-consent");
+      if (!valid) {
+        localStorage.removeItem("doscientos:first-touch");
+        localStorage.removeItem("doscientos:visitor-id");
+        sessionStorage.removeItem("doscientos:event-id");
+      }
     } catch (_) {
       window.__DOS_CONSENT = null;
     }

@@ -145,7 +145,7 @@ const chaos = hero.stage.chaos.map((item, i) => ({
       <script is:inline>
         ["hero-cta-primary", "hero-cta-secondary"].forEach((id) => {
           document.getElementById(id)?.addEventListener("click", () => {
-            if ("gtag" in window) {
+            if (window.__DOS_CONSENT?.analytics && "gtag" in window) {
               window.gtag("event", "cta_click", {
                 event_category: "engagement",
                 event_label: id,
@@ -444,7 +444,9 @@ const chaos = hero.stage.chaos.map((item, i) => ({
     overflow: hidden;
     background: color-mix(in srgb, var(--chip-color) 10%, var(--background));
     border: 1px solid color-mix(in srgb, var(--chip-color) 18%, var(--muted));
-    box-shadow: 0 12px 28px rgb(12 17 11 / 0.1), inset 0 1px rgb(255 255 255 / 0.35);
+    box-shadow:
+      0 12px 28px rgb(12 17 11 / 0.1),
+      inset 0 1px rgb(255 255 255 / 0.35);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -457,7 +459,16 @@ const chaos = hero.stage.chaos.map((item, i) => ({
     inset: 0;
     opacity: 0.22;
     pointer-events: none;
-    background-image: linear-gradient(color-mix(in srgb, var(--chip-color) 35%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--chip-color) 35%, transparent) 1px, transparent 1px);
+    background-image:
+      linear-gradient(
+        color-mix(in srgb, var(--chip-color) 35%, transparent) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        90deg,
+        color-mix(in srgb, var(--chip-color) 35%, transparent) 1px,
+        transparent 1px
+      );
     background-size: 18px 18px;
     mask-image: linear-gradient(to bottom right, black, transparent 70%);
   }

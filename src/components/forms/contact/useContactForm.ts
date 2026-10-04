@@ -278,6 +278,8 @@ export function useContactForm() {
     trackEvent('form_submit_attempted', { conversionStep: 'contact_form' })
 
     const attribution = buildAttributionPayload()
+    const analyticsConsent = window.__DOS_CONSENT?.analytics === true
+    const permittedAttribution = analyticsConsent ? contextParams.current : null
     const firstTouch = {
       utm_source: attribution.first_utm_source,
       utm_medium: attribution.first_utm_medium,
@@ -303,13 +305,13 @@ export function useContactForm() {
       budget: formData.budget,
       dedupeKey: dedupeKey.current,
       website, // honeypot — debe quedar vacío
-      utm_source: contextParams.current.utm_source || firstTouch.utm_source,
-      utm_medium: contextParams.current.utm_medium || firstTouch.utm_medium,
-      utm_campaign: contextParams.current.utm_campaign || firstTouch.utm_campaign,
-      utm_term: contextParams.current.utm_term || firstTouch.utm_term,
-      utm_content: contextParams.current.utm_content || firstTouch.utm_content,
-      gclid: firstTouch.gclid,
-      referrer: document.referrer ?? '',
+      utm_source: permittedAttribution?.utm_source || firstTouch.utm_source,
+      utm_medium: permittedAttribution?.utm_medium || firstTouch.utm_medium,
+      utm_campaign: permittedAttribution?.utm_campaign || firstTouch.utm_campaign,
+      utm_term: permittedAttribution?.utm_term || firstTouch.utm_term,
+      utm_content: permittedAttribution?.utm_content || firstTouch.utm_content,
+      gclid: analyticsConsent ? firstTouch.gclid : '',
+      referrer: analyticsConsent ? (document.referrer ?? '') : '',
       language: formData.language || preferredContactLanguage(window.navigator.language),
       landing_path: contextParams.current.page_path,
       landing_ref: contextParams.current.ref,
@@ -348,7 +350,7 @@ export function useContactForm() {
       } catch {
         // localStorage no disponible
       }
-      if ('gtag' in window) {
+      if (analyticsConsent && 'gtag' in window) {
         // @ts-ignore
         window.gtag('event', 'generate_lead', {
           event_category: 'contact',
@@ -360,15 +362,17 @@ export function useContactForm() {
           conversion_step: attribution.conversion_step,
         })
       }
-      window.dataLayer = window.dataLayer || []
-      window.dataLayer.push({
-        event: 'generate_lead',
-        conversion_step: 'contact_form',
-        lead_id: payload?.leadId ?? undefined,
-        event_id: attribution.event_id,
-      })
+      if (analyticsConsent && metaAttribution.marketing_consent) {
+        window.dataLayer = window.dataLayer || []
+        window.dataLayer.push({
+          event: 'generate_lead',
+          conversion_step: 'contact_form',
+          lead_id: payload?.leadId ?? undefined,
+          event_id: attribution.event_id,
+        })
+      }
 
-      if ('fbq' in window) {
+      if (metaAttribution.marketing_consent && 'fbq' in window) {
         // @ts-ignore
         window.fbq(
           'track',
@@ -392,10 +396,13 @@ export function useContactForm() {
             (attribution.first_utm_medium || attribution.last_utm_medium).toLowerCase(),
           )),
       )
+      const conversionTrackingEnabled = analyticsConsent && metaAttribution.marketing_consent
       window.location.assign(
-        paidGoogleVisit
+        conversionTrackingEnabled && paidGoogleVisit
           ? '/contact/gracias?conversion=google_ads'
-          : '/contact/gracias?conversion=lead',
+          : conversionTrackingEnabled
+            ? '/contact/gracias?conversion=lead'
+            : '/contact/gracias',
       )
     } catch (err) {
       setStatus('error')

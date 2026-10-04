@@ -156,7 +156,7 @@ const { compact = false, ctaBase = "/diagnostico" } = Astro.props;
         cta.href = `${base}?ref=calculadora-coste&coste=${yearlyCost}&horas=${yearlyHours}#formulario`;
       }
 
-      if ("gtag" in window) {
+      if (window.__DOS_CONSENT?.analytics && "gtag" in window) {
         // @ts-ignore
         window.gtag("event", "calculator_used", {
           event_category: "conversion",
@@ -188,7 +188,7 @@ const { compact = false, ctaBase = "/diagnostico" } = Astro.props;
       }),
     );
     cta?.addEventListener("click", () => {
-      if ("gtag" in window) {
+      if (window.__DOS_CONSENT?.analytics && "gtag" in window) {
         // @ts-ignore
         window.gtag("event", "cta_click", {
           event_category: "conversion",

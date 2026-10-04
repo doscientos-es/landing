@@ -60,7 +60,7 @@ import UpRightArrow from "./UpRightArrow.astro";
     document.getElementById("floating-cta-link")?.addEventListener(
       "click",
       () => {
-        if ("gtag" in window) {
+        if (window.__DOS_CONSENT?.analytics && "gtag" in window) {
           // @ts-ignore
           window.gtag("event", "cta_click", {
             event_category: "engagement",

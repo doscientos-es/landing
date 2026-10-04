@@ -1,6 +1,82 @@
-import { describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 
-import { buildAttributedCalendarBookingUrl } from './attribution'
+import {
+  buildAttributionPayload,
+  buildAttributedCalendarBookingUrl,
+  buildDirectWhatsappUrl,
+  trackEvent,
+} from './attribution'
+
+afterEach(() => {
+  vi.unstubAllGlobals()
+})
+
+describe('attribution consent', () => {
+  it('does not persist or send visitor attribution without analytics consent', () => {
+    const localStorage = {
+      getItem: vi.fn(() => null),
+      setItem: vi.fn(),
+      removeItem: vi.fn(),
+    }
+    const sessionStorage = {
+      getItem: vi.fn(() => null),
+      setItem: vi.fn(),
+      removeItem: vi.fn(),
+    }
+    const fetch = vi.fn()
+    vi.stubGlobal('window', {
+      __DOS_CONSENT: null,
+      location: { search: '?utm_source=campaign', pathname: '/contact' },
+      localStorage,
+      sessionStorage,
+    })
+    vi.stubGlobal('fetch', fetch)
+
+    const attribution = buildAttributionPayload()
+    trackEvent('page_view')
+
+    expect(attribution.visitor_id).toBe('')
+    expect(attribution.first_utm_source).toBe('')
+    expect(attribution.last_landing_path).toBe('')
+    expect(attribution.conversion_step).toBe('')
+    expect(attribution.internal_traffic).toBe(false)
+    expect(localStorage.setItem).not.toHaveBeenCalled()
+    expect(sessionStorage.setItem).not.toHaveBeenCalled()
+    expect(fetch).not.toHaveBeenCalled()
+  })
+
+  it('does not retain advertising click IDs with analytics-only consent', () => {
+    const localStorage = {
+      getItem: vi.fn(() => null),
+      setItem: vi.fn(),
+      removeItem: vi.fn(),
+    }
+    const sessionStorage = {
+      getItem: vi.fn(() => null),
+      setItem: vi.fn(),
+      removeItem: vi.fn(),
+    }
+    vi.stubGlobal('window', {
+      __DOS_CONSENT: { analytics: true, marketing: false },
+      location: {
+        search: '?utm_source=campaign&gclid=google-click&fbclid=meta-click',
+        pathname: '/contact',
+      },
+      localStorage,
+      sessionStorage,
+    })
+    vi.stubGlobal('document', { referrer: 'https://search.example/' })
+
+    const attribution = buildAttributionPayload()
+
+    expect(attribution.first_utm_source).toBe('campaign')
+    expect(attribution.first_gclid).toBe('')
+    expect(attribution.last_gclid).toBe('')
+    const storedTouch = JSON.parse(localStorage.setItem.mock.calls[0][1] as string)
+    expect(storedTouch.gclid).toBe('')
+    expect(storedTouch.fbclid).toBe('')
+  })
+})
 
 describe('buildAttributedCalendarBookingUrl', () => {
   it('preserves the booking URL and stamps the visitor attribution as Cal metadata', () => {
@@ -64,5 +140,19 @@ describe('buildAttributedCalendarBookingUrl', () => {
         internal_traffic: false,
       }),
     ).toBeNull()
+  })
+})
+
+describe('buildDirectWhatsappUrl', () => {
+  it('removes tracking parameters while preserving the WhatsApp destination and message', () => {
+    const result = buildDirectWhatsappUrl(
+      'https://app.example/api/public/whatsapp-click?phone=%2B34%20611%20222%20333&text=Hola&visitor_id=visitor',
+    )
+
+    const url = new URL(result ?? '')
+    expect(url.hostname).toBe('wa.me')
+    expect(url.pathname).toBe('/34611222333')
+    expect(url.searchParams.get('text')).toBe('Hola')
+    expect(url.searchParams.has('visitor_id')).toBe(false)
   })
 })

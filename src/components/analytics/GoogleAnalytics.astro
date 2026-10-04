@@ -2,9 +2,8 @@
 /**
  * Google Analytics 4 (GA4) — Consent Mode v2
  *
- * gtag.js se carga siempre (requerido por Consent Mode avanzado).
- * El control de datos lo ejerce el 'consent default/update' de ConsentScript.astro.
- * Mientras el usuario no acepte, GA4 envía pings anónimos sin cookies (modelado).
+ * El identificador queda disponible en la página, pero gtag.js y cualquier
+ * comunicación con Google solo se cargan después del consentimiento analítico.
  */
 
 const GA_MEASUREMENT_ID = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
@@ -15,50 +14,10 @@ if (isDev) {
 }
 ---
 
-{!isDev && GA_MEASUREMENT_ID && (
-  <>
-    <link rel="preconnect" href="https://www.googletagmanager.com" />
-    <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
-
-    <!-- gtag.js siempre carga; Consent Mode controla qué datos se envían -->
+{
+  !isDev && GA_MEASUREMENT_ID && (
     <script is:inline define:vars={{ GA_MEASUREMENT_ID }}>
-      var internalParam = new URLSearchParams(window.location.search).get('internal_traffic');
-      if (internalParam === '1' || internalParam === 'true') {
-        try {
-          window.sessionStorage.setItem('doscientos:internal-traffic', '1');
-        } catch (_) {
-          // The query parameter still excludes this page view.
-        }
-      } else if (internalParam === '0' || internalParam === 'false') {
-        try {
-          window.sessionStorage.removeItem('doscientos:internal-traffic');
-        } catch (_) {
-          // No persisted preference can be cleared when storage is unavailable.
-        }
-      }
-
-      var isInternalTraffic = internalParam === '1' || internalParam === 'true';
-      try {
-        isInternalTraffic ||= window.sessionStorage.getItem('doscientos:internal-traffic') === '1';
-      } catch (_) {
-        // No persisted preference is available in this browser context.
-      }
-
-      if (!isInternalTraffic) {
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        window.gtag = gtag;
-        gtag('js', new Date());
-        gtag('config', GA_MEASUREMENT_ID);
-
-        // Cargar el script externo de gtag
-        (function () {
-          var s = document.createElement('script');
-          s.async = true;
-          s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_MEASUREMENT_ID;
-          document.head.appendChild(s);
-        })();
-      }
+      window.GA_MEASUREMENT_ID_PENDING = GA_MEASUREMENT_ID;
     </script>
-  </>
-)}
+  )
+}

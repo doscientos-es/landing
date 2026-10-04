@@ -13,4 +13,6 @@ interface ImportMeta {
 
 interface Window {
   dataLayer: Record<string, unknown>[]
+  __DOS_CONSENT?: { analytics?: boolean; marketing?: boolean } | null
+  __DOS_ATTRIBUTION_CONSENT_LISTENER?: boolean
 }

@@ -162,6 +162,7 @@ describe('useContactForm — submit', () => {
   })
 
   it('payload contiene exactamente las claves del contrato', async () => {
+    window.__DOS_CONSENT = null
     const fetchMock = vi.fn().mockResolvedValue({
       ok: true,
       json: async () => ({ leadId: 'lead-1' }),
@@ -184,7 +185,7 @@ describe('useContactForm — submit', () => {
 
     const leadCall = fetchMock.mock.calls.find(([url]) => String(url).includes('/api/public/leads'))
     expect(leadCall).toBeTruthy()
-    expect(fetchMock).toHaveBeenCalledTimes(2)
+    expect(fetchMock).toHaveBeenCalledTimes(1)
     const sent = JSON.parse(leadCall?.[1].body as string)
     expect(Object.keys(sent).sort()).toEqual(
       [
@@ -248,6 +249,12 @@ describe('useContactForm — submit', () => {
     expect(sent.budget).toBe('5.000€ - 10.000€')
     expect(sent.message).toBe('Lead desde formulario corto (multi-step)')
     expect(sent.website).toBe('')
+    expect(sent.event_id).toBe('')
+    expect(sent.visitor_id).toBe('')
+    expect(sent.conversion_step).toBe('')
+    expect(sent.internal_traffic).toBe(false)
+    expect(sent.gclid).toBe('')
+    expect(sent.marketing_consent).toBe(false)
     expect(result.current.submittedLeadId).toBe('lead-1')
     expect(sent.dedupeKey).toMatch(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/)
   })
