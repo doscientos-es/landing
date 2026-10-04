@@ -47,6 +47,20 @@ function params(): URLSearchParams {
     : new URLSearchParams(window.location.search)
 }
 
+function isChatGptReferrer(referrer: string): boolean {
+  if (!referrer) return false
+  try {
+    const hostname = new URL(referrer).hostname.toLowerCase()
+    return (
+      hostname === 'chatgpt.com' ||
+      hostname.endsWith('.chatgpt.com') ||
+      hostname === 'chat.openai.com'
+    )
+  } catch {
+    return false
+  }
+}
+
 /**
  * A session-scoped opt-out for the team’s manual landing tests. It is activated
  * explicitly with `?internal_traffic=1` and reset with `?internal_traffic=0`.
@@ -70,11 +84,13 @@ export function isInternalTraffic(): boolean {
 
 function currentTouch(): Touch {
   const p = params()
+  const referrer = typeof document === 'undefined' ? '' : document.referrer
+  const chatGptReferral = !p.get('utm_source') && isChatGptReferrer(referrer)
   return {
     landing_path: typeof window === 'undefined' ? '' : window.location.pathname,
-    referrer: typeof document === 'undefined' ? '' : document.referrer,
-    utm_source: p.get('utm_source') || '',
-    utm_medium: p.get('utm_medium') || '',
+    referrer,
+    utm_source: p.get('utm_source') || (chatGptReferral ? 'chatgpt' : ''),
+    utm_medium: p.get('utm_medium') || (chatGptReferral ? 'referral' : ''),
     utm_campaign: p.get('utm_campaign') || '',
     utm_term: p.get('utm_term') || '',
     utm_content: p.get('utm_content') || '',
