@@ -48,6 +48,60 @@ assert(
   'Homepage must not emit stale FAQ structured data separate from visible FAQ content.',
 )
 
+const barcelonaPage = read('src/pages/desarrollo-web-barcelona.astro')
+assert(
+  barcelonaPage.includes('Agencia de desarrollo web en Barcelona | doscientos') &&
+    barcelonaPage.includes('Agencia de desarrollo web en Barcelona para empresas'),
+  'Barcelona landing metadata must target agency and web development searches with a clear offer.',
+)
+assert(
+  barcelonaPage.includes('Desarrollo web para empresas de Barcelona') &&
+    barcelonaPage.includes('href="/crm-a-medida"') &&
+    barcelonaPage.includes('href="/automatizacion-procesos"'),
+  'Barcelona landing must explain its services and link to relevant commercial pages.',
+)
+
+const crmPage = read('src/pages/crm-a-medida.mdx')
+assert(
+  crmPage.includes('href="/crm-asesoria-energetica"') &&
+    !crmPage.includes('<h2>CRM para asesorías energéticas</h2>'),
+  'Generic CRM landing must link to, not compete with, the energy-advisor CRM landing.',
+)
+
+const specificLandings = read('src/data/specificLandings.ts')
+assert(
+  specificLandings.includes("slug: 'crm-asesoria-energetica'") &&
+    specificLandings.includes('En Optinergia entregamos seis módulos en dos semanas.') &&
+    specificLandings.includes("title: 'Automatización de Excel para pymes | doscientos'") &&
+    specificLandings.includes("title: 'Software a medida y ERP para empresas | doscientos'"),
+  'Existing service landings must target CRM energy, Excel automation, and ERP queries.',
+)
+
+const energyProject = read('src/content/projects/optinergia.mdx')
+assert(
+  energyProject.includes('Caso Optinergia: CRM para una asesoría energética') &&
+    energyProject.includes('/crm-asesoria-energetica'),
+  'Optinergia project page must be framed as case-study proof and link to the service landing.',
+)
+
+const energyArticle = read('src/content/blog/software-gestion-asesoria-energetica.mdx')
+assert(
+  energyArticle.includes("updatedDate: '2026-10-07'") &&
+    energyArticle.includes('/crm-asesoria-energetica') &&
+    !energyArticle.includes('60%'),
+  'Energy CRM guide must link to the commercial landing and avoid unsupported savings claims.',
+)
+
+const erpArticle = read('src/content/blog/cuanto-cuesta-erp-a-medida.mdx')
+assert(
+  erpArticle.includes('/projects/bitacora') &&
+    !erpArticle.includes('/projects/bitacora-erp') &&
+    erpArticle.includes("from '../../assets/media/projects/bitacora/crm.webp'") &&
+    !erpArticle.includes('250.000-400.000€') &&
+    erpArticle.includes('No hay un precio universal'),
+  'ERP guide must link to the real Bitácora project and use its relevant imagery.',
+)
+
 const commercialRoutes = read('src/data/commercialRoutes.ts')
 for (const href of [
   '/diagnostico-procesos',

@@ -1,7 +1,8 @@
 ---
-title: 'Software de gestión para asesorías energéticas: contratos, renovaciones y clientes sin Excel'
-description: 'Guía práctica sobre qué necesita el software de una asesoría energética: gestión de contratos con fechas de vencimiento, alertas de renovación, historial de clientes e incidencias. Con el caso real de Optinergia.'
+title: 'Software para asesorías energéticas: CRM, contratos y renovaciones'
+description: 'Guía práctica para organizar clientes, CUPS, contratos, vencimientos e incidencias en una asesoría energética. Incluye el caso real de Optinergia.'
 publishDate: '2026-06-25'
+updatedDate: '2026-10-07'
 draft: false
 tags:
   [
@@ -14,15 +15,15 @@ tags:
 author: 'doscientos'
 faqs:
   - question: '¿Qué debe incluir un software para asesoría energética?'
-    answer: 'Debe centralizar el CRM de clientes, la gestión de CUPS, la carga automática de facturas (OCR/API), el cálculo de márgenes por comercial y un sistema de alertas para renovaciones de contratos.'
-  - question: '¿Cómo automatiza el CRM de energía la carga de facturas?'
-    answer: 'Usamos sistemas de lectura inteligente que extraen los datos de consumo y precio de los PDFs de las comercializadoras, eliminando la entrada manual de datos y los errores de cálculo.'
+    answer: 'Como base, conviene relacionar clientes, CUPS, contratos, vencimientos, incidencias, documentos y responsables. La lectura automática de facturas o las integraciones se valoran aparte según las fuentes de datos disponibles.'
+  - question: '¿Se puede automatizar la lectura de facturas?'
+    answer: 'Puede ser viable mediante una API o extracción de datos de PDF, pero depende del formato, los permisos y la calidad de los documentos. Hay que validar el proceso y sus excepciones antes de incluirlo en el alcance.'
   - question: '¿Se puede integrar con las distribuidoras eléctricas?'
-    answer: 'Sí, podemos conectar el sistema con plataformas de datos energéticos para obtener consumos históricos reales, lo que permite realizar estudios de ahorro mucho más precisos para el cliente final.'
+    answer: 'Depende de que cada proveedor ofrezca una API o un mecanismo de exportación accesible y de sus condiciones de uso. Hay que comprobarlo antes de comprometer una integración.'
   - question: '¿Cómo ayuda el software a la retención de clientes?'
-    answer: 'Al automatizar las alertas de renovación, el asesor puede contactar con el cliente antes de que el contrato expire, ofreciéndole una mejor tarifa y evitando que la competencia se adelante.'
+    answer: 'Las alertas y el historial de contactos ayudan a priorizar renovaciones y contactar con tiempo. No garantizan por sí solos que el cliente renueve.'
   - question: '¿Qué ahorro de tiempo supone digitalizar una asesoría energética?'
-    answer: 'Empresas como Optinergia han reducido en un 60% el tiempo dedicado a tareas administrativas, permitiendo que el equipo comercial se centre en cerrar nuevos contratos en lugar de picar datos.'
+    answer: 'Depende del proceso y del volumen de trabajo. En el caso Optinergia no publicamos un porcentaje de horas ahorradas: sí se entregaron seis módulos en dos semanas y se migraron los datos históricos en menos de una semana.'
 ---
 
 import { Image } from 'astro:assets'
@@ -31,9 +32,9 @@ import BlogCTA from '../../components/blog/BlogCTA.astro'
 import optiDashboard from '../../assets/media/projects/optinergia/dashboard.webp'
 import optiRenovations from '../../assets/media/projects/optinergia/renovations.webp'
 
-Una asesoría energética tiene un reto de gestión muy específico que los CRMs genéricos no resuelven bien: contratos con fechas de vencimiento concretas, clientes que hay que renovar antes de que se vayan solos y comerciales que deben priorizar su agenda según urgencias reales.
+Una asesoría energética necesita relacionar clientes, CUPS, contratos con vencimiento, incidencias y seguimiento comercial. Un CRM genérico puede cubrir parte del trabajo; el encaje depende de cómo se conectan esos datos y de las reglas propias de cada equipo.
 
-Cuando ese proceso vive en hojas de cálculo, la pregunta no es si vas a perder renovaciones — es cuántas estás perdiendo ya.
+Cuando ese proceso vive en hojas de cálculo, cuesta ver qué contrato requiere atención, quién debe actuar y qué ocurrió en el último contacto.
 
 ---
 
@@ -101,7 +102,7 @@ En **2 semanas** entregamos:
 - **Exportación a CSV** filtrada para informes en los que el cliente ya necesitaba datos específicos
 - **PWA** funciona en móvil sin instalar nada — los comerciales lo usan entre visitas desde el teléfono
 
-Ver el [caso completo de Optinergia](/projects/optinergia).
+Ver el [caso completo de Optinergia](/projects/optinergia) o nuestra página de [CRM para asesorías energéticas](/crm-asesoria-energetica).
 
 <Image
   src={optiDashboard}
@@ -118,36 +119,30 @@ El equipo migró desde Excel en menos de una semana, con todos los datos histór
 
 ## ¿CRM genérico o desarrollo a medida?
 
-|                                   | CRM genérico (Salesforce, HubSpot)       | CRM a medida                        |
-| --------------------------------- | ---------------------------------------- | ----------------------------------- |
-| Tiempo de implantación            | 2-8 semanas (configuración)              | 2-6 semanas (desarrollo)            |
-| Coste mensual                     | 50-200 € por usuario                     | 0 (no hay suscripción)              |
-| CUPS y contratos energéticos      | No nativo, requiere personalización cara | Nativo, modelado según tu operativa |
-| Cola de renovaciones con urgencia | No existe, hay que construirla           | Incluida                            |
-| Exportación filtrada              | Limitada o de pago                       | Exactamente lo que necesitas        |
-| Roles por comercial               | Básico                                   | Granular                            |
+|                                   | CRM genérico (Salesforce, HubSpot)              | CRM a medida                              |
+| --------------------------------- | ----------------------------------------------- | ----------------------------------------- |
+| Implantación                      | Depende de módulos e integraciones              | Depende del alcance acordado              |
+| Costes recurrentes                | Licencias y servicios según el plan             | Infraestructura y mantenimiento acordados |
+| CUPS y contratos energéticos      | Depende de la configuración y las integraciones | Modelado según la operativa acordada      |
+| Cola de renovaciones con urgencia | Depende de la configuración                     | Se diseña según las reglas acordadas      |
+| Exportación filtrada              | Depende del producto y el plan                  | Se define según los datos necesarios      |
+| Roles por comercial               | Depende del producto y el plan                  | Se configura según los perfiles           |
 
-El problema del CRM genérico no es que sea malo — es que está diseñado para el caso general. Una asesoría energética tiene flujos suficientemente específicos (CUPS, vencimientos, comisiones por contrato, regulación del sector) como para que la personalización de un CRM genérico cueste más que construirlo bien desde cero.
+Un CRM genérico puede ser suficiente si permite configurar los datos y flujos necesarios. Si no, compara el coste y mantenimiento de las personalizaciones con una solución diseñada para la operativa concreta.
 
 ---
 
 ## Cuánto cuesta un CRM para el sector energético
 
-Depende del tamaño de la cartera, el número de usuarios y las integraciones que necesites:
-
-| Tamaño                                                  | Coste aproximado     | Plazo        |
-| ------------------------------------------------------- | -------------------- | ------------ |
-| Equipo pequeño (2-5 comerciales, hasta 500 clientes)    | 8.000 € – 15.000 €   | 2-4 semanas  |
-| Equipo medio (5-15 comerciales, hasta 2.000 clientes)   | 15.000 € – 30.000 €  | 4-8 semanas  |
-| Integración con facturación o APIs de comercializadoras | +5.000 € – +15.000 € | +2-4 semanas |
+El presupuesto depende del número de usuarios, los datos que haya que migrar, los flujos incluidos y las integraciones disponibles. Para comparar propuestas, pide que detallen alcance, plazos, migración, soporte y costes recurrentes.
 
 ---
 
 ## Artículos relacionados
 
-- [CRM a medida en Barcelona: cuándo dar el paso](/blog/crm-a-medida-barcelona)
-- [Portal de cliente a medida: mejora tu retención](/blog/portal-de-cliente-a-medida)
-- [Integración de sistemas y APIs: el pegamento de tu negocio](/blog/integracion-de-sistemas-apis)
+- [CRM a medida en Barcelona: cuándo dar el paso](/recursos/crm-a-medida-barcelona)
+- [Portal de cliente a medida: mejora tu retención](/recursos/portal-de-cliente-a-medida)
+- [Integración de sistemas y APIs: el pegamento de tu negocio](/recursos/integracion-de-sistemas-apis)
 
 ---
 

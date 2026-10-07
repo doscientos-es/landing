@@ -2,6 +2,7 @@
 title: 'Monolito modular vs microservicios: cómo elegir arquitectura sin sobreingeniería'
 description: 'Guía para decidir entre monolito modular y microservicios según equipo, despliegue, escala, datos y coste operativo. Con señales concretas para separar servicios.'
 publishDate: '2026-07-30'
+updatedDate: '2026-10-07'
 draft: false
 tags:
   [
@@ -139,7 +140,7 @@ Para un MVP, backoffice o ERP con un equipo pequeño, empezamos normalmente por 
 
 No es una renuncia a escalar. Es aplazar una separación costosa hasta tener evidencia.
 
-En [BitácoraERP](/projects/bitacora-erp), por ejemplo, facturación debía estar claramente separada de clientes y operaciones por sus reglas fiscales. Esa separación lógica era imprescindible; convertir cada módulo en un servicio independiente no era el objetivo del proyecto.
+En [BitácoraERP](/projects/bitacora), el módulo de facturación se integró en el ERP existente con una arquitectura modular. El objetivo era resolver el flujo fiscal dentro del sistema, no convertir cada módulo en un microservicio.
 
 ---
 

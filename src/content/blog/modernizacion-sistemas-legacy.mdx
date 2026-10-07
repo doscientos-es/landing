@@ -2,7 +2,7 @@
 title: 'Modernizar sistemas legacy sin parar el negocio | Guía 2026'
 description: 'Cómo modernizar un sistema legacy por fases, sin reescribir desde cero ni bloquear operaciones. Estrategia, costes, riesgos y señales para empezar.'
 publishDate: '2025-02-28'
-updatedDate: '2026-03-25'
+updatedDate: '2026-10-07'
 tags: ['modernización', 'legacy', 'arquitectura', 'refactoring', 'sistemas legacy']
 author: 'doscientos'
 draft: false
@@ -76,7 +76,7 @@ Big bang: cambias todo de golpe. Si algo falla, todo falla. Y algo siempre falla
 
 Los desarrolladores que escriben el sistema nuevo no son los mismos que construyeron el original. El conocimiento del dominio se pierde en la traducción.
 
-> **Dato real:** El 40% de los proyectos de reescritura total se cancelan antes de llegar a producción. Del 60% que llegan, la mitad superan el presupuesto inicial en más de un 200%. Fuente: estudios de Gartner y análisis propios.
+La reescritura total concentra el riesgo en una sola entrega: las reglas de negocio que no están documentadas suelen aparecer durante la migración y pueden ampliar el alcance.
 
 ---
 
@@ -214,13 +214,13 @@ Hemos modernizado sistemas legacy para empresas de diferentes sectores:
 
 **Resultado:** La plataforma ahora escala automáticamente. Tiempo de respuesta reducido un 60%.
 
-### [BitacoraERP — ERP empresarial](/projects/bitacora-erp)
+### [BitácoraERP — módulo de facturación integrado](/projects/bitacora)
 
-**Problema:** ERP desarrollado a medida hace 10 años. Tecnología PHP 5, base de datos MySQL sin normalizar. El equipo de mantenimiento era de 1 persona que lo sabía todo.
+**Problema:** la facturación del sistema logístico y aduanero se hacía manualmente: cálculo de impuestos, emisión de documentos y registro contable.
 
-**Solución:** Modernización de base de datos primero (Database First Migration), luego API REST para desacoplar el frontend, finalmente migración del backend a PHP 8 + Laravel.
+**Solución:** desarrollo de un módulo de facturación integrado en el ERP existente, con cálculo fiscal, generación de PDFs y exportaciones.
 
-**Resultado:** El equipo pasó de 1 a 4 personas capaces de trabajar en el sistema. Velocidad de desarrollo x3.
+**Resultado:** el caso documenta cero errores fiscales desde la implantación y un cierre mensual que pasó de una tarde a minutos. No fue una migración completa del ERP.
 
 ---
 
@@ -286,6 +286,8 @@ La clave es no caer en la trampa de la reescritura total y apostar por una moder
 **¿Tienes un sistema legacy que está frenando tu negocio?**
 
 [Cuéntanos el problema →](/contact) En 48 horas te damos una valoración sin compromiso de cuánto costaría modernizarlo y qué estrategia aplicaríamos.
+
+Si el sistema que te frena depende de Excel o Access, consulta nuestro enfoque de [migración progresiva sin parar la operación](/migracion-excel-access).
 
 ---
 

@@ -21,10 +21,12 @@ export function getStaticPaths() {
     "software-a-medida-para-empresas",
     "migracion-excel-access",
   ]);
-  return specificLandings.filter((landing) => !mdxServiceSlugs.has(landing.slug)).map((landing) => ({
-    params: { specificLanding: landing.slug },
-    props: { landing },
-  }));
+  return specificLandings
+    .filter((landing) => !mdxServiceSlugs.has(landing.slug))
+    .map((landing) => ({
+      params: { specificLanding: landing.slug },
+      props: { landing },
+    }));
 }
 
 interface Props {
@@ -114,36 +116,48 @@ const resourcesBySlug: Record<
     {
       title: "Caso LEX: CRM para un despacho patrimonial",
       href: "/projects/lex-crm",
-      description: "Expedientes, tareas, comunicaciones y documentos en un espacio de trabajo único.",
+      description:
+        "Expedientes, tareas, comunicaciones y documentos en un espacio de trabajo único.",
     },
     {
       title: "Caso Optinergia",
       href: "/projects/optinergia",
-      description: "CRM operativo para clientes, contratos, renovaciones e incidencias.",
+      description:
+        "CRM operativo para clientes, contratos, renovaciones e incidencias.",
     },
   ],
   "software-a-medida-para-empresas": [
     {
       title: "Caso Kache Envíos",
       href: "/projects/kache-envios",
-      description: "Operación, rutas, pagos y documentación para transporte de mascotas.",
+      description:
+        "Operación, rutas, pagos y documentación para transporte de mascotas.",
     },
     {
-      title: "Caso Bitácora",
+      title: "BitácoraERP: módulo de facturación",
       href: "/projects/bitacora",
-      description: "Facturación y gestión conectadas a la operación de una empresa logística.",
+      description:
+        "Facturación automatizada integrada en un ERP de logística y aduanas.",
+    },
+    {
+      title: "Cuánto cuesta un ERP a medida",
+      href: "/recursos/cuanto-cuesta-erp-a-medida",
+      description:
+        "Factores y rangos orientativos para estimar el alcance de un ERP.",
     },
   ],
   "migracion-excel-access": [
     {
       title: "Caso IFCO Systems",
       href: "/projects/ifco",
-      description: "Modernización de un sistema de gestión antiguo sin perder el contexto operativo.",
+      description:
+        "Modernización de un sistema de gestión antiguo sin perder el contexto operativo.",
     },
     {
       title: "Excel como CRM: cuándo cambiar",
       href: "/recursos/excel-como-crm-cuando-cambiar",
-      description: "Señales prácticas para saber si una hoja ya se ha convertido en un riesgo.",
+      description:
+        "Señales prácticas para saber si una hoja ya se ha convertido en un riesgo.",
     },
   ],
 };

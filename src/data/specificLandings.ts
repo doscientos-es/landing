@@ -144,7 +144,7 @@ export const specificLandings: SpecificLanding[] = [
   {
     slug: 'automatizar-excel',
     label: 'Automatizar Excel',
-    title: 'Automatizar procesos en Excel para pymes | doscientos',
+    title: 'Automatización de Excel para pymes | doscientos',
     description:
       'Convertimos hojas de cálculo críticas en sistemas internos, automatizaciones y paneles de control para que tu equipo deje de copiar datos a mano.',
     eyebrow: 'Excel infinito, menos trabajo manual',
@@ -360,25 +360,25 @@ export const specificLandings: SpecificLanding[] = [
     heroTitle: 'Un CRM para asesorías energéticas',
     heroHighlight: 'que viven entre contratos y vencimientos',
     heroDescription:
-      'Centralizamos clientes, contratos, CUPS, renovaciones, incidencias y documentos para que cada comercial sepa qué toca hacer hoy.',
+      'Centralizamos clientes, contratos, CUPS, renovaciones, incidencias y documentos para que cada comercial sepa qué toca hacer hoy. En Optinergia entregamos seis módulos en dos semanas.',
     primaryCta: 'Revisar mi CRM actual',
     secondaryCta: 'Diagnosticar renovaciones',
     subject: 'CRM asesoría energética',
     stats: [
       {
-        value: 'CUPS',
-        label: 'y contratos conectados',
-        description: 'Cada suministro vive dentro del contexto del cliente y su estado comercial.',
+        value: '2 semanas',
+        label: 'para entregar el caso Optinergia',
+        description: 'Primera versión con seis módulos y el flujo real de trabajo del equipo.',
+      },
+      {
+        value: '6 módulos',
+        label: 'en producción',
+        description: 'Dashboard, clientes, contratos, renovaciones, incidencias y documentos.',
       },
       {
         value: '60 días',
-        label: 'de seguimiento previo',
-        description: 'Renovaciones visibles antes de que sea tarde para actuar.',
-      },
-      {
-        value: 'menos',
-        label: 'trabajo administrativo',
-        description: 'Documentos, estados y tareas dejan de depender de copiar datos.',
+        label: 'de visibilidad de renovaciones',
+        description: 'La cola prioriza contratos próximos según vencimiento y urgencia.',
       },
     ],
     pains: [
@@ -672,14 +672,14 @@ export const specificLandings: SpecificLanding[] = [
   {
     slug: 'software-a-medida-para-empresas',
     label: 'Software a medida para empresas',
-    title: 'Software a medida para empresas | doscientos',
+    title: 'Software a medida y ERP para empresas | doscientos',
     description:
-      'Construimos herramientas internas y productos digitales para empresas que necesitan resolver una operación concreta sin imponer un software genérico a todo el equipo.',
+      'Desarrollamos software a medida y módulos ERP para empresas que necesitan conectar su operación sin imponer herramientas genéricas.',
     eyebrow: 'Producto digital y operación interna',
-    heroTitle: 'Software que encaja',
-    heroHighlight: 'en tu forma de trabajar',
+    heroTitle: 'Software a medida y ERP',
+    heroHighlight: 'para una operación que encaja',
     heroDescription:
-      'Desde un backoffice hasta un portal de clientes: convertimos procesos complejos en herramientas claras, con una primera versión útil y margen para crecer.',
+      'Desde un backoffice hasta un módulo ERP integrado: convertimos procesos complejos en herramientas claras, con una primera versión útil y margen para crecer.',
     primaryCta: 'Revisar mi proceso',
     secondaryCta: 'Conocer nuestro enfoque',
     subject: 'Software a medida para empresas',
@@ -773,7 +773,7 @@ export const specificLandings: SpecificLanding[] = [
       {
         question: '¿Qué ejemplos tenéis?',
         answer:
-          'Hemos trabajado en plataformas operativas como Kache Envíos, CRMs como LEX y herramientas de gestión y facturación para otros equipos.',
+          'Hemos trabajado en plataformas operativas como Kache Envíos, CRMs como LEX y un módulo de facturación integrado en el ERP logístico de Bitácora.',
       },
     ],
   },
