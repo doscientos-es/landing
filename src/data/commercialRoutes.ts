@@ -56,8 +56,6 @@ export const headerNavItems = [
   { href: pillarRoute.href, label: 'Automatizar' },
   { href: '/projects', label: 'Proyectos' },
   { href: '/sobre-nosotros', label: 'Nosotros' },
-  { href: '/recursos', label: 'Recursos' },
-  { href: '/blog', label: 'Blog' },
 ]
 
 export const footerLinkColumns = [
