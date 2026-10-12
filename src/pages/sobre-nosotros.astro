@@ -7,7 +7,6 @@ import { branding } from "~/config/branding";
 import MainLayout from "~/layouts/MainLayout.astro";
 import { serializeJsonLd } from "~/shared/lib/schema/jsonLd";
 
-
 import gerardImg from "~/assets/media/branding/team/gerard.avif";
 import polImg from "~/assets/media/branding/team/pol.avif";
 import team1Img from "~/assets/media/branding/team/team1.webp";
@@ -97,12 +96,8 @@ const personSchemas = branding.team.map((member) => ({
         vagas.
       </p>
       <div class="mt-8 grid gap-4 sm:grid-cols-2 max-w-3xl">
-        <div class="rounded-2xl border border-muted bg-accent p-5">
-          <p
-            class="text-xs font-semibold text-primary"
-          >
-            La empresa
-          </p>
+        <div class="rounded-2xl border border-muted bg-muted/50 p-5">
+          <p class="text-xs font-semibold text-primary">La empresa</p>
           <p class="mt-2 text-sm leading-relaxed text-muted-foreground">
             Con sede en Premià de Mar, doscientos es la empresa desde la que
             desarrollamos proyectos como Palumba, Les Santes u Optinergia.
@@ -110,12 +105,8 @@ const personSchemas = branding.team.map((member) => ({
             sistemas en producción.
           </p>
         </div>
-        <div class="rounded-2xl border border-muted bg-accent p-5">
-          <p
-            class="text-xs font-semibold text-primary"
-          >
-            Cómo trabajamos
-          </p>
+        <div class="rounded-2xl border border-muted bg-muted/50 p-5">
+          <p class="text-xs font-semibold text-primary">Cómo trabajamos</p>
           <p class="mt-2 text-sm leading-relaxed text-muted-foreground">
             Trabajas directamente con Pol y Gerard. No hay capas comerciales ni
             una rotación de perfiles entre la propuesta y el desarrollo.
@@ -247,7 +238,7 @@ const personSchemas = branding.team.map((member) => ({
           </ul>
         </div>
         <div class="space-y-6" data-reveal="right">
-          <div class="bg-accent rounded-2xl p-8 space-y-6">
+          <div class="bg-muted/50 rounded-2xl p-8 space-y-6">
             <p class="text-2xl font-semibold text-foreground leading-snug">
               "Fundamos doscientos porque vimos que las PYMEs merecen el mismo
               nivel de software que las grandes empresas, sin los plazos ni los
@@ -258,19 +249,19 @@ const personSchemas = branding.team.map((member) => ({
             </p>
           </div>
           <div class="grid grid-cols-3 gap-4 text-center">
-            <div class="bg-accent rounded-xl p-4">
+            <div class="bg-muted/50 rounded-xl p-4">
               <p class="text-3xl font-bold text-primary">+30</p>
               <p class="text-xs text-muted-foreground mt-1">
                 proyectos entregados
               </p>
             </div>
-            <div class="bg-accent rounded-xl p-4">
+            <div class="bg-muted/50 rounded-xl p-4">
               <p class="text-3xl font-bold text-primary">6 sem</p>
               <p class="text-xs text-muted-foreground mt-1">
                 plazo medio de entrega
               </p>
             </div>
-            <div class="bg-accent rounded-xl p-4">
+            <div class="bg-muted/50 rounded-xl p-4">
               <p class="text-3xl font-bold text-primary">100%</p>
               <p class="text-xs text-muted-foreground mt-1">precio cerrado</p>
             </div>
@@ -289,33 +280,34 @@ const personSchemas = branding.team.map((member) => ({
         {
           team.map((member) => (
             <article
-              class="group bg-accent rounded-2xl overflow-hidden"
+              class="overflow-hidden rounded-2xl border border-muted/70 bg-muted/50"
               data-reveal="bottom"
             >
-              <div class="aspect-[4/3] overflow-hidden">
+              <div class="flex justify-center px-6 pt-6">
                 <Image
                   src={member.image}
                   alt={`${member.name}, ${member.role}`}
-                  class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                  class="size-36 rounded-full border-4 border-background object-cover object-center shadow-sm sm:size-40"
                 />
               </div>
-              <div class="p-6 space-y-3">
+              <div class="p-6 space-y-3 text-center">
                 <div>
                   <h3 class="text-xl font-bold text-foreground">
                     {member.name}
                   </h3>
                   <p class="text-sm text-primary font-medium">{member.role}</p>
                 </div>
-                <p class="text-muted-foreground text-sm leading-relaxed">
+                <p class="mx-auto max-w-sm text-pretty text-sm leading-relaxed text-muted-foreground">
                   {member.bio}
                 </p>
                 <a
                   href={member.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="group inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline"
+                  aria-label={`Ver perfil de ${member.name}; se abre en una pestaña nueva`}
+                  class="group inline-flex items-center justify-center gap-2 rounded-sm text-sm font-medium text-primary transition-colors hover:text-foreground hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
                 >
-                  Ver más
+                  Ver perfil
                   <ArrowUpRight
                     aria-hidden="true"
                     class="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"

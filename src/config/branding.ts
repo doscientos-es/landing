@@ -10,14 +10,14 @@ export const branding = {
     {
       name: 'Pol Gubau Amores',
       role: 'Co-fundador · Frontend & Design',
-      bio: 'Ingeniero de software especializado en interfaces de usuario y arquitectura frontend. Antes en equipos de producto de empresas tecnológicas europeas. Obsesionado con la velocidad y la experiencia de usuario.',
+      bio: 'Ingeniero frontend especializado en producto, diseño de interfaces y arquitectura web. Ha trabajado en equipos de producto de empresas tecnológicas europeas.',
       image: '/assets/team/pol.avif',
       link: 'https://www.polgubau.com',
     },
     {
       name: 'Gerard Martínez Alcocer',
       role: 'Co-fundador · Backend & DevOps',
-      bio: 'Ingeniero de software con experiencia en backend, infraestructura y DevOps. Ha trabajado en startups tecnológicas europeas, liderando proyectos de migración a la nube y optimización de sistemas críticos.',
+      bio: 'Ingeniero backend y DevOps con experiencia en startups tecnológicas europeas, migraciones a la nube y sistemas críticos.',
       image: '/assets/team/gerard.avif',
       link: 'https://www.linkedin.com/in/gerard-martinez-alcocer/',
     },
