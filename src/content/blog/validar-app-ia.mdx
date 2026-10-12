@@ -1,0 +1,103 @@
+---
+title: 'Tu app de IA ya funciona. ¿Cómo sabes si responde bien de verdad?'
+description: 'Una guía práctica para probar calidad, seguridad, costes y fallos de una aplicación con IA antes y después de ponerla en producción.'
+publishDate: '2026-10-12'
+draft: false
+tags: ['IA aplicada', 'calidad de software', 'seguridad', 'testing', 'aplicaciones']
+resourceType: 'guia'
+buyerStage: 'consideration'
+author: 'Pol Gubau Amores'
+faqs:
+  - question: '¿Cómo sé si una respuesta de IA es correcta?'
+    answer: 'Define primero qué significa correcto para esa tarea. Usa ejemplos representativos con una respuesta esperada o una rúbrica revisada por una persona experta, y mide por separado los errores que tienen consecuencias distintas.'
+  - question: '¿Tengo que probar todos los prompts posibles?'
+    answer: 'No es realista cubrir todas las combinaciones. Empieza por tareas habituales, casos límite, entradas ambiguas y errores de mayor impacto; conserva esos ejemplos como una batería de regresión para cada cambio.'
+  - question: '¿Una buena demo basta para publicar una app de IA?'
+    answer: 'No. Una demo suele cubrir el camino ideal. Antes de depender de ella en producción también hay que probar permisos, privacidad, respuestas fuera de alcance, fallos del proveedor, latencia, costes y mecanismos de revisión humana.'
+  - question: '¿Qué debo monitorizar después del lanzamiento?'
+    answer: 'Como mínimo, calidad de tarea, errores y escalados, latencia, coste por flujo y versiones de modelo e instrucciones. Registra solo los datos necesarios y define cómo limitar o borrar información sensible.'
+---
+
+Una aplicación de IA puede responder con seguridad, sonar convincente y aun así equivocarse. También puede acertar en una demo y fallar cuando recibe un documento incompleto, una pregunta ambigua o una instrucción maliciosa.
+
+Por eso, «la he probado y parece funcionar» no es un criterio suficiente para publicar. La pregunta útil es más concreta: **¿qué tarea debe resolver, cómo reconoceremos un error y qué hará el producto cuando la IA no pueda resolverla?**
+
+Esta guía sirve para un chatbot, un asistente que consulta documentos, un clasificador o una función de IA integrada en una aplicación de negocio. No necesitas perseguir una puntuación universal: necesitas evidencias para el trabajo concreto que hará tu app.
+
+## 1. Define qué significa «funciona» en tu caso
+
+Escribe el objetivo como una acción observable, no como «usar IA».
+
+- «Clasifica cada consulta en una categoría y permite corregir la categoría» es comprobable.
+- «Responde preguntas sobre nuestros contratos» todavía necesita límites: ¿qué documentos puede consultar?, ¿debe citar la fuente?, ¿qué hace si no la encuentra?
+- «Ahorra tiempo al equipo» requiere comparar cuánto tarda el proceso con y sin la función, sin asumir que una respuesta fluida equivale a tiempo ahorrado.
+
+Anota qué error es aceptable y cuál exige bloquear el flujo, pedir confirmación o pasar el caso a una persona. Una respuesta equivocada en un borrador interno no tiene el mismo impacto que una respuesta que cambia un pedido o comunica una condición contractual.
+
+## 2. Prepara ejemplos que representen el trabajo real
+
+Monta un conjunto pequeño de casos antes de ajustar instrucciones o cambiar de modelo. Empieza con consultas frecuentes y añade:
+
+- Casos límite, documentos incompletos y datos con formatos distintos.
+- Preguntas ambiguas, fuera de alcance o sin información suficiente.
+- Ejemplos donde la respuesta esperada sea «no lo sé» o «necesito revisión».
+- Variaciones realistas de idioma, ortografía y longitud.
+- Casos que provocaron errores durante una prueba piloto, anonimizados cuando corresponda.
+
+Para cada ejemplo, guarda la entrada, el resultado esperado o una rúbrica de evaluación, el nivel de riesgo y la fecha. No uses datos personales reales en un entorno de pruebas sin una razón, permisos y medidas adecuadas. Pide a quien conoce el proceso que revise la muestra: una etiqueta incorrecta convierte una prueba en una falsa señal de calidad.
+
+## 3. Mide por separado calidad, seguridad y coste
+
+Elige métricas según la tarea. No conviertas todo en un único porcentaje que oculte fallos graves.
+
+| Qué comprobar            | Ejemplo de medida                                         | Qué te ayuda a decidir                                   |
+| ------------------------ | --------------------------------------------------------- | -------------------------------------------------------- |
+| Resultado de la tarea    | Aciertos por categoría o evaluación con una rúbrica       | Si resuelve el trabajo esperado, no solo si redacta bien |
+| Información sin respaldo | Respuestas incorrectas o sin fuente verificable           | Si hace falta citar, limitar o revisar la respuesta      |
+| Casos que debe rechazar  | Rechazos correctos y consultas fuera de alcance atendidas | Si respeta los límites definidos                         |
+| Operación                | Latencia por flujo y coste por tarea completada           | Si el resultado es asumible en uso real                  |
+| Seguridad                | Intentos de acceder a datos o acciones sin permiso        | Si los límites se aplican de verdad                      |
+
+En una clasificación puedes medir errores por categoría; en un asistente de documentos, revisar si cada afirmación importante está respaldada por una fuente. Define los umbrales con el equipo responsable del proceso. Una media alta no debe compensar un error crítico que el negocio haya decidido que no puede ocurrir.
+
+## 4. Prueba los fallos y los intentos de manipulación
+
+No te quedes con preguntas bien redactadas y documentos limpios. Comprueba qué ocurre si una entrada pide ignorar las instrucciones, contiene texto malicioso dentro de un archivo o intenta obtener datos de otra persona.
+
+La IA no debe decidir por sí sola quién tiene permiso para ver o modificar información. Comprueba que cada consulta y acción vuelve a validar la identidad y los permisos en el servidor. Si el modelo puede llamar herramientas —enviar correos, modificar registros o crear pedidos—, limita sus permisos y exige confirmación humana para las acciones que no se puedan deshacer fácilmente.
+
+Incluye también fallos corrientes: proveedor no disponible, respuesta vacía, formato inesperado, timeout y reintento. Verifica que un reintento no duplique una acción y que el usuario entienda si el resultado está pendiente, ha fallado o necesita revisión.
+
+## 5. Diseña una salida segura cuando la IA duda
+
+No todas las consultas tienen que acabar en una respuesta generada. El flujo debe poder decir que falta información, pedir una aclaración, mostrar la fuente disponible o derivar el caso a una persona.
+
+Prueba el recorrido completo: qué ve el usuario, qué información conserva el equipo, quién recibe el caso y cómo se retoma después. Si la app trabaja con documentos, muestra de dónde sale la respuesta y permite abrir la fuente. Si la acción tiene consecuencias, separa la sugerencia de la confirmación.
+
+## 6. Revisa privacidad y tratamiento de datos
+
+Haz un inventario de qué datos entran en el modelo, qué proveedor los procesa, durante cuánto tiempo se conservan y qué queda en logs. Evita enviar campos que no hacen falta y no registres por defecto prompts completos si pueden contener información sensible.
+
+Revisa estos puntos con las personas responsables de seguridad y privacidad de tu organización: accesos, retención, borrado, configuración del proveedor y obligaciones aplicables. Que el proveedor ofrezca controles no sustituye la comprobación de cómo está configurada tu aplicación.
+
+## 7. Repite la evaluación con cada cambio
+
+Guarda la versión del modelo, las instrucciones, las herramientas conectadas y el conjunto de evaluación utilizado. Antes de desplegar un cambio, compara sus resultados con la versión anterior en los mismos casos y revisa los errores nuevos; después, prueba una muestra en el entorno donde realmente se usará.
+
+En producción, sigue tendencias agregadas: tareas completadas, correcciones o escalados, errores, latencia y coste. Recoge feedback con contexto y protege la información personal. No asumas que un modelo actualizado mantiene el comportamiento anterior: vuelve a ejecutar los casos que son importantes para tu negocio.
+
+## Checklist antes de publicar
+
+- [ ] La tarea, los límites y los errores inaceptables están descritos.
+- [ ] Hay ejemplos de uso normal, casos límite y entradas fuera de alcance.
+- [ ] Alguien que conoce el proceso ha revisado la evaluación.
+- [ ] Los permisos se verifican fuera del modelo, en la aplicación y el servidor.
+- [ ] Hay una salida para dudas, fallos del proveedor y revisión humana.
+- [ ] Las acciones sensibles requieren autorización y no se duplican al reintentar.
+- [ ] Se han revisado los datos enviados, los logs y la retención.
+- [ ] El equipo sabe qué métricas observar y quién actuará ante una degradación.
+- [ ] La evaluación se repetirá al cambiar el modelo, las instrucciones o las herramientas.
+
+No hace falta automatizar cada comprobación el primer día. Sí hace falta saber cuáles son críticas, quién las revisa y qué impediría seguir adelante. Esa claridad convierte una demo prometedora en una función que el equipo puede operar y mejorar.
+
+Si ya tienes una app de IA y quieres contrastar estos puntos con tu caso, conoce nuestra [revisión técnica de aplicaciones de IA](/revision-app-ia?ref=blog-validar-app-ia). También puedes leer cómo abordamos la [calidad técnica al desarrollar software con IA](/blog/skills-ia-desarrollo-software-medida).

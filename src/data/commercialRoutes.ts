@@ -3,6 +3,7 @@
 export type BlogCtaVariant =
   | 'contact'
   | 'diagnostic'
+  | 'ai-quality'
   | 'automation'
   | 'legacy'
   | 'mvp'
@@ -32,9 +33,17 @@ export const pillarRoute = {
   description: 'Guía para priorizar automatizaciones rentables en pymes antes de construir.',
 } satisfies Omit<CommercialRoute, 'priority'>
 
+export const aiAppReviewRoute = {
+  href: '/revision-app-ia',
+  label: 'Revisión de apps de IA',
+  description:
+    'Revisión técnica de aplicaciones de IA ya construidas para detectar riesgos de calidad, seguridad, privacidad y operación.',
+} satisfies Omit<CommercialRoute, 'priority'>
+
 export const commercialRoutes: CommercialRoute[] = [
   { ...diagnosticRoute, priority: 'primary' },
   { ...pillarRoute, priority: 'primary' },
+  { ...aiAppReviewRoute, priority: 'secondary' },
   ...specificLandings.map((landing) => ({
     href: `/${landing.slug}`,
     label: landing.label,
@@ -48,6 +57,7 @@ export const headerNavItems = [
   { href: '/projects', label: 'Proyectos' },
   { href: '/sobre-nosotros', label: 'Nosotros' },
   { href: '/recursos', label: 'Recursos' },
+  { href: '/blog', label: 'Blog' },
 ]
 
 export const footerLinkColumns = [
@@ -71,6 +81,7 @@ export const footerLinkColumns = [
       { label: 'Novedades', href: '/changelog' },
       { label: 'Packs de webs', href: '/packs' },
       { label: 'Recursos', href: '/recursos' },
+      { label: 'Blog', href: '/blog' },
       { label: 'Guía de marca', href: '/marca' },
       { label: 'Sobre nosotros', href: '/sobre-nosotros' },
       { label: 'Trabaja con nosotros', href: '/trabaja-con-nosotros' },
@@ -90,6 +101,7 @@ export const footerLinkColumns = [
 ]
 
 export const commercialBlogCtaBySlug: Record<string, BlogCtaVariant> = {
+  'validar-app-ia': 'ai-quality',
   'automatizacion-procesos-empresariales': 'automation',
   'automatizacion-empresas-maresme': 'automation',
   'automatizar-partes-trabajo-empresas-servicios': 'automation',

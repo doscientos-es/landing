@@ -1,0 +1,254 @@
+---
+import { CircleCheck } from "@lucide/astro";
+import Breadcrumbs from "~/components/seo/Breadcrumbs.astro";
+import Button from "~/components/ui/Button.astro";
+import SectionHeader from "~/components/ui/SectionHeader.astro";
+import SectionTag from "~/components/ui/SectionTag.astro";
+import MainLayout from "~/layouts/MainLayout.astro";
+
+const title = "Auditoría de aplicaciones de IA y seguridad | doscientos";
+const description =
+  "Analizamos tu app de IA ya construida: calidad de respuestas, permisos, seguridad, privacidad, fallos y costes. Recibe hallazgos priorizados y un plan de mejora.";
+const contactHref =
+  "/contact?subject=Revisi%C3%B3n%20t%C3%A9cnica%20de%20app%20de%20IA&ref=revision-app-ia";
+
+const reviewAreas = [
+  {
+    title: "Calidad de las respuestas",
+    description:
+      "Comprobamos tareas habituales, casos límite y respuestas sin respaldo con ejemplos representativos de tu uso real.",
+  },
+  {
+    title: "Permisos y acciones",
+    description:
+      "Revisamos cómo se valida el acceso a datos y herramientas, y qué límites tienen las acciones que ejecuta la IA.",
+  },
+  {
+    title: "Privacidad y datos",
+    description:
+      "Trazamos qué información llega al modelo, a proveedores y a logs, y si se conserva más de lo necesario.",
+  },
+  {
+    title: "Fallos y recuperación",
+    description:
+      "Probamos errores del proveedor, timeouts, respuestas inesperadas, reintentos y alternativas para que el usuario no quede bloqueado.",
+  },
+  {
+    title: "Coste y rendimiento",
+    description:
+      "Identificamos qué medir en latencia y coste por tarea, y dónde conviene poner límites o alertas.",
+  },
+  {
+    title: "Pruebas y seguimiento",
+    description:
+      "Valoramos cómo repetir las pruebas cuando cambian el modelo, las instrucciones o las integraciones, y cómo detectar regresiones.",
+  },
+];
+
+const deliverables = [
+  "Hallazgos explicados con contexto y evidencia reproducible cuando sea posible.",
+  "Prioridades según el impacto para usuarios y operación, no una lista genérica de buenas prácticas.",
+  "Casos de prueba recomendados para que el equipo pueda repetir la evaluación.",
+  "Un plan de mejora por etapas; la implementación se acuerda aparte según el alcance.",
+];
+
+const faqs = [
+  {
+    question: "¿Qué tipo de aplicaciones podéis revisar?",
+    answer:
+      "Aplicaciones ya construidas que incorporan IA: asistentes, chatbots, búsqueda sobre documentos, clasificación o flujos que usan modelos y herramientas externas. Acordamos el alcance según el producto y el acceso disponible.",
+  },
+  {
+    question: "¿Es una certificación o una prueba de penetración?",
+    answer:
+      "No. Es una revisión técnica enfocada en el comportamiento de la IA y su integración en la aplicación. No sustituye una certificación, una auditoría normativa ni una prueba de penetración especializada.",
+  },
+  {
+    question: "¿Tengo que compartir acceso a producción?",
+    answer:
+      "No necesariamente. Antes definimos qué necesitamos revisar y los accesos mínimos. No envíes contraseñas, claves ni datos sensibles por el formulario de contacto.",
+  },
+  {
+    question: "¿Entregáis solo un informe?",
+    answer:
+      "La revisión termina con hallazgos y un plan priorizado. Si quieres que también implementemos mejoras, definimos ese trabajo y su alcance por separado.",
+  },
+];
+---
+
+<MainLayout
+  title={title}
+  description={description}
+  type="service"
+  service={{
+    name: "Revisión técnica de aplicaciones de IA",
+    description,
+    serviceType: "AI application technical review",
+    url: "/revision-app-ia",
+  }}
+  faqs={faqs}
+>
+  <section class="px-6 max-w-7xl mx-auto pt-24 pb-32 space-y-28 md:space-y-36">
+    <Breadcrumbs
+      items={[{ name: "Revisión de apps de IA", url: "/revision-app-ia" }]}
+    />
+
+    <header class="grid lg:grid-cols-[1.1fr_0.9fr] gap-12 items-center">
+      <div class="space-y-7">
+        <SectionTag>Para aplicaciones que ya están construidas</SectionTag>
+        <h1
+          class="text-4xl md:text-6xl font-bold tracking-tight text-foreground text-balance"
+        >
+          Tu app de IA ya está hecha.
+          <span class="block text-primary mt-2">Ahora comprueba que puedes confiar en ella.</span>
+        </h1>
+        <p class="text-lg md:text-xl text-muted-foreground max-w-2xl leading-relaxed">
+          Revisamos cómo responde, qué datos puede consultar, qué ocurre cuando
+          falla y cuánto cuesta operarla. Te entregamos problemas concretos y un
+          orden razonado para corregirlos.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href={contactHref}>
+            <Button size="lg" withArrow>Solicitar una revisión</Button>
+          </a>
+          <a href="#alcance">
+            <Button size="lg" variant="outline">Ver qué analizamos</Button>
+          </a>
+        </div>
+      </div>
+
+      <aside class="rounded-3xl bg-foreground text-background p-7 md:p-9 space-y-5">
+        <p class="text-sm text-background/60">Una revisión útil responde a tres preguntas</p>
+        <ul class="space-y-4">
+          <li class="flex gap-3 items-start">
+            <CircleCheck class="size-5 text-primary shrink-0 mt-0.5" />
+            <span>¿Qué errores puede cometer y cómo los detectamos?</span>
+          </li>
+          <li class="flex gap-3 items-start">
+            <CircleCheck class="size-5 text-primary shrink-0 mt-0.5" />
+            <span>¿Qué datos y acciones están realmente protegidos?</span>
+          </li>
+          <li class="flex gap-3 items-start">
+            <CircleCheck class="size-5 text-primary shrink-0 mt-0.5" />
+            <span>¿Qué conviene corregir primero para operar con menos riesgo?</span>
+          </li>
+        </ul>
+      </aside>
+    </header>
+
+    <section id="alcance" class="scroll-mt-28 space-y-10">
+      <SectionHeader
+        title="Revisamos la aplicación completa, no solo el prompt"
+        subtitle="calidad, seguridad y operación"
+        description="Una app de IA depende del modelo, pero también de los permisos, los datos, las integraciones y las decisiones de producto que lo rodean."
+        align="center"
+      />
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+        {
+          reviewAreas.map((area) => (
+            <article class="rounded-2xl border border-muted bg-background p-6 space-y-3">
+              <h2 class="text-xl font-semibold text-foreground">{area.title}</h2>
+              <p class="text-sm text-muted-foreground leading-relaxed">
+                {area.description}
+              </p>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="grid lg:grid-cols-2 gap-12 items-start">
+      <div class="space-y-5">
+        <SectionTag>Resultado</SectionTag>
+        <h2 class="text-3xl md:text-5xl font-bold tracking-tight text-foreground text-balance">
+          Saber qué falla está bien. Saber qué hacer después, mejor.
+        </h2>
+        <p class="text-muted-foreground leading-relaxed">
+          La revisión se adapta al alcance acordado. No entregamos una puntuación
+          universal ni prometemos que una aplicación quede libre de errores.
+        </p>
+      </div>
+      <ul class="space-y-3">
+        {
+          deliverables.map((item) => (
+            <li class="flex gap-3 items-start rounded-xl border border-muted p-4">
+              <CircleCheck class="size-5 text-primary shrink-0 mt-0.5" />
+              <span class="text-foreground">{item}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section class="rounded-3xl bg-accent p-8 md:p-12 space-y-8">
+      <SectionHeader
+        title="Cómo empezamos"
+        subtitle="sin pedirte datos que no hacen falta"
+        description="Primero entendemos el producto y acordamos qué revisar, con qué materiales y qué accesos mínimos necesita el trabajo."
+        align="center"
+      />
+      <ol class="grid md:grid-cols-3 gap-6">
+        <li class="space-y-2">
+          <p class="text-sm font-semibold text-primary">01 · Contexto</p>
+          <h2 class="text-lg font-semibold text-foreground">Nos explicas el caso</h2>
+          <p class="text-sm text-muted-foreground leading-relaxed">
+            Qué hace la app, quién la usa y qué te preocupa hoy.
+          </p>
+        </li>
+        <li class="space-y-2">
+          <p class="text-sm font-semibold text-primary">02 · Alcance</p>
+          <h2 class="text-lg font-semibold text-foreground">Acordamos la revisión</h2>
+          <p class="text-sm text-muted-foreground leading-relaxed">
+            Definimos prioridades, materiales y condiciones de acceso antes de empezar.
+          </p>
+        </li>
+        <li class="space-y-2">
+          <p class="text-sm font-semibold text-primary">03 · Hallazgos</p>
+          <h2 class="text-lg font-semibold text-foreground">Priorizamos mejoras</h2>
+          <p class="text-sm text-muted-foreground leading-relaxed">
+            Revisamos resultados contigo y dejamos claro qué corregir primero.
+          </p>
+        </li>
+      </ol>
+    </section>
+
+    <section class="space-y-8">
+      <SectionHeader
+        title="Preguntas frecuentes"
+        subtitle="Revisión técnica de apps de IA"
+        align="center"
+      />
+      <div class="grid md:grid-cols-2 gap-5">
+        {
+          faqs.map((faq) => (
+            <article class="rounded-2xl border border-muted p-6 space-y-3">
+              <h2 class="font-semibold text-foreground">{faq.question}</h2>
+              <p class="text-sm text-muted-foreground leading-relaxed">
+                {faq.answer}
+              </p>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="rounded-3xl bg-primary text-background p-8 md:p-12 text-center space-y-6">
+      <h2 class="text-3xl md:text-5xl font-bold tracking-tight text-balance">
+        ¿Ya tienes una app de IA en marcha?
+      </h2>
+      <p class="text-lg text-background/80 max-w-2xl mx-auto">
+        Cuéntanos qué hace y qué te gustaría comprobar. No incluyas claves,
+        contraseñas ni datos sensibles en el formulario.
+      </p>
+      <a href={contactHref} class="inline-flex">
+        <Button
+          size="lg"
+          withArrow
+          class="bg-background text-primary hover:bg-background/90"
+        >
+          Hablar de mi aplicación
+        </Button>
+      </a>
+    </section>
+  </section>
+</MainLayout>

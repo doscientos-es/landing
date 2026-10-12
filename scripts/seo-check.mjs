@@ -108,9 +108,20 @@ for (const href of [
   '/automatizacion-procesos',
   '/automatizar-excel',
   '/crm-renovaciones',
+  '/revision-app-ia',
 ]) {
   assert(commercialRoutes.includes(href), `commercialRoutes.ts must include ${href}.`)
 }
+
+const aiReviewPage = read('src/pages/revision-app-ia.astro')
+assert(
+  aiReviewPage.includes('Auditoría de aplicaciones de IA') &&
+    aiReviewPage.includes('permisos') &&
+    aiReviewPage.includes('privacidad') &&
+    aiReviewPage.includes('/contact?subject=') &&
+    aiReviewPage.includes('faqs={faqs}'),
+  'AI app review landing must describe its technical scope and offer a qualified contact path.',
+)
 
 const sitemap = read('src/pages/sitemap.xml.ts')
 assert(
