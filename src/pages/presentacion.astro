@@ -1,0 +1,90 @@
+---
+import { getImage } from "astro:assets";
+import { getCollection } from "astro:content";
+import { PresentationDeck } from "~/components/presentation/PresentationDeck";
+import { branding } from "~/config/branding";
+import {
+  featuredProjectIds,
+  presentationSnapshotDate,
+} from "~/data/presentation";
+import "~/styles/global.css";
+
+import gerardImg from "~/assets/media/branding/team/gerard.avif";
+import polImg from "~/assets/media/branding/team/pol.avif";
+
+const title = "Presentación de doscientos";
+const description =
+  "Quiénes somos, cómo trabajamos, facturación, proyectos recientes y roadmap de doscientos.";
+
+const teamImages = [polImg, gerardImg];
+const founders = await Promise.all(
+  branding.team.map(async (member, index) => {
+    const image = await getImage({
+      src: teamImages[index],
+      width: 288,
+      height: 288,
+      format: "webp",
+    });
+    return {
+      name: member.name,
+      role: member.role,
+      bio: member.bio,
+      link: member.link,
+      image: { src: image.src, width: 288, height: 288 },
+    };
+  }),
+);
+
+const allProjects = await getCollection("projects");
+const projects = await Promise.all(
+  featuredProjectIds.flatMap((id) => {
+    const entry = allProjects.find((project) => project.id === id);
+    if (!entry) return [];
+    return [
+      getImage({ src: entry.data.cover, width: 640, format: "webp" }).then(
+        (cover) => ({
+          id: entry.id,
+          title: entry.data.title,
+          client: entry.data.client,
+          summary: entry.data.summary,
+          services: entry.data.services_provided,
+          cover: {
+            src: cover.src,
+            width: Number(cover.attributes.width ?? 640),
+            height: Number(cover.attributes.height ?? 360),
+          },
+        }),
+      ),
+    ];
+  }),
+);
+---
+
+<!doctype html>
+<html lang="es" dir="ltr" style="color-scheme: dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#0c110b" />
+    <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="canonical" href={new URL("/presentacion", Astro.site)} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+  </head>
+  <body class="bg-[#0c110b] text-white [touch-action:manipulation]">
+    <a
+      href="#main-content"
+      class="sr-only z-50 rounded-md bg-[var(--brand-lime)] px-4 py-2 font-semibold text-[#0c110b] focus:not-sr-only focus:fixed focus:top-4 focus:left-4"
+    >
+      Saltar al contenido
+    </a>
+    <PresentationDeck
+      client:load
+      founders={founders}
+      projects={projects}
+      snapshotDate={presentationSnapshotDate}
+    />
+  </body>
+</html>

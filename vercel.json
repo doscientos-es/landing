@@ -3,6 +3,16 @@
   "trailingSlash": false,
   "redirects": [
     {
+      "source": "/presentaci%C3%B3n",
+      "destination": "/presentacion",
+      "permanent": true
+    },
+    {
+      "source": "/presentación",
+      "destination": "/presentacion",
+      "permanent": true
+    },
+    {
       "source": "/blog/tags/:path*",
       "destination": "/recursos",
       "permanent": true
