@@ -271,7 +271,7 @@ function MethodSlide() {
       <dl className="mt-14 grid max-w-3xl grid-cols-3 gap-6">
         <Stat label="Semanas hasta producción" value="<6" />
         <Stat label="Precio desde el día 1" value="Cerrado" />
-        <Stat label="Proyectos realizados" value={companyTotals.projects} />
+        <Stat label="Clientes" value={companyTotals.clients} />
       </dl>
     </SlideShell>
   )
@@ -462,10 +462,11 @@ function ContactSlide() {
         {links.map((link, linkIndex) => (
           <li className="min-w-0" data-animate key={link.href}>
             <a
-              className={`flex min-h-14 items-center justify-between gap-4 rounded-xl border px-5 py-3 font-semibold transition-colors ${linkIndex === 0
-                ? 'border-transparent bg-[var(--brand-lime)] text-[#0c110b] hover:bg-white'
-                : 'border-white/15 text-white hover:border-white/40 hover:bg-white/[0.06]'
-                } ${focusRing}`}
+              className={`flex min-h-14 items-center justify-between gap-4 rounded-xl border px-5 py-3 font-semibold transition-colors ${
+                linkIndex === 0
+                  ? 'border-transparent bg-[var(--brand-lime)] text-[#0c110b] hover:bg-white'
+                  : 'border-white/15 text-white hover:border-white/40 hover:bg-white/[0.06]'
+              } ${focusRing}`}
               href={link.href}
               {...(link.external ? { rel: 'noopener noreferrer', target: '_blank' } : {})}
             >

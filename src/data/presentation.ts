@@ -16,7 +16,6 @@ export type PresentationSlideId = (typeof presentationSlides)[number]['id']
 
 export const companyTotals = {
   clients: 6,
-  projects: 14,
   leads: 89,
 }
 
@@ -71,7 +70,7 @@ export const billing = {
   invoicesIssued: 17,
   billedClients: 6,
   drafts: 2299,
-  recurringClients: ['Optinergia', 'Salvadis',"Kache envíos", "LEX"],
+  recurringClients: ['Optinergia', 'Salvadis', 'Kache envíos', 'LEX'],
 } as const
 
 export type GoalUnit = 'count' | 'eur' | 'percent'
@@ -110,22 +109,22 @@ export const monthlyGoals: PresentationGoal[] = [
 
 export const roadmap = [
   {
-    period: 'Q4 2026',
+    period: 'Octubre 2026',
     title: 'Cumplir los objetivos mensuales',
-    description: '20 leads, 3.000 € facturados y un 25 % de conversión cada mes.',
+    description: 'Posicionarnos como equipo técnico de confianza en Cataluña',
+  },
+  {
+    period: 'Noviembre 2026',
+    title: 'Producto propio',
+    description: 'Empaquetar un producto enfocado a un nicho y lograr 2 clientes recurrentes.',
+  },
+  {
+    period: 'Diciembre 2026',
+    title: 'Productos propios',
+    description: 'Lograr 10 clientes recurrentes y cerrar año 20k de facturación.',
   },
   {
     period: 'Q1 2027',
-    title: 'Más ingresos recurrentes',
-    description: 'Convertir cada proyecto entregado en un plan de mantenimiento mensual.',
-  },
-  {
-    period: 'Q2 2027',
-    title: 'Productos propios',
-    description: 'Empaquetar los módulos internos de facturación, Verifactu y changelog.',
-  },
-  {
-    period: '2027',
     title: 'Packs sectoriales',
     description: 'Soluciones listas para negocios locales con instalación y cuota fija.',
   },
