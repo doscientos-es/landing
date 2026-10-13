@@ -126,7 +126,7 @@ export const roadmap = [
   {
     period: 'Q1 2027',
     title: 'Escalado',
-    description: '.',
+    description: '',
   },
 ] as const
 
