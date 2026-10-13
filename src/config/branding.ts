@@ -2,7 +2,7 @@ export const branding = {
   // Información de marca
   name: 'doscientos',
   legalName: 'DOSCIENTOS DESARROLLO TECNOLOGICO, S.L.',
-  slogan: 'Modernizamos sistemas críticos sin detener tu negocio',
+  slogan: 'Creamos herramientas digitales para hacerte facturar más y trabajar menos',
   domain: 'doscientos.es',
   url: 'https://doscientos.es',
 

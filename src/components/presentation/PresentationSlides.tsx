@@ -8,7 +8,6 @@ import {
   companyTotals,
   methodSteps,
   monthlyGoals,
-  presentationSlides,
   roadmap,
   type GoalUnit,
   type PresentationSlideId,
@@ -86,17 +85,6 @@ function SlideShell({ children }: { children: ReactNode }) {
   )
 }
 
-function Eyebrow({ position }: { position: number }) {
-  return (
-    <p
-      className="mb-5 text-xs font-bold tracking-[0.2em] text-[var(--brand-lime)] uppercase tabular-nums"
-      data-animate
-    >
-      {String(position + 1).padStart(2, '0')} · {presentationSlides[position].label}
-    </p>
-  )
-}
-
 function SlideTitle({
   as: Tag = 'h2',
   children,
@@ -117,23 +105,34 @@ function SlideTitle({
   )
 }
 
-function Stat({ label, value }: { label: string; value: ReactNode }) {
+function Stat({
+  highlight = false,
+  label,
+  value,
+}: {
+  highlight?: boolean
+  label: string
+  value: ReactNode
+}) {
   return (
-    <div className="flex min-w-0 flex-col-reverse border-t border-white/15 pt-4" data-animate>
+    <div
+      className={`flex min-w-0 flex-col-reverse border-t pt-4 ${highlight ? 'border-[var(--brand-lime)]' : 'border-white/15'}`}
+      data-animate
+    >
       <dt className="mt-1 text-sm text-white/65">{label}</dt>
-      <dd className="text-3xl font-semibold tracking-tight tabular-nums sm:text-4xl">{value}</dd>
+      <dd
+        className={`font-semibold tracking-tight tabular-nums ${highlight ? 'text-4xl text-[var(--brand-lime)] sm:text-5xl' : 'text-3xl sm:text-4xl'}`}
+      >
+        {value}
+      </dd>
     </div>
   )
 }
 
-function CoverSlide({ data, position }: SlideProps) {
+function CoverSlide({ data }: SlideProps) {
   return (
     <SlideShell>
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 right-[-10%] size-[36rem] rounded-full bg-[var(--brand-lime)]/10 blur-3xl" />
-      </div>
       <div className="relative">
-        <Eyebrow position={position} />
         <SlideTitle as="h1" id="portada">
           {branding.slogan}
         </SlideTitle>
@@ -144,8 +143,8 @@ function CoverSlide({ data, position }: SlideProps) {
         </p>
         <dl className="mt-12 grid max-w-3xl grid-cols-3 gap-6">
           <Stat label="Clientes" value={companyTotals.clients} />
-          <Stat label="Proyectos" value={companyTotals.projects} />
-          <Stat label="Leads gestionados" value={companyTotals.leads} />
+          <Stat highlight label="Facturado en 2026" value={euro.format(billing.total)} />
+          <Stat label="Consultorías realizadas" value={companyTotals.leads} />
         </dl>
       </div>
     </SlideShell>
@@ -154,17 +153,15 @@ function CoverSlide({ data, position }: SlideProps) {
 
 interface SlideProps {
   data: PresentationDeckData
-  position: number
 }
 
-function CompanySlide({ position }: SlideProps) {
+function CompanySlide() {
   const { address } = branding.legal
   return (
     <SlideShell>
       <div className="grid gap-12 lg:grid-cols-[1fr_1.1fr] lg:items-center">
         <div className="min-w-0">
-          <Eyebrow position={position} />
-          <SlideTitle id="empresa">Un estudio pequeño a propósito</SlideTitle>
+          <SlideTitle id="empresa">Estudio técnico cercano</SlideTitle>
           <p className="mt-6 max-w-xl text-lg text-pretty text-white/70" data-animate>
             Dos ingenieros que diseñan, construyen y mantienen el software de cada cliente, sin
             intermediarios ni equipos rotativos.
@@ -210,11 +207,10 @@ function CompanySlide({ position }: SlideProps) {
   )
 }
 
-function FoundersSlide({ data, position }: SlideProps) {
+function FoundersSlide({ data }: SlideProps) {
   return (
     <SlideShell>
-      <Eyebrow position={position} />
-      <SlideTitle id="fundadores">Las personas que hacen cada proyecto</SlideTitle>
+      <SlideTitle id="fundadores">Conoce a tu equipo técnico</SlideTitle>
       <ul className="mt-12 grid gap-6 md:grid-cols-2">
         {data.founders.map((founder) => (
           <li
@@ -253,10 +249,9 @@ function FoundersSlide({ data, position }: SlideProps) {
   )
 }
 
-function MethodSlide({ position }: SlideProps) {
+function MethodSlide() {
   return (
     <SlideShell>
-      <Eyebrow position={position} />
       <SlideTitle id="metodo">Cómo trabajamos</SlideTitle>
       <ol className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {methodSteps.map((step, stepIndex) => (
@@ -274,7 +269,7 @@ function MethodSlide({ position }: SlideProps) {
         ))}
       </ol>
       <dl className="mt-14 grid max-w-3xl grid-cols-3 gap-6">
-        <Stat label="Semanas hasta producción" value="~6" />
+        <Stat label="Semanas hasta producción" value="<6" />
         <Stat label="Precio desde el día 1" value="Cerrado" />
         <Stat label="Proyectos realizados" value={companyTotals.projects} />
       </dl>
@@ -282,25 +277,24 @@ function MethodSlide({ position }: SlideProps) {
   )
 }
 
-function BillingSlide({ data, position }: SlideProps) {
+function BillingSlide({ data }: SlideProps) {
   const max = Math.max(...billing.months.map((entry) => entry.amount), 1)
   return (
     <SlideShell>
       <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr] lg:items-end">
         <div className="min-w-0">
-          <Eyebrow position={position} />
           <SlideTitle id="facturacion">Facturación 2026</SlideTitle>
           <p
             className="mt-6 text-5xl font-semibold tracking-tight tabular-nums sm:text-7xl"
             data-animate
           >
-            {euro.format(billing.totalNet)}
+            {euro.format(billing.total)}
           </p>
           <p className="mt-2 text-sm text-white/60" data-animate>
-            Base imponible facturada (sin IVA) desde el primer cobro.
+            Facturado con IVA incluido desde la primera factura.
           </p>
           <figure className="mt-10" data-animate>
-            <figcaption className="sr-only">Facturación mensual sin IVA</figcaption>
+            <figcaption className="sr-only">Facturación mensual con IVA</figcaption>
             <ol className="flex h-56 items-end gap-3 border-b border-white/15 sm:gap-6">
               {billing.months.map((entry) => (
                 <li className="flex h-full min-w-0 flex-1 flex-col justify-end" key={entry.month}>
@@ -333,7 +327,7 @@ function BillingSlide({ data, position }: SlideProps) {
           <dl className="grid grid-cols-2 gap-6">
             <Stat label="Facturas emitidas" value={billing.invoicesIssued} />
             <Stat label="Clientes facturados" value={billing.billedClients} />
-            <Stat label="En borrador" value={euro.format(billing.draftsNet)} />
+            <Stat label="En borrador" value={euro.format(billing.drafts)} />
             <Stat label="Clientes recurrentes" value={billing.recurringClients.length} />
           </dl>
           <p className="text-sm text-pretty text-white/65" data-animate>
@@ -349,10 +343,9 @@ function BillingSlide({ data, position }: SlideProps) {
   )
 }
 
-function ProjectsSlide({ data, position }: SlideProps) {
+function ProjectsSlide({ data }: SlideProps) {
   return (
     <SlideShell>
-      <Eyebrow position={position} />
       <SlideTitle id="proyectos">Proyectos recientes</SlideTitle>
       <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {data.projects.map((project) => (
@@ -389,10 +382,9 @@ function ProjectsSlide({ data, position }: SlideProps) {
   )
 }
 
-function GoalsSlide({ position }: SlideProps) {
+function GoalsSlide() {
   return (
     <SlideShell>
-      <Eyebrow position={position} />
       <SlideTitle id="objetivos">Objetivos y roadmap</SlideTitle>
       <div className="mt-12 grid gap-12 lg:grid-cols-2">
         <section aria-labelledby="objetivos-mensuales" className="min-w-0">
@@ -451,7 +443,7 @@ function GoalsSlide({ position }: SlideProps) {
   )
 }
 
-function ContactSlide({ position }: SlideProps) {
+function ContactSlide() {
   const { contact } = branding
   const whatsappHref = `https://wa.me/${contact.whatsapp.number}?text=${encodeURIComponent(contact.whatsapp.defaultMessage)}`
   const links = [
@@ -462,7 +454,6 @@ function ContactSlide({ position }: SlideProps) {
   ]
   return (
     <SlideShell>
-      <Eyebrow position={position} />
       <SlideTitle id="contacto">¿Hablamos de tu próximo proyecto?</SlideTitle>
       <p className="mt-6 max-w-2xl text-lg text-pretty text-white/70" data-animate>
         Cuéntanos qué proceso quieres mejorar y te respondemos con una propuesta cerrada.
@@ -471,11 +462,10 @@ function ContactSlide({ position }: SlideProps) {
         {links.map((link, linkIndex) => (
           <li className="min-w-0" data-animate key={link.href}>
             <a
-              className={`flex min-h-14 items-center justify-between gap-4 rounded-xl border px-5 py-3 font-semibold transition-colors ${
-                linkIndex === 0
+              className={`flex min-h-14 items-center justify-between gap-4 rounded-xl border px-5 py-3 font-semibold transition-colors ${linkIndex === 0
                   ? 'border-transparent bg-[var(--brand-lime)] text-[#0c110b] hover:bg-white'
                   : 'border-white/15 text-white hover:border-white/40 hover:bg-white/[0.06]'
-              } ${focusRing}`}
+                } ${focusRing}`}
               href={link.href}
               {...(link.external ? { rel: 'noopener noreferrer', target: '_blank' } : {})}
             >
@@ -510,11 +500,7 @@ const slideComponents: Record<PresentationSlideId, (props: SlideProps) => ReactN
   contacto: ContactSlide,
 }
 
-export function PresentationSlide({
-  data,
-  id,
-  position,
-}: SlideProps & { id: PresentationSlideId }) {
+export function PresentationSlide({ data, id }: SlideProps & { id: PresentationSlideId }) {
   const Slide = slideComponents[id]
-  return <Slide data={data} position={position} />
+  return <Slide data={data} />
 }

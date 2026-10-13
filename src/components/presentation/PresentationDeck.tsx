@@ -113,8 +113,16 @@ export function PresentationDeck(props: PresentationDeckData) {
   }, [current])
 
   return (
-    <div className="min-h-svh bg-[#0c110b] text-white">
-      <header className="fixed inset-x-0 top-0 z-30 bg-linear-to-b from-[#0c110b] via-[#0c110b]/80 to-transparent">
+    <div className="relative min-h-svh bg-[#0c110b] text-white">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-0 z-0"
+        style={{
+          backgroundImage:
+            'radial-gradient(60rem 40rem at 85% -10%, rgb(190 242 100 / 0.12), transparent 70%), radial-gradient(50rem 36rem at 0% 110%, rgb(190 242 100 / 0.07), transparent 70%)',
+        }}
+      />
+      <header className="fixed inset-x-0 top-0 z-30 bg-linear-to-b from-[#0c110b]/70 to-transparent">
         <div className="mx-auto flex w-full max-w-[90rem] items-center justify-between gap-4 px-6 py-4 sm:px-10">
           <a
             aria-label="doscientos: ir a la portada de la presentación"
@@ -141,7 +149,7 @@ export function PresentationDeck(props: PresentationDeckData) {
         </div>
       </header>
 
-      <main id="main-content" ref={mainRef}>
+      <main className="relative z-10" id="main-content" ref={mainRef}>
         {presentationSlides.map((slide, position) => (
           <section
             aria-labelledby={`slide-${slide.id}-title`}
@@ -152,7 +160,7 @@ export function PresentationDeck(props: PresentationDeckData) {
             key={slide.id}
             tabIndex={-1}
           >
-            <PresentationSlide data={props} id={slide.id} position={position} />
+            <PresentationSlide data={props} id={slide.id} />
           </section>
         ))}
       </main>

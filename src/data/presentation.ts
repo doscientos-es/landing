@@ -15,7 +15,7 @@ export const presentationSlides = [
 export type PresentationSlideId = (typeof presentationSlides)[number]['id']
 
 export const companyTotals = {
-  clients: 10,
+  clients: 6,
   projects: 14,
   leads: 89,
 }
@@ -23,21 +23,19 @@ export const companyTotals = {
 export const companyPillars = [
   {
     title: 'Software a medida',
-    description:
-      'CRM, portales de cliente y herramientas internas que sustituyen hojas de cálculo.',
+    description: 'CRM, portales de cliente y herramientas internas que sustituyen hojas de cálculo',
   },
   {
     title: 'Automatización',
-    description: 'Procesos repetitivos conectados entre sí para que el equipo se centre en vender.',
+    description: 'Procesos repetitivos conectados entre sí para que el equipo se centre en vender',
   },
   {
     title: 'Web y presencia digital',
-    description:
-      'Landings y presentaciones comerciales que explican bien lo que hace cada empresa.',
+    description: 'Landings y presentaciones comerciales que explican bien lo que hace tu empresa',
   },
   {
     title: 'Mantenimiento continuo',
-    description: 'Acompañamos el producto después del lanzamiento con mejoras mensuales.',
+    description: 'Acompañamos el producto después del lanzamiento con mejoras mensuales',
   },
 ] as const
 
@@ -56,23 +54,23 @@ export const methodSteps = [
   },
   {
     title: 'Lanzamiento y evolución',
-    description: 'Puesta en producción en unas 6 semanas y mantenimiento posterior.',
+    description: 'Puesta en producción en menos de 6 semanas y mantenimiento posterior.',
   },
 ] as const
 
-// Base imponible (sin IVA) de las facturas emitidas, agrupada por mes de emisión.
+// Total (IVA incluido) de las facturas emitidas, agrupado por mes de emisión.
 export const billing = {
   months: [
-    { month: '2026-06', amount: 300 },
-    { month: '2026-07', amount: 2010 },
-    { month: '2026-08', amount: 3980 },
-    { month: '2026-09', amount: 1672.33 },
-    { month: '2026-10', amount: 300 },
+    { month: '2026-06', amount: 363 },
+    { month: '2026-07', amount: 2432.1 },
+    { month: '2026-08', amount: 4815.8 },
+    { month: '2026-09', amount: 2023.52 },
+    { month: '2026-10', amount: 1270.5 },
   ],
-  totalNet: 8262.33,
-  invoicesIssued: 16,
+  total: 10904.92,
+  invoicesIssued: 17,
   billedClients: 6,
-  draftsNet: 2650,
+  drafts: 2299,
   recurringClients: ['Optinergia', 'Salvadis'],
 } as const
 
