@@ -126,7 +126,7 @@ export const roadmap = [
   {
     period: 'Q1 2027',
     title: 'Escalado',
-    description: 'Conseguir 20 clientes recurrentes y facturar 50k€ en el primer trimestre de 2027.',
+    description: 'Conseguir 20 clientes recurrentes y facturar 20k€ en el primer trimestre de 2027.',
   },
 ] as const
 
