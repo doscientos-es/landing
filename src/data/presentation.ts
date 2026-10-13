@@ -120,13 +120,13 @@ export const roadmap = [
   },
   {
     period: 'Diciembre 2026',
-    title: 'Productos propios',
-    description: 'Lograr 10 clientes recurrentes y cerrar año 20k de facturación.',
+    title: 'Consolidación',
+    description: 'Lograr 10 clientes recurrentes y cerrar año con 20k€ de facturación.',
   },
   {
     period: 'Q1 2027',
-    title: 'Packs sectoriales',
-    description: 'Soluciones listas para negocios locales con instalación y cuota fija.',
+    title: 'Escalado',
+    description: '.',
   },
 ] as const
 
