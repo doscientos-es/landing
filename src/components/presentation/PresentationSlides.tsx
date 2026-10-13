@@ -142,9 +142,9 @@ function CoverSlide({ data }: SlideProps) {
           {formatDate(data.snapshotDate)}.
         </p>
         <dl className="mt-12 grid max-w-3xl grid-cols-3 gap-6">
+          <Stat label="Consultorías realizadas" value={companyTotals.leads} />
           <Stat label="Clientes" value={companyTotals.clients} />
           <Stat highlight label="Facturado en 2026" value={euro.format(billing.total)} />
-          <Stat label="Consultorías realizadas" value={companyTotals.leads} />
         </dl>
       </div>
     </SlideShell>
@@ -463,8 +463,8 @@ function ContactSlide() {
           <li className="min-w-0" data-animate key={link.href}>
             <a
               className={`flex min-h-14 items-center justify-between gap-4 rounded-xl border px-5 py-3 font-semibold transition-colors ${linkIndex === 0
-                  ? 'border-transparent bg-[var(--brand-lime)] text-[#0c110b] hover:bg-white'
-                  : 'border-white/15 text-white hover:border-white/40 hover:bg-white/[0.06]'
+                ? 'border-transparent bg-[var(--brand-lime)] text-[#0c110b] hover:bg-white'
+                : 'border-white/15 text-white hover:border-white/40 hover:bg-white/[0.06]'
                 } ${focusRing}`}
               href={link.href}
               {...(link.external ? { rel: 'noopener noreferrer', target: '_blank' } : {})}

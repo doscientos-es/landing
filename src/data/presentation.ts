@@ -71,7 +71,7 @@ export const billing = {
   invoicesIssued: 17,
   billedClients: 6,
   drafts: 2299,
-  recurringClients: ['Optinergia', 'Salvadis'],
+  recurringClients: ['Optinergia', 'Salvadis',"Kache envíos", "LEX"],
 } as const
 
 export type GoalUnit = 'count' | 'eur' | 'percent'
@@ -96,7 +96,7 @@ export const monthlyGoals: PresentationGoal[] = [
     label: 'Facturación mensual',
     description: 'Importe facturado en el mes (IVA incluido).',
     target: 3001,
-    actual: 363,
+    actual: 1220,
     unit: 'eur',
   },
   {
