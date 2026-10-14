@@ -58,8 +58,8 @@ export const branding = {
 
   contact: {
     whatsapp: {
-      number: '34671171525',
-      displayNumber: '+34 671 17 15 25',
+      number: '34624140151',
+      displayNumber: '+34 624 14 01 51',
       defaultMessage: 'Hola, quiero saber más...',
     },
     email: 'hola@doscientos.es',

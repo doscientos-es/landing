@@ -29,8 +29,8 @@ export const branding = {
       path: 'doscientos/30min',
     },
     whatsapp: {
-      number: '34671171525',
-      displayNumber: '+34 671 17 15 25',
+      number: '34624140151',
+      displayNumber: '+34 624 14 01 51',
       defaultMessage:
         'Hola, quiero saber más sobre las soluciones de automatización, IA y desarrollo web que ofrecéis.',
     },
