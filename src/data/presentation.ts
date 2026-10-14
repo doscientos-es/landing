@@ -1,5 +1,5 @@
 // Snapshot del backoffice usado en /presentacion. Actualizar a mano desde el MCP del backoffice.
-export const presentationSnapshotDate = '2026-10-13'
+export const presentationSnapshotDate = '2026-10-14'
 
 export const presentationSlides = [
   { id: 'portada', label: 'Portada' },
@@ -15,8 +15,8 @@ export const presentationSlides = [
 export type PresentationSlideId = (typeof presentationSlides)[number]['id']
 
 export const companyTotals = {
-  clients: 6,
-  leads: 89,
+  clients: 10,
+  leads: 90,
 }
 
 export const companyPillars = [
@@ -64,10 +64,10 @@ export const billing = {
     { month: '2026-07', amount: 2432.1 },
     { month: '2026-08', amount: 4815.8 },
     { month: '2026-09', amount: 2023.52 },
-    { month: '2026-10', amount: 1270.5 },
+    { month: '2026-10', amount: 1694 },
   ],
-  total: 10904.92,
-  invoicesIssued: 17,
+  total: 11328.42,
+  invoicesIssued: 18,
   billedClients: 6,
   drafts: 2299,
   recurringClients: ['Optinergia', 'Salvadis', 'Kache envíos', 'LEX'],
@@ -88,14 +88,14 @@ export const monthlyGoals: PresentationGoal[] = [
     label: 'Leads nuevos',
     description: 'Contactos cualificados que entran cada mes.',
     target: 20,
-    actual: 5,
+    actual: 6,
     unit: 'count',
   },
   {
     label: 'Facturación mensual',
     description: 'Importe facturado en el mes (IVA incluido).',
     target: 3001,
-    actual: 1220,
+    actual: 1694,
     unit: 'eur',
   },
   {
