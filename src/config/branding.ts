@@ -13,7 +13,7 @@ export const branding = {
       bio: 'Ingeniero frontend especializado en producto, diseño de interfaces y arquitectura web. Ha trabajado en equipos de producto de empresas tecnológicas europeas.',
       image: '/assets/team/pol.avif',
       link: 'https://www.polgubau.com',
-    },
+    }, 
     {
       name: 'Gerard Martínez Alcocer',
       role: 'Co-fundador · Backend & DevOps',
