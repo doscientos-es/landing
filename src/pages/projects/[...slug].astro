@@ -51,6 +51,7 @@ const timelineText =
     author: "doscientos",
     tags: project.data.services_provided,
   }}
+  faqs={project.data.faqs}
 >
   <SchemaOrg
     type="project"
@@ -183,6 +184,24 @@ const timelineText =
     >
       <Content />
     </div>
+    {
+      project.data.faqs?.length ? (
+        <section class="project-faq border-t border-muted pt-8" aria-labelledby="project-faq-title">
+          <h2 id="project-faq-title" class="text-2xl font-bold">Preguntas frecuentes sobre {project.data.title}</h2>
+          <div class="mt-4">
+            {project.data.faqs.map((faq) => (
+              <details class="border-b border-muted py-4">
+                <summary class="cursor-pointer text-lg font-semibold">{faq.question}</summary>
+                <p class="mt-3 text-muted-foreground leading-relaxed">{faq.answer}</p>
+              </details>
+            ))}
+          </div>
+          <p class="mt-6 text-sm text-muted-foreground">
+            ¿Tienes un reto parecido? <a class="underline underline-offset-4" href="/diagnostico?ref=project-faq">Pide un diagnóstico gratuito de tu proceso.</a>
+          </p>
+        </section>
+      ) : null
+    }
   </article>
   <OtherProjects currentProjectId={project.id} />
 </MainLayout>

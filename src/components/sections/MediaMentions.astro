@@ -1,0 +1,63 @@
+---
+const links = [
+  {
+    name: "TV3",
+    href: "https://polgubau.com/ca/about",
+    label: "Pol Gubau, entrevistado en TV3",
+    className: "text-2xl font-black tracking-tight",
+  },
+  {
+    name: "DatosCIF",
+    href: "https://www.datoscif.es/empresa/doscientos-desarrollo-tecnologico-sl",
+    label: "Consultar la ficha de Doscientos en DatosCIF",
+    className: "text-lg font-bold tracking-tight",
+  },
+  {
+    name: "Empresia",
+    href: "https://www.empresia.es/empresa/doscientos-desarrollo-tecnologico/evento/26852505/",
+    label: "Consultar la ficha de Doscientos en Empresia",
+    className: "text-lg font-bold tracking-tight",
+  },
+  {
+    name: "eInforma",
+    href: "https://www.einforma.com/informacion-empresa/doscientos-desarrollo-tecnologico",
+    label: "Consultar la ficha de Doscientos en eInforma",
+    className: "text-lg font-bold tracking-tight",
+  },
+  {
+    name: "Infoempresa",
+    href: "https://www.infoempresa.com/en-in/es/company/doscientos-desarrollo-tecnologico-sl",
+    label: "Consultar la ficha de Doscientos en Infoempresa",
+    className: "text-lg font-bold tracking-tight",
+  },
+];
+---
+
+<section class="w-full border-y border-border/50 py-6">
+  <div class="mx-auto max-w-7xl px-6">
+    <div class="flex items-center gap-6 sm:gap-10">
+      <h2 class="shrink-0 text-sm font-semibold text-muted-foreground">
+        También aparecemos en
+      </h2>
+      <div class="min-w-0 flex-1 overflow-x-auto">
+        <ul class="flex w-max min-w-full items-center justify-between gap-8 pr-6">
+          {
+            links.map(({ name, href, label, className }) => (
+              <li class="shrink-0">
+                <a
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  class={`text-foreground/65 transition-colors hover:text-primary ${className}`}
+                >
+                  {name}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>

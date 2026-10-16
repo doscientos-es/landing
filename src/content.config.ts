@@ -20,6 +20,14 @@ const projects = defineCollection({
       cover: image(),
       logo: image().optional(),
       services_provided: z.array(z.string()).optional().default([]),
+      faqs: z
+        .array(
+          z.object({
+            question: z.string(),
+            answer: z.string(),
+          }),
+        )
+        .optional(),
     }),
 })
 

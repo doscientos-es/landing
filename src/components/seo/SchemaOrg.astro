@@ -3,8 +3,8 @@ import type {
   BlogPosting,
   CreativeWork,
   FAQPage,
+  LocalBusiness,
   Organization,
-  ProfessionalService,
   Service,
   WebPage,
   WebSite,
@@ -104,13 +104,12 @@ const organizationSchema = {
   ],
 } satisfies WithContext<Organization>;
 
-const professionalServiceSchema = {
+const localBusinessSchema = {
   "@context": "https://schema.org",
-  "@type": "ProfessionalService",
-  "@id": `${baseUrl}/#professional-service`,
+  "@type": "LocalBusiness",
+  "@id": organizationId,
   name: branding.name,
   url: baseUrl,
-  provider: { "@id": organizationId },
   address,
   geo: {
     "@type": "GeoCoordinates",
@@ -130,7 +129,7 @@ const professionalServiceSchema = {
     "@type": "OpeningHoursSpecification",
     ...hours,
   })),
-} as unknown as WithContext<ProfessionalService>;
+} as unknown as WithContext<LocalBusiness>;
 
 const websiteSchema = {
   "@context": "https://schema.org",
@@ -144,7 +143,7 @@ const websiteSchema = {
 
 const schemas: JsonLdSchema[] = [
   organizationSchema,
-  professionalServiceSchema as WithContext<ProfessionalService>,
+  localBusinessSchema,
 ];
 schemas.push(websiteSchema);
 

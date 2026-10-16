@@ -2,8 +2,8 @@ import type {
   BlogPosting,
   CreativeWork,
   FAQPage,
+  LocalBusiness,
   Organization,
-  ProfessionalService,
   Service,
   WebPage,
   WebSite,
@@ -12,7 +12,7 @@ import type {
 
 export type JsonLdSchema =
   | WithContext<Organization>
-  | WithContext<ProfessionalService>
+  | WithContext<LocalBusiness>
   | WithContext<WebSite>
   | WithContext<BlogPosting>
   | WithContext<Service>
