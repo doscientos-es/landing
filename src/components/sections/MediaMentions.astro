@@ -5,8 +5,7 @@ const links = [
     logo: "/logos/media/tv3.svg",
     href: "https://polgubau.com/ca/about",
     label: "Pol Gubau, entrevistado en TV3",
-    logoClass: "h-9 w-auto",
-    plateClass: "bg-white",
+    logoClass: "h-8 w-auto",
   },
   {
     name: "DatosCIF",
@@ -14,7 +13,6 @@ const links = [
     href: "https://www.datoscif.es/empresa/doscientos-desarrollo-tecnologico-sl",
     label: "Consultar la ficha de Doscientos en DatosCIF",
     logoClass: "h-6 w-28",
-    plateClass: "bg-white",
   },
   {
     name: "Empresia",
@@ -22,7 +20,6 @@ const links = [
     href: "https://www.empresia.es/empresa/doscientos-desarrollo-tecnologico/evento/26852505/",
     label: "Consultar la ficha de Doscientos en Empresia",
     logoClass: "h-7 w-24",
-    plateClass: "bg-neutral-900",
   },
   {
     name: "eInforma",
@@ -30,7 +27,6 @@ const links = [
     href: "https://www.einforma.com/informacion-empresa/doscientos-desarrollo-tecnologico",
     label: "Consultar la ficha de Doscientos en eInforma",
     logoClass: "h-6 w-28",
-    plateClass: "bg-white",
   },
   {
     name: "Infoempresa",
@@ -38,42 +34,62 @@ const links = [
     href: "https://www.infoempresa.com/en-in/es/company/doscientos-desarrollo-tecnologico-sl",
     label: "Consultar la ficha de Doscientos en Infoempresa",
     logoClass: "h-6 w-28",
-    plateClass: "bg-white",
   },
 ];
 ---
 
-<section class="w-full border-y border-border/50 py-6">
-  <div class="mx-auto max-w-7xl px-6">
-    <div class="flex items-center gap-6 sm:gap-10">
-      <h2 class="shrink-0 text-sm font-semibold text-muted-foreground">
-        También aparecemos en
-      </h2>
-      <div class="min-w-0 flex-1 overflow-x-auto">
-        <ul class="flex w-max min-w-full items-center justify-between gap-8 pr-6">
-          {
-            links.map(({ name, logo, href, label, logoClass, plateClass }) => (
-              <li class="shrink-0">
+<section class="w-full overflow-hidden border-y border-border/50 py-5">
+  <div class="mx-auto flex max-w-7xl items-center gap-5 px-5 sm:gap-8 sm:px-6">
+    <h2 class="shrink-0 text-xs font-semibold text-muted-foreground sm:text-sm">
+      Nos encuentras en
+    </h2>
+    <div class="media-viewport min-w-0 flex-1 overflow-hidden" aria-label="Medios y portales donde aparece doscientos">
+      <div class="media-track flex w-max items-center">
+        {[0, 1].map((copy) => (
+          <ul class="media-group flex shrink-0 items-center gap-10 pr-10 sm:gap-14 sm:pr-14" aria-hidden={copy === 1 ? "true" : undefined}>
+            {links.map(({ name, logo, href, label, logoClass }) => (
+              <li class="flex h-10 shrink-0 items-center">
                 <a
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label={label}
-                  class={`flex h-12 w-36 items-center justify-center rounded-lg border border-border/50 px-3 transition-opacity hover:opacity-75 ${plateClass}`}
+                  aria-label={copy === 1 ? undefined : label}
+                  tabindex={copy === 1 ? -1 : undefined}
+                  class="flex items-center transition-opacity hover:opacity-70"
                 >
                   <img
                     src={logo}
-                    alt={name}
-                    class={`max-h-8 max-w-full object-contain ${logoClass}`}
+                    alt={copy === 1 ? "" : name}
+                    class={`max-h-8 max-w-32 object-contain ${logoClass}`}
                     loading="lazy"
                     decoding="async"
                   />
                 </a>
               </li>
-            ))
-          }
-        </ul>
+            ))}
+          </ul>
+        ))}
       </div>
     </div>
   </div>
 </section>
+
+<style>
+  .media-track {
+    animation: media-scroll 32s linear infinite;
+  }
+
+  .media-viewport:hover .media-track,
+  .media-viewport:focus-within .media-track {
+    animation-play-state: paused;
+  }
+
+  @keyframes media-scroll {
+    to { transform: translateX(-50%); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .media-track { animation: none; }
+    .media-group[aria-hidden="true"] { display: none; }
+  }
+</style>

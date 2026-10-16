@@ -1,7 +1,6 @@
 ---
 import { Award, Code, Lock, Rocket, Smartphone, Users } from "@lucide/astro";
 import { Image } from "astro:assets";
-import SectionHeader from "~/components/ui/SectionHeader.astro";
 import CtaButton from "../ui/CtaButton.astro";
 
 import imageMobile from "~/assets/media/landing/flatmatch-mobile.webp";
@@ -10,29 +9,29 @@ import imagePhones from "~/assets/media/landing/phones.webp";
 
 const services = [
   {
-    title: "Todo tu negocio en una herramienta, no en diez Excel",
+    title: "Un sistema conectado a la forma de trabajar de tu equipo",
     description:
-      "Clientes, pedidos, facturas y stock en un sistema hecho exactamente para tu proceso. Sin licencias por usuario, sin adaptar cómo trabajas a Salesforce o HubSpot.",
+      "Conectamos clientes, pedidos, facturas y stock en herramientas que encajan con tu operativa. Definimos contigo qué integrar y qué merece la pena sustituir.",
   },
   {
-    title: "De idea a producción en 6 semanas",
+    title: "De la idea a una primera versión en 6 semanas",
     description:
-      "Marketplaces, herramientas B2B, apps de reservas, gestión interna. Lanzamos lo mínimo viable con usuarios reales mientras tu competencia sigue en Figma.",
+      "Marketplaces, herramientas B2B, reservas o gestión interna. En proyectos con alcance acotado, priorizamos lo esencial y lo validamos con usuarios reales.",
   },
   {
-    title: "El trabajo que tu equipo repite cada semana, automatizado",
+    title: "Automatiza las tareas que tu equipo repite cada semana",
     description:
-      "Conectamos tienda, ERP y contabilidad. Los pedidos entran solos, las facturas salen cumpliendo VeriFactu y el informe llega sin que nadie lo prepare. ROI en 2-3 meses.",
+      "Conectamos tienda, ERP y contabilidad para reducir la entrada manual de pedidos y la preparación de informes. En facturación, revisamos los requisitos técnicos de cada integración.",
   },
   {
-    title: "Ese Access o Excel de hace 10 años te cuesta dinero cada semana",
+    title: "Moderniza tus herramientas sin frenar la operativa",
     description:
-      "Lo sustituimos sin parar la operativa. Mientras construimos el nuevo, el antiguo sigue funcionando. Tus clientes no notan nada, tú sí.",
+      "Planificamos la transición por etapas para que el equipo pueda seguir trabajando mientras preparamos el nuevo sistema.",
   },
   {
-    title: "Preparado para cuando crezcas ×10",
+    title: "Una base preparada para crecer contigo",
     description:
-      "Arquitectura que no te frena cuando llegas a 10.000 usuarios.",
+      "Empezamos por lo que necesitas hoy y dejamos margen para incorporar funciones y capacidad a medida que crece la demanda.",
   },
 ];
 
@@ -42,7 +41,7 @@ const benefits = [
     icon: Lock,
   },
   {
-    label: "En producción en 6 semanas",
+    label: "MVP acotado en 6 semanas",
     icon: Rocket,
   },
   {
@@ -54,7 +53,7 @@ const benefits = [
     icon: Code,
   },
   {
-    label: "Sin cuotas por usuario",
+    label: "Sin depender de licencias por usuario",
     icon: Users,
   },
   {

@@ -14,7 +14,7 @@ export const copy = {
     ctaNote: '30 min para detectar qué automatizar primero',
     highlights: [
       'Precio fijo y alcance cerrado',
-      'En producción en 6 semanas',
+      'MVPs acotados en 6 semanas',
       'El código es 100 % tuyo',
     ],
     // Scroll-driven storyboard rendered above the stage (desktop-only GSAP
@@ -28,7 +28,7 @@ export const copy = {
       captions: [
         'Renovaciones, facturas y pedidos se pierden entre mil sitios',
         'Conectamos tus datos y quitamos el trabajo repetido',
-        'Tu equipo recupera el control sin cambiar su forma de trabajar',
+        'Tu equipo recupera el control con menos trabajo manual',
       ],
       chaos: [
         {
@@ -111,7 +111,7 @@ export const copy = {
     question: '¿Tu equipo sigue haciendo en 3 horas lo que un sistema haría en 5 minutos?',
     // Elimina la fricción del primer paso: no prometemos vender, prometemos ayudar.
     description:
-      'Cuéntanos el problema. En menos de 24 horas te damos una valoración honesta y un plan de acción, aunque al final no trabajemos juntos.',
+      'Cuéntanos qué quieres mejorar. En un día laborable te responderemos con una primera orientación y próximos pasos.',
     cta: 'Cuéntanos tu proyecto',
   },
 

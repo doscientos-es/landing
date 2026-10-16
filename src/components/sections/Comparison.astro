@@ -1,106 +1,47 @@
 ---
-import { Check, X } from "@lucide/astro";
+import { Check } from "@lucide/astro";
 import SectionHeader from "../ui/SectionHeader.astro";
 
 const rows = [
-  { label: "Tiempo de entrega", us: "6 semanas", them: "4-6 meses" },
-  { label: "Precio", us: "Precio fijo acordado", them: "Presupuesto variable" },
-  { label: "Pagos", us: "Por hitos (30/40/30)", them: "Por adelantado" },
-  {
-    label: "Comunicación",
-    us: "Demo semanal + Slack",
-    them: "Reuniones mensuales",
-  },
-  {
-    label: "Propiedad del código",
-    us: "100% tuyo",
-    them: "Depende del contrato",
-  },
-  {
-    label: "Soporte post-lanzamiento",
-    us: "30 días incluidos",
-    them: "Coste adicional",
-  },
-  {
-    label: "Flexibilidad",
-    us: "Cambios en 24-48h",
-    them: "Solicitudes de cambio formales",
-  },
-  { label: "Equipo", us: "Senior dedicado", them: "Junior + rotación" },
+  { label: "Alcance", value: "Lo definimos antes de empezar" },
+  { label: "Presupuesto", value: "Precio acordado para ese alcance" },
+  { label: "Seguimiento", value: "Demos semanales durante el desarrollo" },
+  { label: "Propiedad", value: "El código y los repositorios son tuyos" },
+  { label: "Después del lanzamiento", value: "30 días de soporte incluidos y planes de mantenimiento disponibles" },
 ];
 ---
 
-<section id="faq" class="landing-section">
+<section id="como-trabajamos" class="landing-section">
   <SectionHeader
-    title="Agencia tradicional"
-    subtitle="vs doscientos"
-    description="No somos una agencia tradicional. Somos un equipo pequeño, rápido y especializado en lanzar productos que funcionan."
+    title="Claridad en cada etapa"
+    subtitle="Así trabajamos"
+    description="Antes de empezar, dejamos claros el alcance, el presupuesto y cómo revisaremos el avance."
     align="center"
   />
 
   <div
     role="table"
-    aria-label="Comparativa doscientos vs agencia tradicional"
+    aria-label="Qué puedes esperar al trabajar con doscientos"
     class="rounded-2xl overflow-hidden border border-muted"
     data-reveal="bottom"
     data-speed="normal"
     data-easing="soft"
   >
-    <!-- Header -->
     <div role="rowgroup">
-      <div role="row" class="grid grid-cols-3 bg-foreground text-background">
-        <div role="columnheader" class="p-4 text-sm font-semibold">
-          <span class="sr-only">Criterio</span>
-        </div>
+      {rows.map((row, i) => (
         <div
-          role="columnheader"
-          class="p-4 text-sm font-semibold text-center border-l border-background/20"
+          role="row"
+          class={`grid grid-cols-[minmax(8rem,0.7fr)_1.3fr] border-t border-muted first:border-t-0 ${i % 2 === 0 ? "bg-background" : "bg-accent/40"}`}
         >
-          doscientos
-        </div>
-        <div
-          role="columnheader"
-          class="p-4 text-sm font-semibold text-center border-l border-background/20 opacity-60"
-        >
-          Agencia tradicional
-        </div>
-      </div>
-    </div>
-
-    <!-- Rows -->
-    <div role="rowgroup">
-      {
-        rows.map((row, i) => (
-          <div
-            role="row"
-            class={`grid grid-cols-3 border-t border-muted ${i % 2 === 0 ? "bg-background" : "bg-accent/40"}`}
-          >
-            <div
-              role="rowheader"
-              class="p-4 text-sm font-medium text-muted-foreground"
-            >
-              {row.label}
-            </div>
-            <div
-              role="cell"
-              class="p-4 text-sm font-semibold text-primary text-center border-l border-muted flex items-center justify-center gap-2"
-            >
-              <Check
-                aria-hidden="true"
-                class="size-4 text-green-500 shrink-0"
-              />
-              {row.us}
-            </div>
-            <div
-              role="cell"
-              class="p-4 text-sm text-muted-foreground text-center border-l border-muted flex items-center justify-center gap-2"
-            >
-              <X aria-hidden="true" class="size-4 text-red-400 shrink-0" />
-              {row.them}
-            </div>
+          <div role="rowheader" class="p-4 text-sm font-medium text-muted-foreground">
+            {row.label}
           </div>
-        ))
-      }
+          <div role="cell" class="p-4 text-sm font-semibold text-primary border-l border-muted flex items-center gap-2">
+            <Check aria-hidden="true" class="size-4 text-green-500 shrink-0" />
+            {row.value}
+          </div>
+        </div>
+      ))}
     </div>
   </div>
 </section>
