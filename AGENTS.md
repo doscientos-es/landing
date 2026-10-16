@@ -1,5 +1,11 @@
 # Landing UI guardrails
 
+## GitHub publishing
+
+- After completing each user-requested change in this repository, commit the relevant changes and push the current branch to its GitHub remote without asking for confirmation.
+- Before committing, review `git status` and the diff. Include only changes related to the user's request; preserve unrelated work already in the working tree.
+- Run the applicable project checks before pushing. If a check or push fails, report that clearly and do not claim the change was published.
+
 Apply the Web Interface Guidelines to every public landing change.
 Concise rules for building accessible, fast, delightful UIs. Use MUST/SHOULD/NEVER to guide decisions.
 
