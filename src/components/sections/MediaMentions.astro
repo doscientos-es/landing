@@ -2,33 +2,43 @@
 const links = [
   {
     name: "TV3",
+    logo: "/logos/media/tv3.svg",
     href: "https://polgubau.com/ca/about",
     label: "Pol Gubau, entrevistado en TV3",
-    className: "text-2xl font-black tracking-tight",
+    logoClass: "h-9 w-auto",
+    plateClass: "bg-white",
   },
   {
     name: "DatosCIF",
+    logo: "/logos/media/datoscif.svg",
     href: "https://www.datoscif.es/empresa/doscientos-desarrollo-tecnologico-sl",
     label: "Consultar la ficha de Doscientos en DatosCIF",
-    className: "text-lg font-bold tracking-tight",
+    logoClass: "h-6 w-28",
+    plateClass: "bg-white",
   },
   {
     name: "Empresia",
+    logo: "/logos/media/empresia.png",
     href: "https://www.empresia.es/empresa/doscientos-desarrollo-tecnologico/evento/26852505/",
     label: "Consultar la ficha de Doscientos en Empresia",
-    className: "text-lg font-bold tracking-tight",
+    logoClass: "h-7 w-24",
+    plateClass: "bg-neutral-900",
   },
   {
     name: "eInforma",
+    logo: "/logos/media/einforma.svg",
     href: "https://www.einforma.com/informacion-empresa/doscientos-desarrollo-tecnologico",
     label: "Consultar la ficha de Doscientos en eInforma",
-    className: "text-lg font-bold tracking-tight",
+    logoClass: "h-6 w-28",
+    plateClass: "bg-white",
   },
   {
     name: "Infoempresa",
+    logo: "/logos/media/infoempresa.svg",
     href: "https://www.infoempresa.com/en-in/es/company/doscientos-desarrollo-tecnologico-sl",
     label: "Consultar la ficha de Doscientos en Infoempresa",
-    className: "text-lg font-bold tracking-tight",
+    logoClass: "h-6 w-28",
+    plateClass: "bg-white",
   },
 ];
 ---
@@ -42,16 +52,22 @@ const links = [
       <div class="min-w-0 flex-1 overflow-x-auto">
         <ul class="flex w-max min-w-full items-center justify-between gap-8 pr-6">
           {
-            links.map(({ name, href, label, className }) => (
+            links.map(({ name, logo, href, label, logoClass, plateClass }) => (
               <li class="shrink-0">
                 <a
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
-                  class={`text-foreground/65 transition-colors hover:text-primary ${className}`}
+                  class={`flex h-12 w-36 items-center justify-center rounded-lg border border-border/50 px-3 transition-opacity hover:opacity-75 ${plateClass}`}
                 >
-                  {name}
+                  <img
+                    src={logo}
+                    alt={name}
+                    class={`max-h-8 max-w-full object-contain ${logoClass}`}
+                    loading="lazy"
+                    decoding="async"
+                  />
                 </a>
               </li>
             ))
