@@ -99,6 +99,8 @@ ul.bento {
 /* ── Project prose: centralized image style ─────────────────────────── */
 .prose img {
   @apply border-muted/60 block w-full rounded-2xl border;
+  max-height: 60vh;
+  object-fit: contain;
   box-shadow: var(--shadow-pastel-sm);
 }
 
