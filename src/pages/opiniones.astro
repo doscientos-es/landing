@@ -22,7 +22,7 @@ const schema = {
 
 <MainLayout
   title="Opiniones de clientes | doscientos"
-  description="Lee lo que dicen de doscientos clientes reales: reseñas de Google de Salvadis, Cyberimpulsa y Natura Studio sobre su proyecto web."
+  description="Lee lo que dicen de doscientos clientes reales: reseñas de Google y citas de Salvadis, Cyberimpulsa, Natura Studio, CashMóvil Canarias y Flatmatch."
 >
   <script
     is:inline
@@ -32,12 +32,18 @@ const schema = {
 
   <div class="mx-auto w-full max-w-4xl px-6 pb-24 pt-28 lg:pt-36">
     <header class="mb-16" data-reveal="bottom">
-      <h1 class="text-4xl font-bold tracking-tight text-foreground text-balance lg:text-5xl">
-        Opiniones de clientes de <span translate="no" class="text-primary">doscientos</span>
+      <h1
+        class="text-4xl font-bold tracking-tight text-foreground text-balance lg:text-5xl"
+      >
+        Opiniones de clientes de <span translate="no" class="text-primary"
+          >doscientos</span
+        >
       </h1>
-      <p class="mt-6 max-w-2xl text-xl leading-relaxed text-muted-foreground text-pretty">
-        Estas son reseñas reales que nuestros clientes han publicado en Google.
-        Las mostramos tal cual, sin retocar.
+      <p
+        class="mt-6 max-w-2xl text-xl leading-relaxed text-muted-foreground text-pretty"
+      >
+        Reseñas que nuestros clientes han publicado en Google y citas que nos
+        han dado al terminar sus proyectos. Las mostramos tal cual, sin retocar.
       </p>
     </header>
 
@@ -72,6 +78,17 @@ const schema = {
                     </p>
                     <p class="text-sm text-muted-foreground">
                       {testimonial.attribution}
+                      {testimonial.href && (
+                        <>
+                          {" · "}
+                          <a
+                            href={testimonial.href}
+                            class="font-medium text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                          >
+                            Ver el caso
+                          </a>
+                        </>
+                      )}
                     </p>
                   </footer>
                 </div>
@@ -83,7 +100,9 @@ const schema = {
     </ul>
 
     <section class="mt-20 flex flex-col items-start gap-6" data-reveal="bottom">
-      <h2 class="text-2xl font-semibold tracking-tight text-foreground text-balance sm:text-3xl">
+      <h2
+        class="text-2xl font-semibold tracking-tight text-foreground text-balance sm:text-3xl"
+      >
         ¿Hablamos de tu proyecto?
       </h2>
       <p class="max-w-xl text-muted-foreground text-pretty">
