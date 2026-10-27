@@ -82,6 +82,7 @@ export const footerLinkColumns = [
       { label: 'Blog', href: '/blog' },
       { label: 'Guía de marca', href: '/marca' },
       { label: 'Sobre nosotros', href: '/sobre-nosotros' },
+      { label: 'Opiniones', href: '/opiniones' },
       { label: 'Trabaja con nosotros', href: '/trabaja-con-nosotros' },
       { label: 'Contacto', href: '/contact' },
     ],

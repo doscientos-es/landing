@@ -1,0 +1,96 @@
+---
+import { Image } from "astro:assets";
+import CtaButton from "~/components/ui/CtaButton.astro";
+import MainLayout from "~/layouts/MainLayout.astro";
+import { testimonials } from "~/data/testimonials";
+import { serializeJsonLd } from "~/shared/lib/schema/jsonLd";
+
+const baseUrl = "https://doscientos.es";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: "Opiniones de clientes de doscientos",
+  url: `${baseUrl}/opiniones`,
+  about: {
+    "@type": "Organization",
+    name: "doscientos",
+    url: baseUrl,
+  },
+};
+---
+
+<MainLayout
+  title="Opiniones de clientes | doscientos"
+  description="Lee lo que dicen de doscientos clientes reales: reseñas de Google de Salvadis, Cyberimpulsa y Natura Studio sobre su proyecto web."
+>
+  <script
+    is:inline
+    type="application/ld+json"
+    set:html={serializeJsonLd(schema)}
+  />
+
+  <div class="mx-auto w-full max-w-4xl px-6 pb-24 pt-28 lg:pt-36">
+    <header class="mb-16" data-reveal="bottom">
+      <h1 class="text-4xl font-bold tracking-tight text-foreground text-balance lg:text-5xl">
+        Opiniones de clientes de <span translate="no" class="text-primary">doscientos</span>
+      </h1>
+      <p class="mt-6 max-w-2xl text-xl leading-relaxed text-muted-foreground text-pretty">
+        Estas son reseñas reales que nuestros clientes han publicado en Google.
+        Las mostramos tal cual, sin retocar.
+      </p>
+    </header>
+
+    <ul class="space-y-10">
+      {
+        testimonials.map((testimonial) => {
+          const [quoteBefore, ...quoteAfter] = testimonial.quote.split(
+            testimonial.highlight,
+          );
+          return (
+            <li>
+              <article class="flex flex-col items-start gap-6 rounded-3xl border border-muted bg-muted/30 p-6 sm:flex-row sm:gap-8 md:p-8">
+                <Image
+                  src={testimonial.image}
+                  alt={testimonial.imageAlt}
+                  width={128}
+                  height={128}
+                  loading="lazy"
+                  class={`size-24 shrink-0 rounded-2xl sm:size-28 ${testimonial.imageIsLogo ? "bg-white p-4 object-contain" : "object-cover object-top"}`}
+                />
+                <div class="min-w-0 flex-1">
+                  <blockquote class="text-lg leading-relaxed text-muted-foreground text-pretty">
+                    “{quoteBefore}
+                    <strong class="font-semibold text-foreground">
+                      {testimonial.highlight}
+                    </strong>
+                    {quoteAfter.join(testimonial.highlight)}”
+                  </blockquote>
+                  <footer class="mt-6 border-t border-muted pt-4">
+                    <p class="font-semibold text-foreground break-words">
+                      {testimonial.author}
+                    </p>
+                    <p class="text-sm text-muted-foreground">
+                      {testimonial.attribution}
+                    </p>
+                  </footer>
+                </div>
+              </article>
+            </li>
+          );
+        })
+      }
+    </ul>
+
+    <section class="mt-20 flex flex-col items-start gap-6" data-reveal="bottom">
+      <h2 class="text-2xl font-semibold tracking-tight text-foreground text-balance sm:text-3xl">
+        ¿Hablamos de tu proyecto?
+      </h2>
+      <p class="max-w-xl text-muted-foreground text-pretty">
+        Cuéntanos qué necesitas y te respondemos en menos de 24 horas. Sin
+        compromiso.
+      </p>
+      <CtaButton label="Cuéntanos tu proyecto" />
+    </section>
+  </div>
+</MainLayout>

@@ -1,4 +1,5 @@
 ---
+import { Check } from "@lucide/astro";
 import ContactForm from "~/components/forms/ContactForm";
 import SectionHeader from "~/components/ui/SectionHeader.astro";
 import { branding } from "~/config/branding";
@@ -20,10 +21,29 @@ const whatsappHref = buildTrackedWhatsappUrl({
   <section class="px-6 mx-auto pt-20 lg:pt-36 pb-20 w-full">
     <div class="space-y-12 w-full" data-stagger="150">
       <SectionHeader
-        title="Hablemos de tu proyecto"
-        description="Rellena este breve formulario y agenda tu llamada."
+        title="Empecemos con tu proyecto"
+        description="Cuéntanos qué necesitas y te responderemos en menos de 24 horas. Sin compromiso."
         align="center"
       />
+
+      <ul
+        class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-muted-foreground"
+        aria-label="Lo que puedes esperar"
+        data-reveal="bottom"
+      >
+        {
+          [
+            "Respuesta en menos de 24h",
+            "Llamada de 15 min sin compromiso",
+            "Diagnóstico inicial gratuito",
+          ].map((item) => (
+            <li class="flex items-center gap-2">
+              <Check class="size-4 text-primary" aria-hidden="true" />
+              {item}
+            </li>
+          ))
+        }
+      </ul>
 
       <div class="flex flex-col gap-8 items-center">
         <article

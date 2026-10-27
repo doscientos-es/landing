@@ -151,6 +151,16 @@ export const GET: APIRoute = async ({ site }) => {
       changefreq: 'monthly',
     },
     {
+      url: 'opiniones',
+      source: 'src/pages/opiniones.astro',
+      priority: '0.7',
+      changefreq: 'monthly',
+      lastmod: maxDate(
+        [gitLastmod('src/pages/opiniones.astro'), gitLastmod('src/data/testimonials.ts')],
+        FALLBACK_DATE,
+      ),
+    },
+    {
       url: 'jobs',
       source: 'src/pages/jobs.astro',
       priority: '0.6',
