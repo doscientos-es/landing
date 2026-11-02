@@ -1,21 +1,33 @@
 import { branding } from './branding'
 
 export const company = {
-  address: {
+  legalAddress: {
     streetAddress: branding.legal.address.street,
     postalCode: branding.legal.address.postalCode,
     addressLocality: branding.legal.address.city,
     addressRegion: branding.legal.address.province,
     addressCountry: 'ES',
   },
-  // Coordenadas de Premià de Mar, donde figura la dirección legal publicada.
-  geo: { latitude: 41.4956, longitude: 2.3598 },
-  serviceAreas: ['Barcelona', 'Maresme', 'Mataró', 'España'],
+  officeAddress: {
+    streetAddress: 'Carrer Joan XXIII, 8',
+    postalCode: '08330',
+    addressLocality: 'Premià de Mar',
+    addressRegion: 'Barcelona',
+    addressCountry: 'ES',
+  },
+  // Coordenadas del número 8 publicadas en el censo municipal de actividades.
+  geo: { latitude: 41.4885158, longitude: 2.3528098 },
+  serviceAreas: ['Premià de Mar', 'Maresme', 'Mataró', 'Barcelona', 'España'],
   openingHours: [
     {
       dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-      opens: '09:00',
-      closes: '18:00',
+      opens: '08:00',
+      closes: '19:00',
+    },
+    {
+      dayOfWeek: ['Saturday'],
+      opens: '10:00',
+      closes: '13:00',
     },
   ],
   contactPoints: [

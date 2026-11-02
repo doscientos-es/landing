@@ -5,6 +5,7 @@ import SectionHeader from "~/components/ui/SectionHeader.astro";
 import { branding } from "~/config/branding";
 import MainLayout from "~/layouts/MainLayout.astro";
 import { buildTrackedWhatsappUrl } from "~/shared/lib/attribution";
+import { company } from "~/config/company";
 
 const whatsappHref = buildTrackedWhatsappUrl({
   phone: branding.contact.whatsapp.number,
@@ -16,7 +17,7 @@ const whatsappHref = buildTrackedWhatsappUrl({
 
 <MainLayout
   title="Contacto - Agenda una llamada gratuita | doscientos"
-  description="Llamada de 15 minutos sin compromiso. Respuesta en 24h. Hablemos de tu proyecto y cómo podemos ayudarte a lanzar en 6 semanas."
+  description="Contacta con doscientos, agencia de software a medida en Premià de Mar. Atendemos empresas del Maresme y Barcelona; reuniones presenciales en nuestra oficina con cita previa."
 >
   <section class="px-6 mx-auto pt-20 lg:pt-36 pb-20 w-full">
     <div class="space-y-12 w-full" data-stagger="150">
@@ -63,6 +64,20 @@ const whatsappHref = buildTrackedWhatsappUrl({
             Chat por WhatsApp
           </a>
         </p>
+        <address class="not-italic text-center text-sm text-muted-foreground" data-reveal="bottom">
+          <strong class="text-foreground">Oficina en Premià de Mar</strong><br />
+          {company.officeAddress.streetAddress}, {company.officeAddress.postalCode} {company.officeAddress.addressLocality}, {company.officeAddress.addressRegion}<br />
+          Reuniones presenciales con cita previa · atendemos proyectos del Maresme y Barcelona.
+          <br />
+          <a
+            href="https://www.google.com/maps/search/?api=1&query=Carrer+Joan+XXIII%2C+8%2C+08330+Premi%C3%A0+de+Mar%2C+Barcelona"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="mt-2 inline-block min-h-11 py-3 font-bold text-primary hover:underline"
+          >
+            Cómo llegar a la oficina
+          </a>
+        </address>
         <p class="text-muted-foreground text-sm" data-reveal="bottom">
           ¿Prefieres empezar con una orientación rápida?{" "}
           <a

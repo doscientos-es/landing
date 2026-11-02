@@ -65,14 +65,17 @@ const {
 const base = new URL(Astro.site?.toString() ?? branding.url);
 const baseUrl = base.toString().replace(/\/$/, "");
 const organizationId = `${baseUrl}/#organization`;
-const addressId = `${baseUrl}/#address`;
+const localBusinessId = `${baseUrl}/#local-business`;
 const websiteId = `${baseUrl}/#website`;
 const currentUrl = new URL(Astro.url.pathname, base).toString();
 
-const address = {
+const legalAddress = {
   "@type": "PostalAddress",
-  "@id": addressId,
-  ...company.address,
+  ...company.legalAddress,
+};
+const officeAddress = {
+  "@type": "PostalAddress",
+  ...company.officeAddress,
 };
 
 const organizationSchema = {
@@ -88,7 +91,7 @@ const organizationSchema = {
   description: branding.slogan,
   email: branding.contact.email,
   telephone: branding.contact.whatsapp.displayNumber,
-  address: { "@id": addressId },
+  address: legalAddress,
   sameAs: Object.values(branding.social).filter(Boolean),
   founder: branding.team.map((member) => ({
     "@type": "Person",
@@ -107,16 +110,17 @@ const organizationSchema = {
 const localBusinessSchema = {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
-  "@id": organizationId,
+  "@id": localBusinessId,
   name: branding.name,
   url: baseUrl,
-  address,
+  address: officeAddress,
+  parentOrganization: { "@id": organizationId },
   geo: {
     "@type": "GeoCoordinates",
     latitude: company.geo.latitude,
     longitude: company.geo.longitude,
   },
-  hasMap: "https://www.google.com/maps/search/?api=1&query=Premi%C3%A0+de+Mar",
+  hasMap: "https://www.google.com/maps/search/?api=1&query=Carrer+Joan+XXIII%2C+8%2C+08330+Premi%C3%A0+de+Mar%2C+Barcelona",
   areaServed: company.serviceAreas.map((name) => ({
     "@type": name === "España" ? "Country" : "Place",
     name,

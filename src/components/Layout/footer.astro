@@ -2,6 +2,7 @@
 import { Mail, MapPin } from "@lucide/astro";
 import { Icon } from "astro-icon/components";
 import { branding } from "~/config/branding";
+import { company } from "~/config/company";
 import { footerLinkColumns } from "~/data/commercialRoutes";
 import { copy } from "~/shared/lib/copy";
 import { buildTrackedWhatsappUrl } from "~/shared/lib/attribution";
@@ -100,10 +101,18 @@ const socialLinks = [
                 />
                 {branding.contact.whatsapp.displayNumber}
               </a>
-              <p class="flex items-center gap-3 text-sm text-background/70">
-                <MapPin class="size-4 text-background/50" />
-                {branding.location.city}, {branding.location.country}
-              </p>
+              <a
+                href="https://www.google.com/maps/search/?api=1&query=Carrer+Joan+XXIII%2C+8%2C+08330+Premi%C3%A0+de+Mar%2C+Barcelona"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="group flex items-start gap-3 text-sm text-background/70 hover:text-background transition-colors"
+              >
+                <MapPin class="size-4 shrink-0 text-background/50 group-hover:text-background" aria-hidden="true" />
+                <span>
+                  {company.officeAddress.streetAddress}<br />
+                  {company.officeAddress.postalCode} {company.officeAddress.addressLocality}, {company.officeAddress.addressRegion}
+                </span>
+              </a>
             </div>
           </div>
 
