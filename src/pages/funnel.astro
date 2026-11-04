@@ -1,5 +1,5 @@
 ---
-import { ArrowRight, Check } from "@lucide/astro";
+import { ArrowRight, Check, MessageSquare, Sparkles } from "@lucide/astro";
 import ContactForm from "~/components/forms/ContactForm";
 import ClientsCarousel from "~/components/sections/ClientsCarousel.astro";
 import Comparison from "~/components/sections/Comparison.astro";
@@ -9,6 +9,24 @@ import HeroActions from "~/components/ui/HeroActions.astro";
 import { branding } from "~/config/branding";
 import MainLayout from "~/layouts/MainLayout.astro";
 import { copy } from "~/shared/lib/copy";
+
+const nextSteps = [
+  {
+    number: "01",
+    title: "Cuéntanos tu situación",
+    description: "Comparte tus datos y qué te gustaría mejorar en tu negocio.",
+  },
+  {
+    number: "02",
+    title: "Elige cuándo hablamos",
+    description: "Agenda una videollamada en el momento que mejor te venga.",
+  },
+  {
+    number: "03",
+    title: "Exploramos soluciones",
+    description: "Hablamos de tus procesos y de cómo podemos simplificarlos.",
+  },
+];
 ---
 
 <MainLayout
@@ -20,41 +38,33 @@ import { copy } from "~/shared/lib/copy";
   openLegalLinksInNewTab
 >
   <div class="funnel-top">
-    <section
-      class="mx-auto w-full max-w-7xl px-6 pb-8 pt-8 md:pt-12"
-      aria-labelledby="funnel-title"
-    >
-      <div class="flex items-center gap-2.5" aria-label="doscientos">
-        <img
-          src={branding.assets.isotype}
-          alt=""
-          width="32"
-          height="32"
-          class="size-8"
-        />
-        <span class="text-xl font-bold tracking-tight" translate="no"
-          >doscientos.</span
-        >
+    <section class="funnel-hero" aria-labelledby="funnel-title">
+      <div class="funnel-brand" aria-label="doscientos">
+        <div class="flex items-center gap-2.5">
+          <img
+            src={branding.assets.isotype}
+            alt=""
+            width="32"
+            height="32"
+            class="size-8"
+          />
+          <span class="text-xl font-bold tracking-tight" translate="no"
+            >doscientos.</span
+          >
+        </div>
+        <span class="funnel-brand-note">Software hecho para tu negocio</span>
       </div>
 
-      <div
-        class="grid items-center gap-10 pt-12 lg:grid-cols-2 lg:gap-16 lg:py-16"
-      >
+      <div class="funnel-hero-grid">
         <div class="min-w-0">
-          <p
-            class="mb-5 text-sm font-bold uppercase tracking-wider text-primary"
-          >
+          <p class="funnel-eyebrow">
+            <Sparkles class="size-4" aria-hidden="true" />
             Software que trabaja contigo
           </p>
-          <h1
-            id="funnel-title"
-            class="max-w-2xl text-balance text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl xl:text-6xl"
-          >
+          <h1 id="funnel-title" class="funnel-title">
             {copy.hero.title}
           </h1>
-          <p
-            class="mt-6 max-w-xl text-balance text-lg leading-relaxed text-muted-foreground"
-          >
+          <p class="funnel-subtitle">
             {copy.hero.subtitle}
           </p>
           <div class="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -63,21 +73,17 @@ import { copy } from "~/shared/lib/copy";
               bookingHref="#formulario"
             />
           </div>
-          <p class="mt-4 text-sm text-muted-foreground">
-            Completa el formulario y elige cuándo hablamos. Sin compromiso.
-          </p>
-          <ul
-            class="mt-8 flex flex-wrap gap-x-6 gap-y-3 text-sm font-medium"
-            aria-label="Ventajas del diagnóstico"
-          >
+          <ul class="funnel-benefits" aria-label="Ventajas del diagnóstico">
             {
               [
                 "Diagnóstico gratuito",
-                "Respuesta en menos de 24h",
                 "Sin compromiso",
+                "Soluciones a medida",
               ].map((item) => (
                 <li class="flex items-center gap-2">
-                  <Check class="size-4 text-primary" aria-hidden="true" />
+                  <span class="funnel-check">
+                    <Check class="size-3" aria-hidden="true" />
+                  </span>
                   {item}
                 </li>
               ))
@@ -87,15 +93,23 @@ import { copy } from "~/shared/lib/copy";
 
         <div
           id="formulario"
-          class="min-w-0 scroll-mt-6 rounded-3xl border border-foreground/10 bg-background p-5 shadow-pastel sm:p-8"
+          class="funnel-form scroll-mt-6"
           aria-labelledby="formulario-title"
         >
-          <h2 id="formulario-title" class="text-2xl font-bold tracking-tight">
+          <div class="funnel-form-label">
+            <MessageSquare class="size-4" aria-hidden="true" />
+            Hablemos de tu proyecto
+          </div>
+          <h2
+            id="formulario-title"
+            class="mt-5 text-2xl font-bold tracking-tight sm:text-3xl"
+          >
             Cuéntanos qué necesitas
           </h2>
-          <p class="mb-6 mt-2 text-sm leading-relaxed text-muted-foreground">
-            Deja tus datos y agenda una videollamada gratuita con nuestro
-            equipo.
+          <p
+            class="mb-7 mt-3 max-w-md text-sm leading-relaxed text-muted-foreground sm:text-base"
+          >
+            Deja tus datos y elige cuándo hablamos. Es gratis y sin compromiso.
           </p>
           <ContactForm stayOnPage client:load />
         </div>
@@ -104,29 +118,45 @@ import { copy } from "~/shared/lib/copy";
     <ClientsCarousel />
   </div>
 
+  <section class="funnel-process" aria-labelledby="funnel-process-title">
+    <div class="funnel-process-heading">
+      <p class="funnel-section-label">SIN COMPLICACIONES</p>
+      <h2 id="funnel-process-title">
+        Empezar es más sencillo de lo que parece.
+      </h2>
+      <p>Sin tecnicismos ni ideas cerradas: empezamos por escucharte.</p>
+    </div>
+    <ol class="funnel-steps">
+      {
+        nextSteps.map((step) => (
+          <li class="funnel-step">
+            <span class="funnel-step-number">{step.number}</span>
+            <h3>{step.title}</h3>
+            <p>{step.description}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
   <Comparison />
   <Testimonials />
   <FAQ />
 
-  <section
-    class="mx-auto w-full max-w-3xl px-6 text-center"
-    aria-labelledby="funnel-final-title"
-  >
-    <h2
-      id="funnel-final-title"
-      class="text-balance text-3xl font-bold tracking-tight sm:text-4xl"
-    >
-      El primer paso es hablar de tu negocio
-    </h2>
-    <p class="mt-4 text-muted-foreground">
-      Cuéntanos qué tareas te quitan tiempo y descubramos cómo simplificarlas.
-    </p>
-    <a
-      href="#formulario"
-      class="mt-6 inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 font-semibold text-background transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
-    >
-      Pedir diagnóstico gratis <ArrowRight class="size-4" aria-hidden="true" />
-    </a>
+  <section class="funnel-final" aria-labelledby="funnel-final-title">
+    <div class="funnel-final-inner">
+      <p class="funnel-final-label">TU NEGOCIO, CON MENOS TAREAS REPETITIVAS</p>
+      <h2 id="funnel-final-title">El primer paso es hablar de tu negocio.</h2>
+      <p>
+        Cuéntanos qué tareas te quitan tiempo y descubramos cómo simplificarlas.
+      </p>
+      <a href="#formulario" class="funnel-final-cta">
+        Pedir diagnóstico gratis <ArrowRight
+          class="size-4"
+          aria-hidden="true"
+        />
+      </a>
+    </div>
   </section>
 
   <footer
@@ -170,10 +200,275 @@ import { copy } from "~/shared/lib/copy";
 
 <style>
   .funnel-top {
-    background: linear-gradient(
-      180deg,
-      color-mix(in srgb, var(--foreground) 6%, var(--background)),
-      var(--background)
-    );
+    overflow: hidden;
+    background:
+      radial-gradient(
+        ellipse at 15% 5%,
+        color-mix(in srgb, var(--brand-lime) 28%, transparent),
+        transparent 42%
+      ),
+      radial-gradient(
+        ellipse at 85% 40%,
+        color-mix(in srgb, var(--primary) 9%, transparent),
+        transparent 42%
+      ),
+      linear-gradient(180deg, #f0f3eb, var(--background));
+  }
+
+  .funnel-hero {
+    width: min(100%, 80rem);
+    margin: 0 auto;
+    padding: 1.5rem 1.5rem 1rem;
+  }
+
+  .funnel-brand {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid
+      color-mix(in srgb, var(--foreground) 10%, transparent);
+  }
+
+  .funnel-brand-note {
+    display: none;
+    color: var(--muted-foreground);
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+
+  .funnel-hero-grid {
+    display: grid;
+    gap: 2.5rem;
+    padding: 3.5rem 0 1rem;
+  }
+
+  .funnel-eyebrow,
+  .funnel-form-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--primary);
+    font-size: 0.75rem;
+    font-weight: 750;
+    letter-spacing: 0.02em;
+  }
+
+  .funnel-eyebrow {
+    padding: 0.5rem 0.8rem;
+    border: 1px solid color-mix(in srgb, var(--primary) 15%, transparent);
+    border-radius: 9999px;
+    background: color-mix(in srgb, white 65%, transparent);
+  }
+
+  .funnel-title {
+    max-width: 12ch;
+    margin-top: 1.5rem;
+    color: var(--foreground);
+    font-size: clamp(2.6rem, 5.5vw, 4.5rem);
+    font-weight: 750;
+    line-height: 1.02;
+    letter-spacing: -0.055em;
+    text-wrap: balance;
+  }
+
+  .funnel-subtitle {
+    max-width: 34rem;
+    margin-top: 1.5rem;
+    color: var(--muted-foreground);
+    font-size: clamp(1.05rem, 1.6vw, 1.2rem);
+    line-height: 1.65;
+    text-wrap: pretty;
+  }
+
+  .funnel-benefits {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem 1.25rem;
+    margin-top: 2rem;
+    color: var(--foreground);
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+
+  .funnel-check {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.3rem;
+    height: 1.3rem;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--brand-lime) 60%, white);
+    color: var(--primary);
+    flex-shrink: 0;
+  }
+
+  .funnel-form {
+    min-width: 0;
+    padding: 1.5rem;
+    border: 1px solid color-mix(in srgb, var(--primary) 12%, white);
+    border-radius: 1.5rem;
+    background: white;
+    box-shadow:
+      0 24px 70px -24px color-mix(in srgb, var(--primary) 25%, transparent),
+      0 4px 14px color-mix(in srgb, var(--primary) 5%, transparent);
+  }
+
+  .funnel-process,
+  .funnel-final {
+    width: min(100%, 80rem);
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  .funnel-process-heading {
+    max-width: 42rem;
+  }
+
+  .funnel-section-label {
+    color: var(--primary);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+  }
+
+  .funnel-process-heading h2,
+  .funnel-final h2 {
+    margin-top: 1rem;
+    font-size: clamp(2rem, 4vw, 3.25rem);
+    font-weight: 750;
+    line-height: 1.08;
+    letter-spacing: -0.045em;
+    text-wrap: balance;
+  }
+
+  .funnel-process-heading > p:last-child {
+    margin-top: 1rem;
+    color: var(--muted-foreground);
+    line-height: 1.6;
+  }
+
+  .funnel-steps {
+    display: grid;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .funnel-step {
+    padding: 1.5rem;
+    border: 1px solid color-mix(in srgb, var(--foreground) 9%, transparent);
+    border-radius: 1.25rem;
+    background: color-mix(in srgb, white 75%, var(--background));
+  }
+
+  .funnel-step-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 0.8rem;
+    background: var(--accent);
+    color: var(--primary);
+    font-size: 0.8rem;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .funnel-step h3 {
+    margin-top: 1.5rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .funnel-step p {
+    margin-top: 0.5rem;
+    color: var(--muted-foreground);
+    font-size: 0.9rem;
+    line-height: 1.65;
+  }
+
+  .funnel-final-inner {
+    padding: 3.5rem 1.5rem;
+    border-radius: 1.5rem;
+    background:
+      radial-gradient(ellipse at top right, #466343, transparent 60%),
+      var(--primary);
+    color: white;
+    text-align: center;
+  }
+
+  .funnel-final-label {
+    color: #d8f0b9;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+  }
+
+  .funnel-final-inner > p:not(.funnel-final-label) {
+    max-width: 32rem;
+    margin: 1rem auto 0;
+    color: #e5ede3;
+    line-height: 1.6;
+  }
+
+  .funnel-final-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    min-height: 3rem;
+    margin-top: 1.75rem;
+    padding: 0.75rem 1.4rem;
+    border-radius: 9999px;
+    background: white;
+    color: var(--primary);
+    font-weight: 700;
+    transition: background-color 180ms ease;
+    touch-action: manipulation;
+  }
+
+  .funnel-final-cta:hover {
+    background: var(--accent);
+  }
+
+  .funnel-final-cta:focus-visible {
+    outline: 2px solid white;
+    outline-offset: 4px;
+  }
+
+  @media (min-width: 640px) {
+    .funnel-brand-note {
+      display: block;
+    }
+    .funnel-form {
+      padding: 2.25rem;
+    }
+    .funnel-steps {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .funnel-final-inner {
+      padding: 5rem 2rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .funnel-hero {
+      padding-top: 2rem;
+    }
+    .funnel-hero-grid {
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      align-items: center;
+      gap: 4rem;
+      padding: 5rem 0 3rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .funnel-final-cta {
+      transition: none;
+    }
   }
 </style>
