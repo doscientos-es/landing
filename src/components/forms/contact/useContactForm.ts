@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 
 import { buildAttributionPayload, getMetaAttribution, trackEvent } from '~/shared/lib/attribution'
+import { createRandomId } from '~/shared/lib/random-id'
 
 import {
   type ContactValues,
@@ -51,20 +52,18 @@ export function useContactForm({ stayOnPage = false }: { stayOnPage?: boolean } 
   const [touched, setTouched] = useState<Record<string, boolean>>({})
   const [submittedLeadId, setSubmittedLeadId] = useState<string | null>(null)
   const focusedFields = useRef(new Set<string>())
-  const dedupeKey = useRef(
-    (() => {
-      if (typeof window === 'undefined') return crypto.randomUUID()
-      try {
-        const existing = window.sessionStorage.getItem(DEDUPE_STORAGE_KEY)
-        if (existing) return existing
-        const next = crypto.randomUUID()
-        window.sessionStorage.setItem(DEDUPE_STORAGE_KEY, next)
-        return next
-      } catch {
-        return crypto.randomUUID()
-      }
-    })(),
-  )
+  const [dedupeKey] = useState(() => {
+    if (typeof window === 'undefined') return createRandomId()
+    try {
+      const existing = window.sessionStorage.getItem(DEDUPE_STORAGE_KEY)
+      if (existing) return existing
+      const next = createRandomId()
+      window.sessionStorage.setItem(DEDUPE_STORAGE_KEY, next)
+      return next
+    } catch {
+      return createRandomId()
+    }
+  })
 
   const [formData, setFormData] = useState<ContactValues>(() => {
     if (typeof window === 'undefined') return EMPTY_FORM
@@ -303,7 +302,7 @@ export function useContactForm({ stayOnPage = false }: { stayOnPage?: boolean } 
         ? `Lead desde formulario corto (multi-step)\n${contextLines.join('\n')}`
         : 'Lead desde formulario corto (multi-step)',
       budget: formData.budget,
-      dedupeKey: dedupeKey.current,
+      dedupeKey,
       website, // honeypot — debe quedar vacío
       utm_source: permittedAttribution?.utm_source || firstTouch.utm_source,
       utm_medium: permittedAttribution?.utm_medium || firstTouch.utm_medium,
@@ -423,7 +422,7 @@ export function useContactForm({ stayOnPage = false }: { stayOnPage?: boolean } 
     touched,
     formData,
     submittedLeadId,
-    dedupeKey: dedupeKey.current,
+    dedupeKey,
     handleChange,
     handleBlur,
     handleFieldFocus,

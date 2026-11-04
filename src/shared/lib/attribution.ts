@@ -1,3 +1,5 @@
+import { createRandomId } from './random-id'
+
 const FIRST_TOUCH_KEY = 'doscientos:first-touch'
 const EVENT_ID_KEY = 'doscientos:event-id'
 const VISITOR_ID_KEY = 'doscientos:visitor-id'
@@ -139,28 +141,28 @@ function readFirstTouch(current: Touch): Touch {
 }
 
 export function getOrCreateEventId(): string {
-  if (typeof window === 'undefined') return crypto.randomUUID()
+  if (typeof window === 'undefined') return createRandomId()
   try {
     const existing = window.sessionStorage.getItem(EVENT_ID_KEY)
     if (existing) return existing
-    const next = crypto.randomUUID()
+    const next = createRandomId()
     window.sessionStorage.setItem(EVENT_ID_KEY, next)
     return next
   } catch {
-    return crypto.randomUUID()
+    return createRandomId()
   }
 }
 
 export function getOrCreateVisitorId(): string {
-  if (typeof window === 'undefined') return crypto.randomUUID()
+  if (typeof window === 'undefined') return createRandomId()
   try {
     const existing = window.localStorage.getItem(VISITOR_ID_KEY)
     if (existing) return existing
-    const next = crypto.randomUUID()
+    const next = createRandomId()
     window.localStorage.setItem(VISITOR_ID_KEY, next)
     return next
   } catch {
-    return crypto.randomUUID()
+    return createRandomId()
   }
 }
 

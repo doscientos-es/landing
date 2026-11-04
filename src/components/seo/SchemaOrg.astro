@@ -70,7 +70,7 @@ const websiteId = `${baseUrl}/#website`;
 const currentUrl = new URL(Astro.url.pathname, base).toString();
 
 const legalAddress = {
-  "@type": "PostalAddress",
+  "@type": "PostalAddress" as const,
   ...company.legalAddress,
 };
 const officeAddress = {

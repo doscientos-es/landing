@@ -3,6 +3,7 @@ import { resolve } from 'node:path'
 import { defineConfig } from 'vitest/config'
 
 export default defineConfig({
+  esbuild: { jsx: 'automatic' },
   test: {
     // Los smoke tests de scripts usan node:test y se ejecutan tras la build.
     exclude: ['**/node_modules/**', 'src/tests/**', 'scripts/**/*.test.mjs'],
