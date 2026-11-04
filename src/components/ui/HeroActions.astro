@@ -5,9 +5,17 @@ interface Props {
   diagnosticHref: string;
   bookingHref: string;
   home?: boolean;
+  bookingPlacement?: string;
+  bookingRef?: string;
 }
 
-const { diagnosticHref, bookingHref, home = false } = Astro.props;
+const {
+  diagnosticHref,
+  bookingHref,
+  home = false,
+  bookingPlacement = home ? "home_hero" : undefined,
+  bookingRef = home ? "home-hero" : undefined,
+} = Astro.props;
 ---
 
 <a
@@ -21,12 +29,12 @@ const { diagnosticHref, bookingHref, home = false } = Astro.props;
 <a
   href={bookingHref}
   id={home ? "hero-cta-secondary" : undefined}
-  data-cal-booking={home ? true : undefined}
-  data-cal-booking-placement={home ? "home_hero" : undefined}
-  data-cal-booking-ref={home ? "home-hero" : undefined}
+  data-cal-booking={bookingPlacement ? true : undefined}
+  data-cal-booking-placement={bookingPlacement}
+  data-cal-booking-ref={bookingRef}
   class="hero-cta hero-cta--secondary w-full sm:w-auto"
-  target={home ? "_blank" : undefined}
-  rel={home ? "noopener noreferrer" : undefined}
+  target="_blank"
+  rel="noopener noreferrer"
 >
   <svg
     aria-hidden="true"
@@ -51,6 +59,7 @@ const { diagnosticHref, bookingHref, home = false } = Astro.props;
       d="M63.5 0h-43v20.5h29V36l20-16.57V6c0-3.315-2.685-6-6-6z"></path>
   </svg>
   Agendar videollamada
+  <span class="sr-only">(abre una pestaña nueva)</span>
 </a>
 
 <style>
