@@ -120,7 +120,8 @@ const localBusinessSchema = {
     latitude: company.geo.latitude,
     longitude: company.geo.longitude,
   },
-  hasMap: "https://www.google.com/maps/search/?api=1&query=Carrer+Joan+XXIII%2C+8%2C+08330+Premi%C3%A0+de+Mar%2C+Barcelona",
+  hasMap:
+    "https://www.google.com/maps/search/?api=1&query=Carrer+Joan+XXIII%2C+8%2C+08330+Premi%C3%A0+de+Mar%2C+Barcelona",
   areaServed: company.serviceAreas.map((name) => ({
     "@type": name === "España" ? "Country" : "Place",
     name,
@@ -145,10 +146,7 @@ const websiteSchema = {
   publisher: { "@id": organizationId },
 } satisfies WithContext<WebSite>;
 
-const schemas: JsonLdSchema[] = [
-  organizationSchema,
-  localBusinessSchema,
-];
+const schemas: JsonLdSchema[] = [organizationSchema, localBusinessSchema];
 schemas.push(websiteSchema);
 
 const pageTitle = title || article?.title || project?.name || branding.name;
