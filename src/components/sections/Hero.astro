@@ -4,6 +4,7 @@ import Folder from "@lucide/astro/icons/folder";
 import PencilLine from "@lucide/astro/icons/pencil-line";
 import { copy } from "~/shared/lib/copy";
 import { branding } from "~/config/branding";
+import HeroActions from "~/components/ui/HeroActions.astro";
 
 const { hero } = copy;
 
@@ -94,51 +95,11 @@ const chaos = hero.stage.chaos.map((item, i) => ({
       <div
         class="flex flex-col sm:flex-row gap-3 justify-center items-center w-full max-w-xs sm:max-w-none"
       >
-        <a
-          href="/diagnostico?ref=home-hero"
-          id="hero-cta-primary"
-          class="hero-cta hero-cta--primary w-full sm:w-auto"
-        >
-          <Calendar class="size-3.5" aria-hidden="true" />
-          Pedir diagnóstico gratis
-        </a>
-        <a
-          href={branding.contact.calCom.bookingUrl}
-          id="hero-cta-secondary"
-          data-cal-booking
-          data-cal-booking-placement="home_hero"
-          data-cal-booking-ref="home-hero"
-          class="hero-cta hero-cta--secondary w-full sm:w-auto"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <svg
-            aria-hidden="true"
-            class="h-3.5 w-auto shrink-0"
-            viewBox="0 0 87.5 72"
-            fill="none"
-          >
-            <path
-              fill="#00832d"
-              d="M49.5 36l8.53 9.75 11.47 7.33 2-17.02-2-16.64-11.69 6.44z"
-            ></path>
-            <path
-              fill="#0066da"
-              d="M0 51.5V66c0 3.315 2.685 6 6 6h14.5l3-10.96-3-9.54-9.95-3z"
-            ></path>
-            <path fill="#e94235" d="M20.5 0L0 20.5l10.55 3 9.95-3 2.95-9.41z"
-            ></path>
-            <path fill="#2684fc" d="M20.5 20.5H0v31h20.5z"></path>
-            <path
-              fill="#00ac47"
-              d="M82.6 8.68L69.5 19.42v33.66l13.16 10.79c1.97 1.54 4.85.135 4.85-2.37V11c0-2.535-2.945-3.925-4.91-2.32zM49.5 36v15.5h-29V72h43c3.315 0 6-2.685 6-6V53.08z"
-            ></path>
-            <path
-              fill="#ffba00"
-              d="M63.5 0h-43v20.5h29V36l20-16.57V6c0-3.315-2.685-6-6-6z"></path>
-          </svg>
-          Agendar videollamada
-        </a>
+        <HeroActions
+          diagnosticHref="/diagnostico?ref=home-hero"
+          bookingHref={branding.contact.calCom.bookingUrl}
+          home
+        />
       </div>
       <p class="hero-cta-note">{hero.ctaNote}</p>
 
@@ -311,64 +272,6 @@ const chaos = hero.stage.chaos.map((item, i) => ({
     line-height: 1.04;
     letter-spacing: -0.045em;
     color: var(--foreground);
-  }
-
-  .hero-cta {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.55rem;
-    min-height: 2.85rem;
-    padding: 0.7rem 1rem;
-    border-radius: 9999px;
-    font-size: 0.9rem;
-    font-weight: 700;
-    line-height: 1;
-    transition:
-      transform 180ms ease,
-      box-shadow 180ms ease,
-      background-color 180ms ease;
-  }
-
-  .hero-cta:hover {
-    transform: translateY(-1px);
-  }
-
-  .hero-cta:focus-visible {
-    outline: 2px solid var(--primary);
-    outline-offset: 3px;
-  }
-
-  .hero-cta--primary {
-    background: var(--foreground);
-    box-shadow: 0 8px 20px
-      color-mix(in srgb, var(--foreground) 14%, transparent);
-    color: var(--background);
-  }
-
-  .hero-cta--primary:hover {
-    background: color-mix(in srgb, var(--foreground) 91%, var(--background));
-    box-shadow: 0 10px 24px
-      color-mix(in srgb, var(--foreground) 18%, transparent);
-  }
-
-  .hero-cta--secondary {
-    background: var(--background);
-    box-shadow: 0 6px 18px color-mix(in srgb, var(--foreground) 8%, transparent);
-    color: var(--foreground);
-  }
-
-  .hero-cta--secondary:hover {
-    background: color-mix(in srgb, var(--foreground) 4%, var(--background));
-  }
-
-  @media (min-width: 640px) {
-    .hero-cta {
-      gap: 0.45rem;
-      min-height: 2.3rem;
-      padding: 0.52rem 0.8rem;
-      font-size: 0.78rem;
-    }
   }
 
   .hero-cta-note {

@@ -1,10 +1,11 @@
 ---
-import { ArrowRight, Calendar, Check } from "@lucide/astro";
+import { ArrowRight, Check } from "@lucide/astro";
 import ContactForm from "~/components/forms/ContactForm";
 import ClientsCarousel from "~/components/sections/ClientsCarousel.astro";
 import Comparison from "~/components/sections/Comparison.astro";
 import FAQ from "~/components/sections/FAQ.astro";
 import Testimonials from "~/components/sections/Testimonials.astro";
+import HeroActions from "~/components/ui/HeroActions.astro";
 import { branding } from "~/config/branding";
 import MainLayout from "~/layouts/MainLayout.astro";
 import { copy } from "~/shared/lib/copy";
@@ -57,21 +58,10 @@ import { copy } from "~/shared/lib/copy";
             {copy.hero.subtitle}
           </p>
           <div class="mt-8 flex flex-col gap-3 sm:flex-row">
-            <a
-              href="#formulario"
-              class="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 font-semibold text-background transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
-            >
-              Pedir diagnóstico gratis <ArrowRight
-                class="size-4"
-                aria-hidden="true"
-              />
-            </a>
-            <a
-              href="#formulario"
-              class="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-foreground/20 px-6 py-3 font-semibold transition-colors hover:bg-foreground/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
-            >
-              <Calendar class="size-4" aria-hidden="true" /> Agendar videollamada
-            </a>
+            <HeroActions
+              diagnosticHref="#formulario"
+              bookingHref="#formulario"
+            />
           </div>
           <p class="mt-4 text-sm text-muted-foreground">
             Completa el formulario y elige cuándo hablamos. Sin compromiso.
