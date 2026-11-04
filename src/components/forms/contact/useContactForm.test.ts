@@ -150,6 +150,7 @@ describe('useContactForm — submit', () => {
 
   it('mantiene el funnel abierto y prepara el calendario tras enviar el lead', async () => {
     window.history.replaceState({}, '', '/funnel?utm_source=test')
+    const consoleError = vi.spyOn(console, 'error').mockImplementation(() => {})
     const fetchMock = vi.fn().mockResolvedValue({
       ok: true,
       json: async () => ({ leadId: 'funnel-lead' }),
@@ -167,6 +168,7 @@ describe('useContactForm — submit', () => {
     expect(result.current.step).toBe(3)
     expect(result.current.submittedLeadId).toBe('funnel-lead')
     expect(JSON.parse(fetchMock.mock.calls[0][1].body).landing_path).toBe('/funnel')
+    expect(consoleError).not.toHaveBeenCalled()
   })
 
   it('honeypot lleno → simula éxito sin llamar a fetch', async () => {
