@@ -6,6 +6,11 @@
  *   - marketing: Meta Pixel; GTM se carga solo si se aceptan ambas categorías.
  * Se muestra solo si no hay preferencias guardadas.
  */
+interface Props {
+  openLegalLinksInNewTab?: boolean;
+}
+
+const { openLegalLinksInNewTab = false } = Astro.props;
 ---
 
 <div
@@ -33,8 +38,10 @@
           activas.
           <a
             href="/cookies"
+            target={openLegalLinksInNewTab ? "_blank" : undefined}
+            rel={openLegalLinksInNewTab ? "noopener noreferrer" : undefined}
             class="underline text-background/80 hover:text-background ml-1"
-            aria-label="Más información sobre nuestra política de cookies"
+            aria-label={openLegalLinksInNewTab ? "Más información sobre nuestra política de cookies (abre una pestaña nueva)" : "Más información sobre nuestra política de cookies"}
             >Más información</a
           >
         </p>

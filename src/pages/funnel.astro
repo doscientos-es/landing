@@ -1,0 +1,189 @@
+---
+import { ArrowRight, Calendar, Check } from "@lucide/astro";
+import ContactForm from "~/components/forms/ContactForm";
+import ClientsCarousel from "~/components/sections/ClientsCarousel.astro";
+import Comparison from "~/components/sections/Comparison.astro";
+import FAQ from "~/components/sections/FAQ.astro";
+import Testimonials from "~/components/sections/Testimonials.astro";
+import { branding } from "~/config/branding";
+import MainLayout from "~/layouts/MainLayout.astro";
+import { copy } from "~/shared/lib/copy";
+---
+
+<MainLayout
+  title="Software interno y automatizaciones a medida | doscientos"
+  description={copy.hero.subtitle}
+  robots="noindex,follow"
+  showNavigation={false}
+  showFooter={false}
+  openLegalLinksInNewTab
+>
+  <div class="funnel-top">
+    <section
+      class="mx-auto w-full max-w-7xl px-6 pb-8 pt-8 md:pt-12"
+      aria-labelledby="funnel-title"
+    >
+      <div class="flex items-center gap-2.5" aria-label="doscientos">
+        <img
+          src={branding.assets.isotype}
+          alt=""
+          width="32"
+          height="32"
+          class="size-8"
+        />
+        <span class="text-xl font-bold tracking-tight" translate="no"
+          >doscientos.</span
+        >
+      </div>
+
+      <div
+        class="grid items-center gap-10 pt-12 lg:grid-cols-2 lg:gap-16 lg:py-16"
+      >
+        <div class="min-w-0">
+          <p
+            class="mb-5 text-sm font-bold uppercase tracking-wider text-primary"
+          >
+            Software que trabaja contigo
+          </p>
+          <h1
+            id="funnel-title"
+            class="max-w-2xl text-balance text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl xl:text-6xl"
+          >
+            {copy.hero.title}
+          </h1>
+          <p
+            class="mt-6 max-w-xl text-balance text-lg leading-relaxed text-muted-foreground"
+          >
+            {copy.hero.subtitle}
+          </p>
+          <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+            <a
+              href="#formulario"
+              class="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 font-semibold text-background transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+            >
+              Pedir diagnóstico gratis <ArrowRight
+                class="size-4"
+                aria-hidden="true"
+              />
+            </a>
+            <a
+              href="#formulario"
+              class="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-foreground/20 px-6 py-3 font-semibold transition-colors hover:bg-foreground/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+            >
+              <Calendar class="size-4" aria-hidden="true" /> Agendar videollamada
+            </a>
+          </div>
+          <p class="mt-4 text-sm text-muted-foreground">
+            Completa el formulario y elige cuándo hablamos. Sin compromiso.
+          </p>
+          <ul
+            class="mt-8 flex flex-wrap gap-x-6 gap-y-3 text-sm font-medium"
+            aria-label="Ventajas del diagnóstico"
+          >
+            {
+              [
+                "Diagnóstico gratuito",
+                "Respuesta en menos de 24h",
+                "Sin compromiso",
+              ].map((item) => (
+                <li class="flex items-center gap-2">
+                  <Check class="size-4 text-primary" aria-hidden="true" />
+                  {item}
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        <div
+          id="formulario"
+          class="min-w-0 scroll-mt-6 rounded-3xl border border-foreground/10 bg-background p-5 shadow-pastel sm:p-8"
+          aria-labelledby="formulario-title"
+        >
+          <h2 id="formulario-title" class="text-2xl font-bold tracking-tight">
+            Cuéntanos qué necesitas
+          </h2>
+          <p class="mb-6 mt-2 text-sm leading-relaxed text-muted-foreground">
+            Deja tus datos y agenda una videollamada gratuita con nuestro
+            equipo.
+          </p>
+          <ContactForm stayOnPage client:load />
+        </div>
+      </div>
+    </section>
+    <ClientsCarousel />
+  </div>
+
+  <Comparison />
+  <Testimonials />
+  <FAQ />
+
+  <section
+    class="mx-auto w-full max-w-3xl px-6 text-center"
+    aria-labelledby="funnel-final-title"
+  >
+    <h2
+      id="funnel-final-title"
+      class="text-balance text-3xl font-bold tracking-tight sm:text-4xl"
+    >
+      El primer paso es hablar de tu negocio
+    </h2>
+    <p class="mt-4 text-muted-foreground">
+      Cuéntanos qué tareas te quitan tiempo y descubramos cómo simplificarlas.
+    </p>
+    <a
+      href="#formulario"
+      class="mt-6 inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 font-semibold text-background transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+    >
+      Pedir diagnóstico gratis <ArrowRight class="size-4" aria-hidden="true" />
+    </a>
+  </section>
+
+  <footer
+    slot="footer"
+    class="border-t border-foreground/10 px-6 py-8 text-center text-sm text-muted-foreground"
+  >
+    <p>© {new Date().getFullYear()} <span translate="no">doscientos</span></p>
+    <div
+      class="mt-3 flex flex-wrap items-center justify-center gap-x-5 gap-y-2"
+    >
+      <a
+        href="/legal"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="min-h-11 py-3 hover:text-foreground"
+        >Aviso legal <span class="sr-only">(abre una pestaña nueva)</span></a
+      >
+      <a
+        href="/privacy"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="min-h-11 py-3 hover:text-foreground"
+        >Privacidad <span class="sr-only">(abre una pestaña nueva)</span></a
+      >
+      <a
+        href="/cookies"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="min-h-11 py-3 hover:text-foreground"
+        >Cookies <span class="sr-only">(abre una pestaña nueva)</span></a
+      >
+      <button
+        type="button"
+        onclick="window.__openCookieSettings?.()"
+        class="min-h-11 py-3 hover:text-foreground"
+        >Preferencias de cookies</button
+      >
+    </div>
+  </footer>
+</MainLayout>
+
+<style>
+  .funnel-top {
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--foreground) 6%, var(--background)),
+      var(--background)
+    );
+  }
+</style>

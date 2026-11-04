@@ -22,6 +22,9 @@ interface Props {
   image?: string;
   robots?: string;
   showFooterCta?: boolean;
+  showNavigation?: boolean;
+  showFooter?: boolean;
+  openLegalLinksInNewTab?: boolean;
   type?: "organization" | "website" | "article" | "service" | "project";
   article?: {
     publishedTime?: string;
@@ -63,6 +66,9 @@ const {
   image = "/og-image.png",
   robots,
   showFooterCta = true,
+  showNavigation = true,
+  showFooter = true,
+  openLegalLinksInNewTab = false,
   type = "website",
   article,
   service,
@@ -141,12 +147,13 @@ const {
       Saltar al contenido principal
     </a>
     <ReadingProgress />
-    <Navbar />
+    {showNavigation && <Navbar />}
     <main id="main-content" class="flex flex-col w-full gap-20 pb-20">
       <slot />
     </main>
-    <Footer showCta={showFooterCta} />
-    <CookieBanner />
+    {showFooter && <Footer showCta={showFooterCta} />}
+    <slot name="footer" />
+    <CookieBanner openLegalLinksInNewTab={openLegalLinksInNewTab} />
   </body>
 </html>
 

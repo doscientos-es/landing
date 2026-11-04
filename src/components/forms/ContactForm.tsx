@@ -9,7 +9,7 @@ import { useContactForm } from './contact/useContactForm'
 
 const TOTAL_STEPS = 2
 
-export default function ContactForm() {
+export default function ContactForm({ stayOnPage = false }: { stayOnPage?: boolean }) {
   const {
     step,
     status,
@@ -32,7 +32,7 @@ export default function ContactForm() {
     nextStep,
     prevStep,
     handleSubmit,
-  } = useContactForm()
+  } = useContactForm({ stayOnPage })
 
   if (step === 3) {
     return (

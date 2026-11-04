@@ -42,7 +42,7 @@ function validate(name: string, value: string): string {
   }
 }
 
-export function useContactForm() {
+export function useContactForm({ stayOnPage = false }: { stayOnPage?: boolean } = {}) {
   const [step, setStep] = useState(1)
   const [stepDirection, setStepDirection] = useState<1 | -1>(1)
   const [status, setStatus] = useState<FormStatus>('idle')
@@ -385,7 +385,10 @@ export function useContactForm() {
         )
       }
 
-      // All confirmed leads see the same thank-you page. The query parameter
+      // Funnel visitors continue to the embedded calendar without leaving the page.
+      if (stayOnPage) return
+
+      // Other confirmed leads see the same thank-you page. The query parameter
       // lets GTM count only Google Ads conversions, while other sources still
       // get a proper confirmation without entering that conversion goal.
       const paidGoogleVisit = Boolean(

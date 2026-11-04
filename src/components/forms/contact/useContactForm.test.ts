@@ -145,6 +145,28 @@ describe('useContactForm — navegación', () => {
 describe('useContactForm — submit', () => {
   afterEach(() => {
     vi.restoreAllMocks()
+    window.history.replaceState({}, '', '/')
+  })
+
+  it('mantiene el funnel abierto y prepara el calendario tras enviar el lead', async () => {
+    window.history.replaceState({}, '', '/funnel?utm_source=test')
+    const fetchMock = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ leadId: 'funnel-lead' }),
+    })
+    vi.stubGlobal('fetch', fetchMock)
+    const { result } = renderHook(() => useContactForm({ stayOnPage: true }))
+    goToStep2(result)
+
+    await act(async () => {
+      await result.current.handleSubmit(makeFormEvent())
+    })
+
+    expect(window.location.pathname).toBe('/funnel')
+    expect(result.current.status).toBe('success')
+    expect(result.current.step).toBe(3)
+    expect(result.current.submittedLeadId).toBe('funnel-lead')
+    expect(JSON.parse(fetchMock.mock.calls[0][1].body).landing_path).toBe('/funnel')
   })
 
   it('honeypot lleno → simula éxito sin llamar a fetch', async () => {
