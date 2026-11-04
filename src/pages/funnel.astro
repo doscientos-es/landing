@@ -1,5 +1,5 @@
 ---
-import { ArrowRight, Check, MessageSquare, Sparkles } from "@lucide/astro";
+import { ArrowRight, Check, MessageSquare } from "@lucide/astro";
 import ContactForm from "~/components/forms/ContactForm";
 import ClientsCarousel from "~/components/sections/ClientsCarousel.astro";
 import Comparison from "~/components/sections/Comparison.astro";
@@ -57,10 +57,6 @@ const nextSteps = [
 
       <div class="funnel-hero-grid">
         <div class="min-w-0">
-          <p class="funnel-eyebrow">
-            <Sparkles class="size-4" aria-hidden="true" />
-            Software que trabaja contigo
-          </p>
           <h1 id="funnel-title" class="funnel-title">
             {copy.hero.title}
           </h1>
@@ -244,7 +240,6 @@ const nextSteps = [
     padding: 3.5rem 0 1rem;
   }
 
-  .funnel-eyebrow,
   .funnel-form-label {
     display: inline-flex;
     align-items: center;
@@ -255,16 +250,8 @@ const nextSteps = [
     letter-spacing: 0.02em;
   }
 
-  .funnel-eyebrow {
-    padding: 0.5rem 0.8rem;
-    border: 1px solid color-mix(in srgb, var(--primary) 15%, transparent);
-    border-radius: 9999px;
-    background: color-mix(in srgb, white 65%, transparent);
-  }
-
   .funnel-title {
     max-width: 12ch;
-    margin-top: 1.5rem;
     color: var(--foreground);
     font-size: clamp(2.6rem, 5.5vw, 4.5rem);
     font-weight: 750;
