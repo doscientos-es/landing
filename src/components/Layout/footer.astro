@@ -134,6 +134,28 @@ const socialLinks = [
               ))
             }
           </div>
+
+          <div class="max-w-sm rounded-xl border border-background/15 bg-background/[0.06] p-4">
+            <div class="flex items-center justify-between gap-3">
+              <p class="text-sm font-medium text-background">Estado de los servicios</p>
+              <a
+                href="https://stats.uptimerobot.com/N8mNbvwT4g"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="min-h-11 inline-flex items-center text-xs text-background/65 underline underline-offset-4 hover:text-background focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-background"
+              >
+                Ver página de estado
+              </a>
+            </div>
+            <div
+              class="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-background/70"
+              data-uptime-widget
+              aria-live="polite"
+              aria-label="Estado actual de la web y la aplicación"
+            >
+              <span>Consultando estado…</span>
+            </div>
+          </div>
         </div>
 
         <div
@@ -196,3 +218,30 @@ const socialLinks = [
     </div>
   </footer>
 </section>
+
+<script>
+  const widget = document.querySelector<HTMLElement>("[data-uptime-widget]");
+  if (widget) {
+    fetch("https://app.doscientos.es/api/public/uptime-status")
+      .then((response) => {
+        if (!response.ok) throw new Error("Status not available");
+        return response.json();
+      })
+      .then((data: { monitors: Array<{ label: string; status: string }> }) => {
+        widget.replaceChildren();
+        for (const monitor of data.monitors) {
+          const item = document.createElement("span");
+          const dot = document.createElement("span");
+          const status = monitor.status;
+          const online = status === "UP";
+          dot.className = `mr-1.5 inline-block size-2 rounded-full align-[1px] ${online ? "bg-emerald-400" : status === "DOWN" || status === "SEEMS_DOWN" ? "bg-red-400" : "bg-amber-300"}`;
+          dot.setAttribute("aria-hidden", "true");
+          item.append(dot, `${monitor.label}: ${online ? "Operativo" : status === "DOWN" || status === "SEEMS_DOWN" ? "Incidencia" : "Sin datos"}`);
+          widget.append(item);
+        }
+      })
+      .catch(() => {
+        widget.textContent = "Estado temporalmente no disponible";
+      });
+  }
+</script>
