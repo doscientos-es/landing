@@ -56,41 +56,58 @@ const filters = resourceCategories.map((category) => ({
         </p>
       </header>
 
-      <section class="space-y-6" aria-labelledby="resource-journeys-heading">
+
+
+
+      <section class="flex flex-col gap-5 mt-10 mb-20">
         <div class="space-y-2">
           <h2
             id="resource-journeys-heading"
             class="text-2xl font-semibold text-foreground"
           >
-            ¿Qué necesitas resolver?
+            ¿Qué proceso puede automatizar en tu empresa?
           </h2>
           <p class="max-w-2xl text-muted-foreground">
-            Elige un punto de partida y explora guías relacionadas con tu
-            situación.
+            Guías prácticas para detectar qué tareas te hacen perder tiempo y decidir con criterio.
           </p>
         </div>
-        <div class="grid gap-4 md:grid-cols-3">
-          {
-            resourceJourneys.map((journey) => (
-              <a
-                href={journey.href}
-                class="group flex h-full flex-col gap-4 rounded-2xl border border-muted bg-secondary p-6 shadow-pastel transition-colors hover:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-              >
-                <h3 class="text-xl font-semibold leading-tight text-foreground group-hover:text-primary">
-                  {journey.title}
-                </h3>
-                <p class="text-sm leading-relaxed text-muted-foreground">
-                  {journey.description}
-                </p>
-                <span class="mt-auto pt-2 text-sm font-semibold text-foreground">
-                  {journey.linkLabel}
-                  <span aria-hidden="true"> →</span>
-                </span>
-              </a>
-            ))
-          }
+
+        <div class="flex gap-10">
+          <a href="#" class="relative w-3/5 h-110 group">
+            <div class="overflow-hidden rounded-2xl w-full h-full">
+              <img src="https://i.ibb.co/dsCWfYQZ/Gemini-Generated-Image-j4lbvyj4lbvyj4lb.jpg" alt="Foto de recurso" class="w-[100%]">
+            </div>
+            <div class="absolute bottom-0 bg-white/30 backdrop-blur-3xl w-full h-45 rounded-b-2xl flex flex-col gap-2 box-border px-10 justify-center group-hover:h-50 duration-200">
+              <span class="bg-white w-16 h-7 rounded-full text-[10px] flex items-center justify-center gap-1 mb-2 mt-2">
+                <div class="bg-lime-400 size-3 rounded-full font-bold"></div>
+                <p>Nuevo</p>
+              </span>
+              <h1 class="text-2xl font-bold text-gray-600 tracking-wide">Automatizaciones para empresas: qué proceso automatizar primero</h1>
+              <p class="text-black text-[13px] tracking-wide">12 de octubre de 2026 · 6 min de letura</p>
+            </div>
+          </a>
+
+
+          <div class="flex flex-col justify-between w-2/5 gap-5">
+            {
+              resourceJourneys.map((journey) => (
+                <a href={journey.href} class="duration-200 group flex h-full flex-col justify-between rounded-2xl border border-muted bg-secondary p-6 shadow-pastel transition-colors hover:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 group">
+                  <h3 class="text-xl font-semibold leading-tight text-foreground group-hover:text-primary block group-hover:hidden">{journey.title}</h3>
+                  <div class="relative top-0 hidden group-hover:block">
+                    {journey.description}
+                  </div>
+                  <div class="flex justify-between items-center">
+                    <small>12 oct · 5 min lectura</small>
+                    <span class="flex gap-2 text-[12px] font-bold"><p class="group:underline">Leer guía</p><span aria-hidden="true" class="-rotate-45 duration-200 group-hover:rotate-0"> →</span></span>
+                  </div>
+                </a>
+              ))
+            }
+
+          </div>
         </div>
       </section>
+      
 
       {
         featuredResources.length > 0 && (
