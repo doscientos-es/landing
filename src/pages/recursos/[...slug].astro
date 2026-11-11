@@ -11,6 +11,7 @@ import {
 import MainLayout from "~/layouts/MainLayout.astro";
 import { getResourceCategories } from "~/shared/lib/resourceCategories";
 import { getBuyerStageLabel, getResourceLabel } from "~/shared/lib/resources";
+import PostList from "~/components/blog/PostList.astro"
 
 export async function getStaticPaths() {
   const resources = await getCollection("blog", ({ data }) => !data.draft);
@@ -72,8 +73,7 @@ const ctaVariant: BlogCtaVariant =
 >
 
 
-  <section class="w-[100vw] h-70 overflow-hidden absolute top-0 -z-10 bg-(--brand-lime)">
-  </section>
+  <section class="w-[100vw] h-70 overflow-hidden absolute top-0 -z-10 bg-(--brand-lime)"></section>
 
 
 
@@ -83,16 +83,17 @@ const ctaVariant: BlogCtaVariant =
     <div class="max-w-6xl mx-auto space-y-12">
 
       <div class="grid gap-10 lg:grid-cols-2 w-full justify-between">
+
         <div class="bg-[#f6f7f9] box-border min-w-0 w-full px-6 py-10 sm:px-12 sm:py-14 lg:px-20 lg:py-20 sm:w-180">
 
-          <div class="relative z-30 max-w-180 mb-3 text-[10px] hidden sm:block">
+          <!-- <div class="relative z-30 max-w-180 mb-3 text-[10px] hidden sm:block">
             <Breadcrumbs
               items={[
                 { name: "Recursos", url: "/recursos" },
                 { name: post.data.title, url: `/recursos/${post.id}` },
               ]}
             />
-          </div>
+          </div> -->
 
           <header class="space-y-6">
             <div class="space-y-4">
@@ -175,20 +176,9 @@ const ctaVariant: BlogCtaVariant =
           </div>
         </div>
         <div class="hidden lg:block w-80 ml-auto">
-          <div class="top-28 rounded-xl border border-muted bg-secondary p-6 mt-60">
-            <h3 class="font-semibold mb-6">Todos los recursos</h3>
-            <ul class="flex flex-col gap-3">
-              {allPosts.map((p) => (
-                <li>
-                  <a
-                    href={`/recursos/${p.id}`}
-                    class="text-sm text-muted-foreground hover:text-primary"
-                  >
-                    {p.data.title}
-                  </a>
-                </li>
-              ))}
-            </ul>
+          <div class="top-28 rounded-xl border border-muted bg-secondary p-6 mt-60 space-y-10">
+            <PostList posts={allPosts.slice(0,3)} title="Otros recursos"/>
+            <PostList posts={displayPosts} title="Relacionados"/>
           </div>
         </div>
       </div>

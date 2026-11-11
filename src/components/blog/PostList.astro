@@ -1,0 +1,17 @@
+---
+const {posts, title} = Astro.props;
+---
+
+<h3 class="font-semibold mb-6">{title}</h3>
+<ul class="flex flex-col gap-3">
+    {posts.map((p) => (
+    <li>
+        <a
+        href={`/recursos/${p.id}`}
+        class="text-sm text-muted-foreground hover:text-primary"
+        >
+        {p.data.title}
+        </a>
+    </li>
+    ))}
+</ul>
