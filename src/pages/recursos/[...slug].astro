@@ -57,6 +57,10 @@ const modifiedTime = post.data.updatedDate
 
 const ctaVariant: BlogCtaVariant =
   commercialBlogCtaBySlug[post.id] ?? "diagnostic";
+
+
+const random = Math.floor(Math.random() * 4) + 1;
+
 ---
 
 <MainLayout
@@ -84,7 +88,7 @@ const ctaVariant: BlogCtaVariant =
 
       <div class="grid gap-10 lg:grid-cols-2 w-full justify-between">
 
-        <div class="bg-[#f6f7f9] box-border min-w-0 w-full px-6 py-10 sm:px-12 sm:py-14 lg:px-20 lg:py-20 sm:w-180">
+        <div class="bg-[#f6f7f9] box-border min-w-0 w-full px-6 py-10 sm:px-12 sm:py-14 lg:px-20 lg:py-20 sm:w-180 rounded-xl">
 
           <!-- <div class="relative z-30 max-w-180 mb-3 text-[10px] hidden sm:block">
             <Breadcrumbs
@@ -177,8 +181,9 @@ const ctaVariant: BlogCtaVariant =
         </div>
         <div class="hidden lg:block w-80 ml-auto">
           <div class="top-28 rounded-xl border border-muted bg-secondary p-6 mt-60 space-y-10">
-            <PostList posts={allPosts.slice(0,3)} title="Otros recursos"/>
             <PostList posts={displayPosts} title="Relacionados"/>
+            <PostList posts={commercialBlogLinks} title="Siguientes pasos"/>
+            <PostList posts={allPosts.slice(random ,random + 3)} title="Otros recursos"/>
           </div>
         </div>
       </div>

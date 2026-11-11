@@ -10,7 +10,7 @@ const {posts, title} = Astro.props;
         href={`/recursos/${p.id}`}
         class="text-sm text-muted-foreground hover:text-primary"
         >
-        {p.data.title}
+        {p.label ?? p.data?.title}
         </a>
     </li>
     ))}
