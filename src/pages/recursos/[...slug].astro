@@ -90,29 +90,22 @@ random = random < allPosts.length - 3 ? random : allPosts.length - 4;
       <div class="grid gap-10 lg:grid-cols-2 w-full justify-between">
 
         <div class="bg-[#f6f7f9] box-border min-w-0 w-full px-6 py-10 sm:px-10 sm:py-3 lg:px-20 lg:py-20 md:w-180 rounded-xl mt-10 sm:mt-0">
-
-          <div class="relative z-30 max-w-180 mb-3 text-[7px] hidden sm:block">
-            <Breadcrumbs
-              items={[
-                { name: "Recursos", url: "/recursos" },
-                { name: post.data.title, url: `/recursos/${post.id}` },
-              ]}
-            />
-          </div>
-
           <header class="space-y-6">
             <div class="space-y-4">
-              <div class="flex flex-wrap gap-2">
-                <span
-                  class="text-xs px-3 py-1 rounded-full bg-primary text-background font-semibold"
-                >
-                  {getResourceLabel(post.data.resourceType)}
-                </span>
-                <span
-                  class="text-xs px-3 py-1 rounded-full bg-muted text-foreground"
-                >
-                  {getBuyerStageLabel(post.data.buyerStage)}
-                </span>
+              <div class="flex justify-between items-center">
+                <a href="/recursos" class="flex gap-2 text-sm aling-center mb-4 group"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="lucide lucide-arrow-up-right size-4 -rotate-90 group-hover:-rotate-135 duration-200"  data-astro-source-file="E:/doscientos/landig/landing/node_modules/.pnpm/@lucide+astro@0.576.0_astro_1392932c5b1eb35e5a0a13ed2b95aa23/node_modules/@lucide/astro/src/Icon.astro" data-astro-source-loc="29:2"> <path d="M7 7h10v10"></path><path d="M7 17 17 7"></path>  </svg> Volver atras</a>
+                <div class="flex gap-3 items-center">
+                  <span
+                    class="text-xs px-3 py-1 rounded-full bg-primary text-background font-semibold"
+                  >
+                    {getResourceLabel(post.data.resourceType)}
+                  </span>
+                  <span
+                    class="text-xs px-3 py-1 rounded-full bg-muted text-foreground"
+                  >
+                    {getBuyerStageLabel(post.data.buyerStage)}
+                  </span>
+                </div>
               </div>
 
               <h1
@@ -198,15 +191,8 @@ random = random < allPosts.length - 3 ? random : allPosts.length - 4;
         href={post.data.leadMagnet?.href}
       />
 
-      <aside
-        class="not-prose overflow-hidden rounded-3xl border border-primary/20 bg-accent/40 p-6 md:p-8"
-      >
+    
         <div class="mb-6 max-w-2xl space-y-2">
-          <p
-            class="text-xs font-semibold uppercase tracking-[0.18em] text-primary"
-          >
-            Siguiente paso
-          </p>
           <h2
             class="text-2xl font-bold tracking-tight text-foreground md:text-3xl"
           >
@@ -246,16 +232,12 @@ random = random < allPosts.length - 3 ? random : allPosts.length - 4;
             ))
           }
         </div>
-      </aside>
 
       {
         displayPosts.length > 0 && (
           <section class="not-prose mt-20 border-t pt-16 md:pt-20">
             <div class="mb-8 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
               <div class="max-w-2xl space-y-2">
-                <p class="text-xs font-semibold uppercase tracking-[0.18em] text-primary">
-                  Sigue explorando
-                </p>
                 <h2 class="text-3xl font-bold tracking-tight text-foreground">
                   Recursos relacionados
                 </h2>
