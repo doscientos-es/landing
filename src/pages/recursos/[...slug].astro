@@ -59,7 +59,8 @@ const ctaVariant: BlogCtaVariant =
   commercialBlogCtaBySlug[post.id] ?? "diagnostic";
 
 
-const random = Math.floor(Math.random() * 4) + 1;
+let random = Math.floor(Math.random() * allPosts.length);
+random = random < allPosts.length - 3 ? random : allPosts.length - 4;
 
 ---
 
@@ -77,7 +78,7 @@ const random = Math.floor(Math.random() * 4) + 1;
 >
 
 
-  <section class="w-[100vw] h-70 overflow-hidden absolute top-0 -z-10 bg-(--brand-lime)"></section>
+  <section class="w-[100vw] h-70 overflow-hidden absolute top-0 -z-10 bg-(--primary)"></section>
 
 
 
@@ -88,16 +89,16 @@ const random = Math.floor(Math.random() * 4) + 1;
 
       <div class="grid gap-10 lg:grid-cols-2 w-full justify-between">
 
-        <div class="bg-[#f6f7f9] box-border min-w-0 w-full px-6 py-10 sm:px-12 sm:py-14 lg:px-20 lg:py-20 sm:w-180 rounded-xl">
+        <div class="bg-[#f6f7f9] box-border min-w-0 w-full px-6 py-10 sm:px-10 sm:py-3 lg:px-20 lg:py-20 md:w-180 rounded-xl mt-10 sm:mt-0">
 
-          <!-- <div class="relative z-30 max-w-180 mb-3 text-[10px] hidden sm:block">
+          <div class="relative z-30 max-w-180 mb-3 text-[7px] hidden sm:block">
             <Breadcrumbs
               items={[
                 { name: "Recursos", url: "/recursos" },
                 { name: post.data.title, url: `/recursos/${post.id}` },
               ]}
             />
-          </div> -->
+          </div>
 
           <header class="space-y-6">
             <div class="space-y-4">
@@ -180,7 +181,7 @@ const random = Math.floor(Math.random() * 4) + 1;
           </div>
         </div>
         <div class="hidden lg:block w-80 ml-auto">
-          <div class="top-28 rounded-xl border border-muted bg-secondary p-6 mt-60 space-y-10">
+          <div class="top-28 rounded-xl border border-muted bg-secondary p-6 mt-80 space-y-10">
             <PostList posts={displayPosts} title="Relacionados"/>
             <PostList posts={commercialBlogLinks} title="Siguientes pasos"/>
             <PostList posts={allPosts.slice(random ,random + 3)} title="Otros recursos"/>
@@ -279,10 +280,7 @@ const random = Math.floor(Math.random() * 4) + 1;
                     href={`/recursos/${p.id}`}
                     class="relative isolate flex h-full min-h-72 flex-col overflow-hidden rounded-3xl border border-muted/80 bg-background p-6 shadow-pastel-sm transition-[transform,border-color,box-shadow] duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-pastel focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary md:p-7"
                   >
-                    <span
-                      aria-hidden="true"
-                      class="pointer-events-none absolute -right-20 -top-24 -z-10 size-64 rounded-full bg-accent/70 blur-3xl transition-transform duration-500 group-hover:scale-110"
-                    />
+                    
 
                     <header class="flex items-center justify-between gap-4">
                       <span class="rounded-full border border-muted bg-secondary px-3 py-1 text-xs font-semibold text-primary">
