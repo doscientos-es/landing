@@ -18,6 +18,7 @@ const whatsappHref = buildTrackedWhatsappUrl({
   conversionStep: "whatsapp_funnel",
   landingRef: "funnel",
 });
+const phoneHref = `tel:+${branding.contact.whatsapp.number}`;
 
 const nextSteps = [
   {
@@ -61,6 +62,10 @@ const nextSteps = [
             >doscientos.</span
           >
         </div>
+        <a href={phoneHref} class="funnel-brand-phone">
+          <Phone class="size-4" aria-hidden="true" />
+          {branding.contact.whatsapp.displayNumber}
+        </a>
         <span class="funnel-brand-note">Software hecho para tu negocio</span>
       </div>
 
@@ -84,7 +89,7 @@ const nextSteps = [
               <span class="sr-only">(abre una pestaña nueva)</span>
             </a>
             <a
-              href={`tel:+${branding.contact.whatsapp.number}`}
+              href={phoneHref}
               class="flex min-h-12 items-center justify-center gap-2 rounded-full border border-primary bg-white px-6 font-semibold text-primary transition-colors hover:bg-primary hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
             >
               <Phone class="size-4" aria-hidden="true" />
@@ -177,11 +182,30 @@ const nextSteps = [
     </div>
   </section>
 
+  <nav class="funnel-floating" aria-label="Contacto directo">
+    <a href={phoneHref} class="funnel-floating-link funnel-floating-phone" aria-label="Llamar por teléfono" title="Llamar por teléfono">
+      <Phone class="size-5" aria-hidden="true" />
+    </a>
+    <a href={whatsappHref} target="_blank" rel="noopener noreferrer" class="funnel-floating-link funnel-floating-whatsapp" aria-label="Escribir por WhatsApp (abre una pestaña nueva)" title="Escribir por WhatsApp">
+      <Icon name="simple-icons:whatsapp" class="size-5" aria-hidden="true" />
+    </a>
+  </nav>
+
   <footer
     slot="footer"
     class="border-t border-foreground/10 px-6 py-8 text-center text-sm text-muted-foreground"
   >
     <p>© {new Date().getFullYear()} <span translate="no">doscientos</span></p>
+    <div class="mt-3 flex flex-wrap items-center justify-center gap-x-5">
+      <a href={phoneHref} class="inline-flex min-h-11 items-center gap-2 font-semibold text-primary hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
+        <Phone class="size-4" aria-hidden="true" />
+        {branding.contact.whatsapp.displayNumber}
+      </a>
+      <a href={whatsappHref} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center gap-2 font-semibold text-primary hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
+        <Icon name="simple-icons:whatsapp" class="size-4" aria-hidden="true" />
+        WhatsApp <span class="sr-only">(abre una pestaña nueva)</span>
+      </a>
+    </div>
     <div
       class="mt-3 flex flex-wrap items-center justify-center gap-x-5 gap-y-2"
     >
@@ -243,10 +267,34 @@ const nextSteps = [
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;
     gap: 1rem;
     padding-bottom: 1.5rem;
     border-bottom: 1px solid
       color-mix(in srgb, var(--foreground) 10%, transparent);
+  }
+
+  .funnel-brand-phone {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    min-height: 2.75rem;
+    color: var(--primary);
+    font-size: 0.875rem;
+    font-weight: 700;
+    white-space: nowrap;
+    touch-action: manipulation;
+  }
+
+  .funnel-brand-phone:hover {
+    text-decoration: underline;
+  }
+
+  .funnel-brand-phone:focus-visible,
+  .funnel-floating-link:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 3px;
   }
 
   .funnel-brand-note {
@@ -448,9 +496,64 @@ const nextSteps = [
     outline-offset: 4px;
   }
 
+  .funnel-floating {
+    position: fixed;
+    right: max(1rem, env(safe-area-inset-right));
+    bottom: max(1rem, env(safe-area-inset-bottom));
+    z-index: 40;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .funnel-floating-link {
+    display: flex;
+    width: 3.25rem;
+    height: 3.25rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: white;
+    box-shadow: 0 6px 20px rgb(0 0 0 / 20%);
+    transition: background-color 180ms ease;
+    touch-action: manipulation;
+  }
+
+  .funnel-floating-phone {
+    background: var(--primary);
+  }
+
+  .funnel-floating-phone:hover {
+    background: #243e2d;
+  }
+
+  .funnel-floating-whatsapp {
+    background: #08783c;
+  }
+
+  .funnel-floating-whatsapp:hover {
+    background: #075f32;
+  }
+
+  :global(body:has(#cookie-banner:not(.hidden))) .funnel-floating,
+  :global(body:has(#formulario :focus)) .funnel-floating {
+    visibility: hidden;
+  }
+
+  @media (max-width: 360px) {
+    .funnel-brand {
+      justify-content: center;
+    }
+  }
+
   @media (min-width: 640px) {
+    .funnel-brand {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+    }
     .funnel-brand-note {
       display: block;
+      text-align: right;
     }
     .funnel-form {
       padding: 2.25rem;
@@ -476,7 +579,8 @@ const nextSteps = [
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .funnel-final-cta {
+    .funnel-final-cta,
+    .funnel-floating-link {
       transition: none;
     }
   }

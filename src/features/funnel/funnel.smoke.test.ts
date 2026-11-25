@@ -32,4 +32,23 @@ describe.skipIf(!existsSync(funnelPath))('funnel contact actions', () => {
     expect(hero?.textContent).not.toContain('Agendar videollamada')
     expect(hero?.textContent).not.toContain('Pedir diagnóstico gratis')
   })
+
+  it('links the header, floating actions and footer to the contact channels', () => {
+    const document = new DOMParser().parseFromString(readFileSync(funnelPath, 'utf8'), 'text/html')
+    const phoneHref = `tel:+${branding.contact.whatsapp.number}`
+    const whatsappHref = buildTrackedWhatsappUrl({
+      phone: branding.contact.whatsapp.number,
+      text: branding.contact.whatsapp.defaultMessage,
+      conversionStep: 'whatsapp_funnel',
+      landingRef: 'funnel',
+    })
+
+    expect(document.querySelector('.funnel-brand a')?.getAttribute('href')).toBe(phoneHref)
+    for (const selector of ['.funnel-floating', 'footer']) {
+      const section = document.querySelector(selector)
+      const links = Array.from(section?.querySelectorAll('a') ?? [])
+      expect(links.some((link) => link.getAttribute('href') === phoneHref)).toBe(true)
+      expect(links.some((link) => link.getAttribute('href') === whatsappHref)).toBe(true)
+    }
+  })
 })
