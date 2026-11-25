@@ -44,7 +44,7 @@ describe.skipIf(!existsSync(funnelPath))('funnel contact actions', () => {
     })
 
     expect(document.querySelector('.funnel-brand a')?.getAttribute('href')).toBe(phoneHref)
-    for (const selector of ['.funnel-floating', 'footer']) {
+    for (const selector of ['.funnel-floating', '.funnel-footer']) {
       const section = document.querySelector(selector)
       const links = Array.from(section?.querySelectorAll('a') ?? [])
       expect(links.some((link) => link.getAttribute('href') === phoneHref)).toBe(true)

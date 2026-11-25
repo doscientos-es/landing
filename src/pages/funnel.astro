@@ -193,7 +193,7 @@ const nextSteps = [
 
   <footer
     slot="footer"
-    class="border-t border-foreground/10 px-6 py-8 text-center text-sm text-muted-foreground"
+    class="funnel-footer border-t border-foreground/10 px-6 py-8 text-center text-sm text-muted-foreground"
   >
     <p>© {new Date().getFullYear()} <span translate="no">doscientos</span></p>
     <div class="mt-3 flex flex-wrap items-center justify-center gap-x-5">
@@ -536,8 +536,15 @@ const nextSteps = [
   }
 
   :global(body:has(#cookie-banner:not(.hidden))) .funnel-floating,
-  :global(body:has(#formulario :focus)) .funnel-floating {
+  :global(body:has(#formulario :focus)) .funnel-floating,
+  :global(body:has(.funnel-footer :focus-visible)) .funnel-floating {
     visibility: hidden;
+  }
+
+  @media (max-width: 639px) {
+    .funnel-footer {
+      padding-bottom: calc(8.5rem + env(safe-area-inset-bottom));
+    }
   }
 
   @media (max-width: 360px) {
