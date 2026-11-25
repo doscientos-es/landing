@@ -73,7 +73,7 @@ export function Field({
           spellCheck={isEmail ? false : undefined}
           aria-invalid={hasError}
           aria-describedby={hasError ? `${id}-error` : undefined}
-          className={`h-12 w-full px-4 ${isValid ? 'pr-11' : ''} bg-background text-foreground placeholder:text-muted-foreground rounded-xl border transition-all ${
+          className={`h-12 w-full px-4 text-base ${isValid ? 'pr-11' : ''} bg-background text-foreground placeholder:text-muted-foreground rounded-xl border transition-colors ${
             hasError
               ? 'border-red-500 ring-1 ring-red-500'
               : isValid

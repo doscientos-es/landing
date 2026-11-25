@@ -1,5 +1,5 @@
 ---
-import { ArrowRight, Check, MessageSquare } from "@lucide/astro";
+import { ArrowRight, Check, MessageCircle, MessageSquare } from "@lucide/astro";
 import ContactForm from "~/components/forms/ContactForm";
 import ClientsCarousel from "~/components/sections/ClientsCarousel.astro";
 import Comparison from "~/components/sections/Comparison.astro";
@@ -9,6 +9,14 @@ import HeroActions from "~/components/ui/HeroActions.astro";
 import { branding } from "~/config/branding";
 import MainLayout from "~/layouts/MainLayout.astro";
 import { copy } from "~/shared/lib/copy";
+import { buildTrackedWhatsappUrl } from "~/shared/lib/attribution";
+
+const whatsappHref = buildTrackedWhatsappUrl({
+  phone: branding.contact.whatsapp.number,
+  text: branding.contact.whatsapp.defaultMessage,
+  conversionStep: "whatsapp_funnel",
+  landingRef: "funnel",
+});
 
 const nextSteps = [
   {
@@ -110,6 +118,15 @@ const nextSteps = [
             Deja tus datos y elige cuándo hablamos. Es gratis y sin compromiso.
           </p>
           <ContactForm stayOnPage client:load />
+          <a
+            href={whatsappHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="mt-4 flex min-h-12 w-full items-center justify-center gap-2 rounded-full border border-primary px-4 font-semibold text-primary transition-colors hover:bg-primary hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+          >
+            <MessageCircle class="size-4" aria-hidden="true" />
+            Escribir por WhatsApp
+          </a>
         </div>
       </div>
     </section>
