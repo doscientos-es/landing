@@ -1,5 +1,7 @@
 ---
 import { ArrowRight, Check, MessageSquare } from "@lucide/astro";
+import Phone from "@lucide/astro/icons/phone";
+import { Icon } from "astro-icon/components";
 import ContactForm from "~/components/forms/ContactForm";
 import ClientsCarousel from "~/components/sections/ClientsCarousel.astro";
 import Comparison from "~/components/sections/Comparison.astro";
@@ -77,14 +79,15 @@ const nextSteps = [
               rel="noopener noreferrer"
               class="flex min-h-12 items-center justify-center gap-2 rounded-full bg-primary px-6 font-semibold text-white transition-colors hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
             >
-              <MessageSquare class="size-4" aria-hidden="true" />
+              <Icon name="simple-icons:whatsapp" class="size-4" aria-hidden="true" />
               Escribir por WhatsApp
               <span class="sr-only">(abre una pestaña nueva)</span>
             </a>
             <a
               href={`tel:+${branding.contact.whatsapp.number}`}
-              class="flex min-h-12 items-center justify-center rounded-full border border-primary bg-white px-6 font-semibold text-primary transition-colors hover:bg-primary hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+              class="flex min-h-12 items-center justify-center gap-2 rounded-full border border-primary bg-white px-6 font-semibold text-primary transition-colors hover:bg-primary hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
             >
+              <Phone class="size-4" aria-hidden="true" />
               Llamar ahora
             </a>
           </div>

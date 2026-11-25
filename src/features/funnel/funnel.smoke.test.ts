@@ -1,7 +1,8 @@
+// @vitest-environment jsdom
+
 import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 
-import { JSDOM } from 'jsdom'
 import { describe, expect, it } from 'vitest'
 
 import { branding } from '~/config/branding'
@@ -11,7 +12,7 @@ const funnelPath = join(process.cwd(), 'dist', 'funnel', 'index.html')
 
 describe.skipIf(!existsSync(funnelPath))('funnel contact actions', () => {
   it('offers WhatsApp and a direct call as the main actions', () => {
-    const document = new JSDOM(readFileSync(funnelPath, 'utf8')).window.document
+    const document = new DOMParser().parseFromString(readFileSync(funnelPath, 'utf8'), 'text/html')
     const hero = document.querySelector('.funnel-hero-grid')
     const links = Array.from(hero?.querySelectorAll('a') ?? [])
     const whatsapp = links.find((link) => link.textContent?.includes('Escribir por WhatsApp'))
@@ -26,6 +27,8 @@ describe.skipIf(!existsSync(funnelPath))('funnel contact actions', () => {
       }),
     )
     expect(phone?.getAttribute('href')).toBe(`tel:+${branding.contact.whatsapp.number}`)
+    expect(whatsapp?.querySelector('svg[aria-hidden="true"]')).toBeTruthy()
+    expect(phone?.querySelector('svg[aria-hidden="true"]')).toBeTruthy()
     expect(hero?.textContent).not.toContain('Agendar videollamada')
     expect(hero?.textContent).not.toContain('Pedir diagnóstico gratis')
   })
