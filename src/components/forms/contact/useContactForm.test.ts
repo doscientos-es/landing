@@ -6,21 +6,9 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import { isInternalTraffic } from '~/shared/lib/attribution'
 
 import { BUDGET_OPTIONS } from './types'
-import { preferredContactLanguage, useContactForm } from './useContactForm'
+import { useContactForm } from './useContactForm'
 
 vi.mock('canvas-confetti', () => ({ default: vi.fn() }))
-
-describe('preferredContactLanguage', () => {
-  it.each([
-    ['ca-ES', 'ca'],
-    ['en-US', 'en'],
-    ['es-ES', 'es'],
-    ['fr-FR', 'es'],
-    [null, 'es'],
-  ])('maps browser language %s to %s', (browserLanguage, expected) => {
-    expect(preferredContactLanguage(browserLanguage)).toBe(expected)
-  })
-})
 
 // --- Helpers ---
 
@@ -37,8 +25,8 @@ function makeFormEvent(honeypotValue = ''): React.FormEvent {
   } as unknown as React.FormEvent
 }
 
-/** Rellena nombre + email y avanza al paso 2. */
-function goToStep2(
+/** Rellena los campos obligatorios. */
+function fillRequiredFields(
   result: ReturnType<typeof renderHook<ReturnType<typeof useContactForm>, unknown>>['result'],
 ) {
   act(() => {
@@ -48,11 +36,6 @@ function goToStep2(
     result.current.handleChange({
       target: { name: 'email', value: 'ana@test.es' },
     } as React.ChangeEvent<HTMLInputElement>)
-  })
-  act(() => {
-    result.current.nextStep()
-  })
-  act(() => {
     result.current.handleChange({
       target: { name: 'phone', value: '666 123 456' },
     } as React.ChangeEvent<HTMLInputElement>)
@@ -96,46 +79,12 @@ describe('exclusión de tráfico interno', () => {
 })
 
 // ─────────────────────────────────────────────
-// Estado inicial y navegación
+// Estado inicial
 // ─────────────────────────────────────────────
-describe('useContactForm — navegación', () => {
-  it('arranca en paso 1 con status idle', () => {
+describe('useContactForm — estado inicial', () => {
+  it('arranca con status idle', () => {
     const { result } = renderHook(() => useContactForm())
-    expect(result.current.step).toBe(1)
     expect(result.current.status).toBe('idle')
-  })
-
-  it('nextStep no avanza si nombre o email están vacíos', () => {
-    const { result } = renderHook(() => useContactForm())
-    act(() => {
-      result.current.nextStep()
-    })
-    expect(result.current.step).toBe(1)
-    expect(result.current.fieldErrors.name).toBeTruthy()
-    expect(result.current.fieldErrors.email).toBeTruthy()
-  })
-
-  it('avanza a paso 2 con datos válidos', () => {
-    const { result } = renderHook(() => useContactForm())
-    goToStep2(result)
-    expect(result.current.step).toBe(2)
-  })
-
-  it('prevStep retrocede al paso 1', () => {
-    const { result } = renderHook(() => useContactForm())
-    goToStep2(result)
-    act(() => {
-      result.current.prevStep()
-    })
-    expect(result.current.step).toBe(1)
-  })
-
-  it('selectBudget actualiza formData.budget', () => {
-    const { result } = renderHook(() => useContactForm())
-    act(() => {
-      result.current.selectBudget('5.000€ - 10.000€')
-    })
-    expect(result.current.formData.budget).toBe('5.000€ - 10.000€')
   })
 })
 
@@ -157,7 +106,7 @@ describe('useContactForm — submit', () => {
     })
     vi.stubGlobal('fetch', fetchMock)
     const { result } = renderHook(() => useContactForm({ stayOnPage: true }))
-    goToStep2(result)
+    fillRequiredFields(result)
 
     await act(async () => {
       await result.current.handleSubmit(makeFormEvent())
@@ -165,7 +114,6 @@ describe('useContactForm — submit', () => {
 
     expect(window.location.pathname).toBe('/funnel')
     expect(result.current.status).toBe('success')
-    expect(result.current.step).toBe(3)
     expect(result.current.submittedLeadId).toBe('funnel-lead')
     expect(JSON.parse(fetchMock.mock.calls[0][1].body).landing_path).toBe('/funnel')
     expect(consoleError).not.toHaveBeenCalled()
@@ -182,7 +130,6 @@ describe('useContactForm — submit', () => {
 
     expect(fetchMock).not.toHaveBeenCalled()
     expect(result.current.status).toBe('success')
-    expect(result.current.step).toBe(3)
   })
 
   it('payload contiene exactamente las claves del contrato', async () => {
@@ -193,14 +140,11 @@ describe('useContactForm — submit', () => {
     })
     vi.stubGlobal('fetch', fetchMock)
     const { result } = renderHook(() => useContactForm())
-    goToStep2(result)
+    fillRequiredFields(result)
     act(() => {
       result.current.handleChange({
         target: { name: 'company', value: 'Acme SL' },
       } as React.ChangeEvent<HTMLInputElement>)
-      result.current.selectCompanySize('10-50 empleados')
-      result.current.selectUrgency('Este mes')
-      result.current.selectBudget('5.000€ - 10.000€')
     })
 
     await act(async () => {
@@ -213,11 +157,9 @@ describe('useContactForm — submit', () => {
     const sent = JSON.parse(leadCall?.[1].body as string)
     expect(Object.keys(sent).sort()).toEqual(
       [
-        'budget',
         'calculator_cost',
         'calculator_hours',
         'company',
-        'companySize',
         'dedupeKey',
         'email',
         'event_id',
@@ -235,7 +177,6 @@ describe('useContactForm — submit', () => {
         'landing_path',
         'landing_ref',
         'landing_subject',
-        'language',
         'gclid',
         'last_landing_path',
         'last_gclid',
@@ -254,8 +195,6 @@ describe('useContactForm — submit', () => {
         'phone',
         'referrer',
         'resource',
-        'solutionType',
-        'urgency',
         'utm_campaign',
         'utm_content',
         'utm_medium',
@@ -268,10 +207,7 @@ describe('useContactForm — submit', () => {
     expect(sent.email).toBe('ana@test.es')
     expect(sent.phone).toBe('666 123 456')
     expect(sent.company).toBe('Acme SL')
-    expect(sent.companySize).toBe('10-50 empleados')
-    expect(sent.urgency).toBe('Este mes')
-    expect(sent.budget).toBe('5.000€ - 10.000€')
-    expect(sent.message).toBe('Lead desde formulario corto (multi-step)')
+    expect(sent.message).toBe('Lead desde formulario de contacto')
     expect(sent.website).toBe('')
     expect(sent.event_id).toBe('')
     expect(sent.visitor_id).toBe('')
@@ -287,7 +223,7 @@ describe('useContactForm — submit', () => {
     const fetchMock = vi.fn().mockResolvedValue({ ok: true })
     vi.stubGlobal('fetch', fetchMock)
     const { result } = renderHook(() => useContactForm())
-    goToStep2(result)
+    fillRequiredFields(result)
     await act(async () => {
       await result.current.handleSubmit(makeFormEvent())
     })
@@ -305,7 +241,7 @@ describe('useContactForm — submit', () => {
   it('error de red → status error con mensaje genérico', async () => {
     vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('Network')))
     const { result } = renderHook(() => useContactForm())
-    goToStep2(result)
+    fillRequiredFields(result)
     await act(async () => {
       await result.current.handleSubmit(makeFormEvent())
     })
@@ -316,7 +252,7 @@ describe('useContactForm — submit', () => {
   it('HTTP 429 → mensaje correcto', async () => {
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: false, status: 429 }))
     const { result } = renderHook(() => useContactForm())
-    goToStep2(result)
+    fillRequiredFields(result)
     await act(async () => {
       await result.current.handleSubmit(makeFormEvent())
     })
