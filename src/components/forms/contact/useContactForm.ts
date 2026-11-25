@@ -19,12 +19,8 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const PHONE_RE = /^\+?[\d\s-]{9,}$/
 const DEDUPE_STORAGE_KEY = `${STORAGE_KEY}:dedupe-key`
 
-export function preferredContactLanguage(browserLanguage?: string | null): 'es' | 'ca' | 'en' {
-  const language = browserLanguage?.toLowerCase().split(/[-_]/)[0]
-  return language === 'ca' || language === 'en' ? language : 'es'
-}
-
 function validate(name: string, value: string): string {
+  value = value.trim()
   switch (name) {
     case 'name':
       if (!value.trim()) return 'El nombre es obligatorio'
@@ -44,8 +40,6 @@ function validate(name: string, value: string): string {
 }
 
 export function useContactForm({ stayOnPage = false }: { stayOnPage?: boolean } = {}) {
-  const [step, setStep] = useState(1)
-  const [stepDirection, setStepDirection] = useState<1 | -1>(1)
   const [status, setStatus] = useState<FormStatus>('idle')
   const [errorMessage, setErrorMessage] = useState('')
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({})
@@ -71,31 +65,17 @@ export function useContactForm({ stayOnPage = false }: { stayOnPage?: boolean } 
       const saved = window.sessionStorage.getItem(STORAGE_KEY)
       if (!saved) return EMPTY_FORM
       const parsed = JSON.parse(saved) as Partial<ContactValues>
-      // Restore the complete in-progress form so the visitor can resume it
-      // after navigating away and coming back during the same session.
       return {
         ...EMPTY_FORM,
         name: parsed.name ?? '',
         email: parsed.email ?? '',
         phone: parsed.phone ?? '',
         company: parsed.company ?? '',
-        solutionType: parsed.solutionType ?? '',
-        companySize: parsed.companySize ?? '',
-        urgency: parsed.urgency ?? '',
-        budget: parsed.budget ?? '',
-        language: parsed.language ?? preferredContactLanguage(window.navigator.language),
       }
     } catch {
       return EMPTY_FORM
     }
   })
-
-  useEffect(() => {
-    setFormData((current) => ({
-      ...current,
-      language: current.language || preferredContactLanguage(window.navigator.language),
-    }))
-  }, [])
 
   const contextParams = useRef({
     utm_source: '',
@@ -134,20 +114,7 @@ export function useContactForm({ stayOnPage = false }: { stayOnPage?: boolean } 
 
   useEffect(() => {
     try {
-      window.sessionStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          phone: formData.phone,
-          company: formData.company,
-          solutionType: formData.solutionType,
-          companySize: formData.companySize,
-          urgency: formData.urgency,
-          budget: formData.budget,
-          language: formData.language,
-        }),
-      )
+      window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify(formData))
     } catch {
       // localStorage no disponible (modo privado / SSR)
     }
@@ -179,6 +146,9 @@ export function useContactForm({ stayOnPage = false }: { stayOnPage?: boolean } 
   const handleFieldFocus = (e: React.FocusEvent<HTMLInputElement | HTMLSelectElement>) => {
     const field = e.currentTarget.name
     if (!field || focusedFields.current.has(field)) return
+    if (focusedFields.current.size === 0) {
+      trackEvent('form_started', { conversionStep: 'contact_form' })
+    }
     focusedFields.current.add(field)
     trackEvent('form_field_focus', {
       conversionStep: 'contact_form',
@@ -193,48 +163,6 @@ export function useContactForm({ stayOnPage = false }: { stayOnPage?: boolean } 
     })
   }
 
-  const selectBudget = (value: string) => setFormData((prev) => ({ ...prev, budget: value }))
-  const selectLanguage = (value: string) => setFormData((prev) => ({ ...prev, language: value }))
-
-  const selectCompanySize = (value: string) =>
-    setFormData((prev) => ({ ...prev, companySize: value }))
-
-  const selectSolutionType = (value: string) =>
-    setFormData((prev) => ({ ...prev, solutionType: value }))
-
-  const selectUrgency = (value: string) => setFormData((prev) => ({ ...prev, urgency: value }))
-
-  const nextStep = () => {
-    const nameOk = validateField('name', formData.name)
-    const emailOk = validateField('email', formData.email)
-    setTouched((prev) => ({ ...prev, name: true, email: true }))
-    if (nameOk && emailOk) {
-      setStepDirection(1)
-      setStep(2)
-      trackEvent('form_started', { conversionStep: 'contact_form' })
-      trackEvent('form_step_1_completed', { conversionStep: 'contact_form' })
-      trackEvent('form_step_2_viewed', { conversionStep: 'contact_form' })
-    } else {
-      const firstInvalid = !nameOk ? 'name' : 'email'
-      trackValidationFailure(firstInvalid)
-      requestAnimationFrame(() => {
-        ;(document.getElementById(firstInvalid) as HTMLInputElement | null)?.focus()
-      })
-    }
-  }
-
-  const prevStep = () => {
-    setStepDirection(-1)
-    setStep(1)
-  }
-
-  const handleStep1KeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      e.preventDefault()
-      nextStep()
-    }
-  }
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     const honeypot = (e.currentTarget as HTMLFormElement).elements.namedItem('website')
@@ -244,14 +172,18 @@ export function useContactForm({ stayOnPage = false }: { stayOnPage?: boolean } 
     if (website) {
       console.warn('Honeypot triggered')
       setStatus('success')
-      setStep(3)
       return
     }
 
-    const isPhoneValid = validateField('phone', formData.phone)
-    setTouched((prev) => ({ ...prev, phone: true }))
-    if (!isPhoneValid) {
-      trackValidationFailure('phone')
+    const fields = ['name', 'email', 'phone'] as const
+    const invalidFields = fields.filter((field) => !validateField(field, formData[field]))
+    setTouched((prev) => ({ ...prev, name: true, email: true, phone: true }))
+    if (invalidFields.length) {
+      const firstInvalid = invalidFields[0]
+      trackValidationFailure(firstInvalid)
+      requestAnimationFrame(() => {
+        ;(document.getElementById(firstInvalid) as HTMLInputElement | null)?.focus()
+      })
       return
     }
 
@@ -291,17 +223,13 @@ export function useContactForm({ stayOnPage = false }: { stayOnPage?: boolean } 
     const body = {
       ...attribution,
       ...metaAttribution,
-      name: formData.name,
-      email: formData.email,
-      phone: formData.phone,
-      company: formData.company,
-      solutionType: formData.solutionType,
-      companySize: formData.companySize,
-      urgency: formData.urgency,
+      name: formData.name.trim(),
+      email: formData.email.trim(),
+      phone: formData.phone.trim(),
+      company: formData.company.trim(),
       message: contextLines.length
-        ? `Lead desde formulario corto (multi-step)\n${contextLines.join('\n')}`
-        : 'Lead desde formulario corto (multi-step)',
-      budget: formData.budget,
+        ? `Lead desde formulario de contacto\n${contextLines.join('\n')}`
+        : 'Lead desde formulario de contacto',
       dedupeKey,
       website, // honeypot — debe quedar vacío
       utm_source: permittedAttribution?.utm_source || firstTouch.utm_source,
@@ -311,7 +239,6 @@ export function useContactForm({ stayOnPage = false }: { stayOnPage?: boolean } 
       utm_content: permittedAttribution?.utm_content || firstTouch.utm_content,
       gclid: analyticsConsent ? firstTouch.gclid : '',
       referrer: analyticsConsent ? (document.referrer ?? '') : '',
-      language: formData.language || preferredContactLanguage(window.navigator.language),
       landing_path: contextParams.current.page_path,
       landing_ref: contextParams.current.ref,
       landing_subject: contextParams.current.subject,
@@ -342,7 +269,6 @@ export function useContactForm({ stayOnPage = false }: { stayOnPage?: boolean } 
 
       setStatus('success')
       setSubmittedLeadId(payload?.leadId ?? null)
-      setStep(3)
       try {
         window.sessionStorage.removeItem(STORAGE_KEY)
         window.sessionStorage.removeItem(DEDUPE_STORAGE_KEY)
@@ -414,10 +340,8 @@ export function useContactForm({ stayOnPage = false }: { stayOnPage?: boolean } 
   }
 
   return {
-    step,
     status,
     errorMessage,
-    stepDirection,
     fieldErrors,
     touched,
     formData,
@@ -426,14 +350,6 @@ export function useContactForm({ stayOnPage = false }: { stayOnPage?: boolean } 
     handleChange,
     handleBlur,
     handleFieldFocus,
-    handleStep1KeyDown,
-    selectBudget,
-    selectLanguage,
-    selectCompanySize,
-    selectSolutionType,
-    selectUrgency,
-    nextStep,
-    prevStep,
     handleSubmit,
   }
 }

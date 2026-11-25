@@ -48,11 +48,6 @@ export const EMPTY_FORM = {
   email: '',
   phone: '',
   company: '',
-  solutionType: '',
-  companySize: '',
-  urgency: '',
-  budget: '',
-  language: '',
 }
 
 export type ContactValues = typeof EMPTY_FORM
