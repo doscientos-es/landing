@@ -1,5 +1,5 @@
 ---
-import { Mail, MapPin } from "@lucide/astro";
+import { Mail, MapPin, UserRound } from "@lucide/astro";
 import { Icon } from "astro-icon/components";
 import { branding } from "~/config/branding";
 import { company } from "~/config/company";
@@ -113,6 +113,16 @@ const socialLinks = [
                   {company.officeAddress.postalCode} {company.officeAddress.addressLocality}, {company.officeAddress.addressRegion}
                 </span>
               </a>
+              <a
+                href="/doscientos.vcf"
+                class="mt-2 inline-flex min-h-11 w-fit items-center gap-2 rounded-lg border border-background/30 px-4 text-sm font-medium text-background transition-colors hover:bg-background/10 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-background"
+              >
+                <UserRound class="size-4 shrink-0" aria-hidden="true" />
+                Guardar contactos de Pol y Gerard
+              </a>
+              <p class="max-w-sm text-xs text-background/70">
+                Incluye el teléfono y el correo generales de doscientos.
+              </p>
             </div>
           </div>
 

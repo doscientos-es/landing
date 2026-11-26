@@ -1,6 +1,12 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "trailingSlash": false,
+  "headers": [
+    {
+      "source": "/doscientos.vcf",
+      "headers": [{ "key": "Content-Type", "value": "text/vcard; charset=utf-8" }]
+    }
+  ],
   "redirects": [
     {
       "source": "/presentaci%C3%B3n",
